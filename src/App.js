@@ -11,30 +11,31 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 
-function App() {
+// Функция для получения параметра из URL
+const getTelegramIdFromUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('telegramId');
+};
 
+function App() {
   const [clicks, setClicks] = useState(0);
   const [coins, setCoins] = useState(0);
-
   const [upgradeCost, setUpgradeCost] = useState(10);
   const [upgradeLevel, setUpgradeLevel] = useState(1);
   const [coinPerClick, setCoinPerClick] = useState(1);
-
   const [upgradeCostEnergy, setUpgradeCostEnergy] = useState(100);
   const [upgradeLevelEnergy, setUpgradeLevelEnergy] = useState(1);
   const [clickLimit, setClickLimit] = useState(1000);
   const [energyNow, setEnergyNow] = useState(1000);
-
   const [upgradeCostEnergyTime, setUpgradeCostEnergyTime] = useState(200);
   const [valEnergyTime, setvalEnergyTime] = useState(0.5);
   const [upgradeEnergyTimeLevel, setupgradeEnergyTimeLevel] = useState(1);
   const [time, setTime] = useState(2000);
-
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
 
-  const telegramId = 'USER_TELEGRAM_ID'; // Замените на реальный telegramId пользователя
+  const telegramId = getTelegramIdFromUrl();
 
   const saveProgress = async (progress) => {
     try {
@@ -67,8 +68,10 @@ function App() {
   };
 
   useEffect(() => {
-    getProgress();
-  }, []);
+    if (telegramId) {
+      getProgress().catch(error => console.error('Error in useEffect:', error));
+    }
+  }, [telegramId]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,43 +87,59 @@ function App() {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
-  const handleCoinClick = () => {
+  const handleCoinClick = async () => {
     if (coinPerClick <= energyNow) {
       setCoins(coins + coinPerClick);
       setEnergyNow(energyNow - coinPerClick);
       setClicks(clicks + 1);
-      saveProgress({ coins: coins + coinPerClick, energyNow: energyNow - coinPerClick });
+      await saveProgress({ coins: coins + coinPerClick, energyNow: energyNow - coinPerClick });
     }
   };
 
-  const CoinPerClickUpgrade = () => {
+  const CoinPerClickUpgrade = async () => {
     if (coins >= upgradeCost) {
       setCoins(coins - upgradeCost);
       setCoinPerClick(coinPerClick + 1);
       setUpgradeLevel(upgradeLevel + 1);
       setUpgradeCost(Math.floor(upgradeCost * 1.5));
-      saveProgress({ coins: coins - upgradeCost, coinPerClick: coinPerClick + 1, upgradeLevel: upgradeLevel + 1, upgradeCost: Math.floor(upgradeCost * 1.5) });
+      await saveProgress({
+        coins: coins - upgradeCost,
+        coinPerClick: coinPerClick + 1,
+        upgradeLevel: upgradeLevel + 1,
+        upgradeCost: Math.floor(upgradeCost * 1.5)
+      });
     }
   };
 
-  const EnergyUpgrade = () => {
+  const EnergyUpgrade = async () => {
     if (coins >= upgradeCostEnergy) {
       setCoins(coins - upgradeCostEnergy);
       setClickLimit(clickLimit * 2);
       setUpgradeLevelEnergy(upgradeLevelEnergy + 1);
       setUpgradeCostEnergy(Math.floor(upgradeCostEnergy * 1.5));
-      saveProgress({ coins: coins - upgradeCostEnergy, clickLimit: clickLimit * 2, upgradeLevelEnergy: upgradeLevelEnergy + 1, upgradeCostEnergy: Math.floor(upgradeCostEnergy * 1.5) });
+      await saveProgress({
+        coins: coins - upgradeCostEnergy,
+        clickLimit: clickLimit * 2,
+        upgradeLevelEnergy: upgradeLevelEnergy + 1,
+        upgradeCostEnergy: Math.floor(upgradeCostEnergy * 1.5)
+      });
     }
   };
 
-  const EnergyTimeUpgrade = () => {
+  const EnergyTimeUpgrade = async () => {
     if (coins >= upgradeCostEnergyTime) {
       setCoins(coins - upgradeCostEnergyTime);
       setvalEnergyTime(valEnergyTime * 2);
       setupgradeEnergyTimeLevel(upgradeEnergyTimeLevel + 1);
       setTime(time / 2);
       setUpgradeCostEnergyTime(Math.floor(upgradeCostEnergyTime * 1.5));
-      saveProgress({ coins: coins - upgradeCostEnergyTime, valEnergyTime: valEnergyTime * 2, upgradeEnergyTimeLevel: upgradeEnergyTimeLevel + 1, time: time / 2, upgradeCostEnergyTime: Math.floor(upgradeCostEnergyTime * 1.5) });
+      await saveProgress({
+        coins: coins - upgradeCostEnergyTime,
+        valEnergyTime: valEnergyTime * 2,
+        upgradeEnergyTimeLevel: upgradeEnergyTimeLevel + 1,
+        time: time / 2,
+        upgradeCostEnergyTime: Math.floor(upgradeCostEnergyTime * 1.5)
+      });
     }
   };
 
