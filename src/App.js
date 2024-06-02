@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
 import coinIcon from './IMG/CU.png';
@@ -46,7 +46,7 @@ function App() {
     }
   };
 
-  const getProgress = async () => {
+  const getProgress = useCallback(async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/progress/${telegramId}`);
       const userData = response.data;
@@ -65,13 +65,13 @@ function App() {
     } catch (error) {
       console.error('Error getting progress:', error);
     }
-  };
+  }, [telegramId]);
 
   useEffect(() => {
     if (telegramId) {
       getProgress().catch(error => console.error('Error in useEffect:', error));
     }
-  }, [telegramId]);
+  }, [telegramId, getProgress]);
 
   useEffect(() => {
     const interval = setInterval(() => {
