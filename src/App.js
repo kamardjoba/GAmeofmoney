@@ -38,7 +38,21 @@ function App() {
 
   const telegramId = getTelegramIdFromUrl();
 
-  const saveProgress = async (progress) => {
+  const saveProgress = async () => {
+    const progress = {
+      coins,
+      upgradeLevel,
+      coinPerClick,
+      clickLimit,
+      energyNow,
+      upgradeCost,
+      upgradeCostEnergy,
+      upgradeLevelEnergy,
+      upgradeCostEnergyTime,
+      valEnergyTime,
+      upgradeEnergyTimeLevel,
+      time
+    };
     try {
       const response = await axios.post('http://localhost:3000/api/progress', { telegramId, progress });
       console.log('Progress saved:', response.data);
@@ -94,7 +108,6 @@ function App() {
       setCoins(coins + coinPerClick);
       setEnergyNow(energyNow - coinPerClick);
       setClicks(clicks + 1);
-      await saveProgress({ coins: coins + coinPerClick, energyNow: energyNow - coinPerClick });
     }
   };
 
@@ -104,12 +117,6 @@ function App() {
       setCoinPerClick(coinPerClick + 1);
       setUpgradeLevel(upgradeLevel + 1);
       setUpgradeCost(Math.floor(upgradeCost * 1.5));
-      await saveProgress({
-        coins: coins - upgradeCost,
-        coinPerClick: coinPerClick + 1,
-        upgradeLevel: upgradeLevel + 1,
-        upgradeCost: Math.floor(upgradeCost * 1.5)
-      });
     }
   };
 
@@ -119,12 +126,6 @@ function App() {
       setClickLimit(clickLimit * 2);
       setUpgradeLevelEnergy(upgradeLevelEnergy + 1);
       setUpgradeCostEnergy(Math.floor(upgradeCostEnergy * 1.5));
-      await saveProgress({
-        coins: coins - upgradeCostEnergy,
-        clickLimit: clickLimit * 2,
-        upgradeLevelEnergy: upgradeLevelEnergy + 1,
-        upgradeCostEnergy: Math.floor(upgradeCostEnergy * 1.5)
-      });
     }
   };
 
@@ -135,13 +136,6 @@ function App() {
       setupgradeEnergyTimeLevel(upgradeEnergyTimeLevel + 1);
       setTime(time / 2);
       setUpgradeCostEnergyTime(Math.floor(upgradeCostEnergyTime * 1.5));
-      await saveProgress({
-        coins: coins - upgradeCostEnergyTime,
-        valEnergyTime: valEnergyTime * 2,
-        upgradeEnergyTimeLevel: upgradeEnergyTimeLevel + 1,
-        time: time / 2,
-        upgradeCostEnergyTime: Math.floor(upgradeCostEnergyTime * 1.5)
-      });
     }
   };
 
@@ -199,6 +193,7 @@ function App() {
           <div className="Progress">
             <ProgressBar current={energyNow} max={clickLimit} />
           </div>
+          <button onClick={saveProgress} className="save-button">Сохранить прогресс</button>
           <div className="lower">
             <div className="lowerDiv">
               <div className="BTNLOW" onClick={handleOpenEarn}>
