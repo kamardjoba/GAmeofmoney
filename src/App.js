@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, } from 'react';
+//import axios from 'axios';
 import './App.css';
 import coinIcon from './IMG/CU.png';
 import Icon from './IMG/N.png';
@@ -30,7 +30,7 @@ function App() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
-  const [username, setUsername] = useState('');
+  //const [username, setUsername] = useState('');
 
 
 
