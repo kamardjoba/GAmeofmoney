@@ -49,7 +49,8 @@ function App() {
       }
     };
 
-    fetchUsername();
+    // Запуск функции получения имени пользователя и обработка промиса
+    fetchUsername().catch(error => console.error('fetchUsername error:', error));
 
     const interval = setInterval(() => {
       setEnergyNow((energyNow) => {
@@ -63,6 +64,10 @@ function App() {
 
     return () => clearInterval(interval);
   }, [clickLimit, time]);
+
+
+
+
 
   const handleCoinClick = async () => {
     if (coinPerClick <= energyNow) {
