@@ -113,7 +113,7 @@ function App() {
       <div className="App">
         <div className="info">
           <img src={Icon} alt="Icon" />
-          <p>{username}</p> {/* Отображение имени пользователя */}
+          <p>Nazar</p> {/* Отображение имени пользователя */}
           <img src={logo} alt="Bifclif" />
         </div>
         <div className="main">
