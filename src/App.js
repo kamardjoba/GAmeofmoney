@@ -28,16 +28,21 @@ function App() {
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [username, setUsername] = useState(''); // Новый стейт для имени пользователя
+  const [loading, setLoading] = useState(true); // Новый стейт для загрузки
 
   useEffect(() => {
     const fetchUsername = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const telegramId = urlParams.get('telegramId');
 
+      console.log("Telegram ID:", telegramId);
+
       if (telegramId) {
         try {
           const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?telegramId=${telegramId}`);
+          console.log("Response status:", response.status);
           const data = await response.json();
+          console.log("Response data:", data);
           if (response.ok) {
             setUsername(data.username);
           } else {
@@ -45,11 +50,14 @@ function App() {
           }
         } catch (error) {
           console.error('Error fetching username:', error);
+        } finally {
+          setLoading(false); // Скрыть экран загрузки после завершения запроса
         }
+      } else {
+        setLoading(false); // Скрыть экран загрузки, если нет telegramId
       }
     };
 
-    // Запуск функции получения имени пользователя и обработка промиса
     fetchUsername().catch(error => console.error('fetchUsername error:', error));
 
     const interval = setInterval(() => {
@@ -65,6 +73,10 @@ function App() {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
+  // Если данные все еще загружаются, показываем экран загрузки
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
 
 
 
