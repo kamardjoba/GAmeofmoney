@@ -30,24 +30,27 @@ function App() {
   const [username, setUsername] = useState(''); // Новый стейт для имени пользователя
 
   useEffect(() => {
-    // Получение параметра telegramId из URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const telegramId = urlParams.get('telegramId');
+    const fetchUsername = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const telegramId = urlParams.get('telegramId');
 
-    if (telegramId) {
-      // Запрос к бэкэнду для получения имени пользователя
-      fetch(`https://ваш-домен.netlify.app/username?telegramId=${telegramId}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.username) {
-              setUsername(data.username);
-            }
-          })
-          .catch(error => console.error('Error fetching username:', error));
-    }
-  }, []);
+      if (telegramId) {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?telegramId=${telegramId}`);
+          const data = await response.json();
+          if (response.ok) {
+            setUsername(data.username);
+          } else {
+            console.error('Error fetching username:', data.error);
+          }
+        } catch (error) {
+          console.error('Error fetching username:', error);
+        }
+      }
+    };
 
-  useEffect(() => {
+    fetchUsername();
+
     const interval = setInterval(() => {
       setEnergyNow((energyNow) => {
         if (energyNow < clickLimit) {
