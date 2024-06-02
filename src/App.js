@@ -1,5 +1,4 @@
-import React, { useState, useEffect, } from 'react';
-//import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import coinIcon from './IMG/CU.png';
 import Icon from './IMG/N.png';
@@ -10,8 +9,6 @@ import Shop from './shop';
 import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
-
-
 
 function App() {
   const [clicks, setClicks] = useState(0);
@@ -30,10 +27,25 @@ function App() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
-  //const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(''); // Новый стейт для имени пользователя
 
+  useEffect(() => {
+    // Получение параметра telegramId из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const telegramId = urlParams.get('telegramId');
 
-
+    if (telegramId) {
+      // Запрос к бэкэнду для получения имени пользователя
+      fetch(`https://ваш-домен.netlify.app/username?telegramId=${telegramId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.username) {
+              setUsername(data.username);
+            }
+          })
+          .catch(error => console.error('Error fetching username:', error));
+    }
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -113,7 +125,7 @@ function App() {
       <div className="App">
         <div className="info">
           <img src={Icon} alt="Icon" />
-          <p>Nazar</p> {/* Отображение имени пользователя */}
+          <p>{username}</p> {/* Отображение имени пользователя */}
           <img src={logo} alt="Bifclif" />
         </div>
         <div className="main">
