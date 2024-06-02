@@ -11,11 +11,7 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 
-// Функция для получения параметра из URL
-const getTelegramIdFromUrl = () => {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('telegramId');
-};
+
 
 function App() {
   const [clicks, setClicks] = useState(0);
@@ -36,58 +32,8 @@ function App() {
   const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [username, setUsername] = useState('');
 
-  const telegramId = getTelegramIdFromUrl();
 
-  const saveProgress = async () => {
-    const progress = {
-      coins,
-      upgradeLevel,
-      coinPerClick,
-      clickLimit,
-      energyNow,
-      upgradeCost,
-      upgradeCostEnergy,
-      upgradeLevelEnergy,
-      upgradeCostEnergyTime,
-      valEnergyTime,
-      upgradeEnergyTimeLevel,
-      time
-    };
-    try {
-      const response = await axios.post('http://localhost:3000/api/progress', { telegramId, progress });
-      console.log('Progress saved:', response.data);
-    } catch (error) {
-      console.error('Error saving progress:', error);
-    }
-  };
 
-  const getProgress = useCallback(async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/api/progress/${telegramId}`);
-      const userData = response.data;
-      setClicks(userData.coins);
-      setUpgradeLevel(userData.upgradeLevel);
-      setCoinPerClick(userData.coinPerClick);
-      setClickLimit(userData.clickLimit);
-      setEnergyNow(userData.energyNow);
-      setUpgradeCost(userData.upgradeCost);
-      setUpgradeCostEnergy(userData.upgradeCostEnergy);
-      setUpgradeLevelEnergy(userData.upgradeLevelEnergy);
-      setUpgradeCostEnergyTime(userData.upgradeCostEnergyTime);
-      setvalEnergyTime(userData.valEnergyTime);
-      setupgradeEnergyTimeLevel(userData.upgradeEnergyTimeLevel);
-      setTime(userData.time);
-      setUsername(userData.username); // Установить имя пользователя
-    } catch (error) {
-      console.error('Error getting progress:', error);
-    }
-  }, [telegramId]);
-
-  useEffect(() => {
-    if (telegramId) {
-      getProgress().catch(error => console.error('Error in useEffect:', error));
-    }
-  }, [telegramId, getProgress]);
 
   useEffect(() => {
     const interval = setInterval(() => {
