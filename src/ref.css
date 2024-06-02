@@ -1,8 +1,8 @@
 *{
     user-select: none;
-  }
+}
 
-.shop {
+.ref {
     position: fixed;
     width: 100%;
     height: 88%;
@@ -10,8 +10,6 @@
     transform: translateX(-50%);
     left: 50%;
     background: linear-gradient(135deg, #1e1e1e, #333);
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     color: white;
     background: #3E2C56;
     text-align: center;
@@ -23,7 +21,17 @@
     flex-direction: column;
 }
 
-.section{
+.zagolovok{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8%;
+    width: 100%;
+    font-size: 48px;
+    color: #ff9a00;
+}
+
+.SendBorder{
     background:#060927;
     border-radius: 10px;
     height: 25%;
@@ -34,20 +42,7 @@
     flex-direction: column;
 }
 
-.section-menu {
-    background:orange;
-    width: 95%;
-    border-radius: 10px;
-    box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-    height: 70%;  
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-
-}
-
-.hz{
+.SendInfo{
     width: 95%;
     height: 20%;
     display: flex;
@@ -56,21 +51,85 @@
     font-size: 22px;
 }
 
-.section-menu p {
-    margin: 0px;
-    font-size: 18px;
-    color: #060927;
-    font-weight: bold;
+.sendMenu {
+    background:orange;
+    width: 95%;
+    border-radius: 10px;
+    box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    height: 70%;
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    justify-content: space-around;
     flex-direction: column;
 
 }
 
-button {
-    background: linear-gradient(135deg, #ff9a00, #ff6600);
+.FrandsBorder{
+    background:#060927;
+    border-radius: 10px;
+    height: 50%;
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.FrendsInfo{
+    height: 10%;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+.FrendsMenu{
+    height: 80%;
+    width: 95%;
+    background: orange;
+    border-radius: 10px;
+    box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content: center;
+    overflow: scroll;
+}
+
+.Frends{
+    height: 25%;
+    width: 95%;
+    background: #060927;
+    border-radius: 10px;
+    margin: 10px;
+    background: linear-gradient(135deg, #3E2C56, #060927);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.Frends p {
+    margin: 20px;
+    font-size: 22px;
+}
+
+.FrendsAvatar{
+    height: 40px;
+    width: 40px;
+    margin-left: 20px;
+}
+
+.FrendsAvatar img{
+    height: 40px;
+    width: 40px;
+}
+
+.sendMenu button {
+    background: linear-gradient(135deg, #060927, #3E2C56);
     border: none;
+    height: 35%;
+    width: 80%;
     border-radius: 10px;
     color: white;
     font-size: 18px;
@@ -78,12 +137,12 @@ button {
     transition: background 0.3s, transform 0.3s;
 }
 
-button:hover {
+.sendMenu button:hover {
     background: linear-gradient(135deg, #ff6600, #ff3300);
     transform: translateY(-2px);
 }
 
-button:disabled {
+.sendMenu button:disabled {
     background: #555;
     cursor: not-allowed;
 }
@@ -92,19 +151,4 @@ button:disabled {
     background: linear-gradient(135deg, #ff3300, #ff0000);
     width: 90%;
     height: 80%;
-    
-}
-
-.close-button:hover {
-    background: linear-gradient(135deg, #ff0000, #cc0000);
-}
-
-.zagolovok{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 8%;
-    width: 100%;
-    font-size: 48px;
-    color: #ff9a00;
 }

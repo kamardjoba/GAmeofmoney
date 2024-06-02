@@ -4,6 +4,8 @@
 
 body {
 	margin: 0;
+    width: 100%;
+    height: 100vh;
 }
 
 .App {
@@ -15,6 +17,7 @@ body {
   display: flex;
   position: fixed;
   flex-direction: column;
+  position: fixed;
 }
 
 .info {
@@ -139,10 +142,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   border-radius: 10px;
-  font-size: 24px;
 }
 
+.BTNLOW p{
+  margin: 0;
+  font-size: 24px;
+}
 .Progress{
   width: 100%;
   height: 10%;
