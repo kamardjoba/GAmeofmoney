@@ -139,7 +139,6 @@ function App() {
           <div className="Progress">
             <ProgressBar current={energyNow} max={clickLimit} />
           </div>
-          <button onClick={saveProgress} className="save-button">Сохранить прогресс</button>
           <div className="lower">
             <div className="lowerDiv">
               <div className="BTNLOW" onClick={handleOpenEarn}>
