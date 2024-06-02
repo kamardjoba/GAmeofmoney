@@ -34,6 +34,7 @@ function App() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
+  const [username, setUsername] = useState('');
 
   const telegramId = getTelegramIdFromUrl();
 
@@ -62,6 +63,7 @@ function App() {
       setvalEnergyTime(userData.valEnergyTime);
       setupgradeEnergyTimeLevel(userData.upgradeEnergyTimeLevel);
       setTime(userData.time);
+      setUsername(userData.username); // Установить имя пользователя
     } catch (error) {
       console.error('Error getting progress:', error);
     }
@@ -171,7 +173,7 @@ function App() {
       <div className="App">
         <div className="info">
           <img src={Icon} alt="Icon" />
-          <p>Name</p>
+          <p>{username}</p> {/* Отображение имени пользователя */}
           <img src={logo} alt="Bifclif" />
         </div>
         <div className="main">
