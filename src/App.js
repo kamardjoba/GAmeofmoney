@@ -33,13 +33,13 @@ function App() {
   useEffect(() => {
     const fetchUsername = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const telegramId = urlParams.get('telegramId');
+      const userId = urlParams.get('userId');
 
-      console.log("Telegram ID:", telegramId);
+      console.log("User ID:", userId);
 
-      if (telegramId) {
+      if (userId) {
         try {
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?telegramId=${telegramId}`);
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
           console.log("Response status:", response.status);
           const data = await response.json();
           console.log("Response data:", data);
@@ -54,7 +54,7 @@ function App() {
           setLoading(false); // Скрыть экран загрузки после завершения запроса
         }
       } else {
-        setLoading(false); // Скрыть экран загрузки, если нет telegramId
+        setLoading(false); // Скрыть экран загрузки, если нет userId
       }
     };
 
