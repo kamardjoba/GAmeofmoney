@@ -78,9 +78,6 @@ function App() {
     return <div>Загрузка...</div>;
   }
 
-
-
-
   const handleCoinClick = async () => {
     if (coinPerClick <= energyNow) {
       setCoins(coins + coinPerClick);
