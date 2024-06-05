@@ -9,6 +9,7 @@ import Shop from './shop';
 import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
+import {response} from "express";
 
 function App() {
   const [clicks, setClicks] = useState(0);
@@ -142,7 +143,7 @@ function App() {
       <div className="App">
         <div className="info">
           <img src={Icon} alt="Icon" />
-          <p>{username}</p> {/* Отображение имени пользователя */}
+          <p>{response}</p> {/* Отображение имени пользователя */}
           <img src={logo} alt="Bifclif" />
         </div>
         <div className="main">
