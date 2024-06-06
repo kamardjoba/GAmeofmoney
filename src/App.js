@@ -9,7 +9,6 @@ import Shop from './shop';
 import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
-import {response} from "express";
 
 function App() {
   const [clicks, setClicks] = useState(0);
@@ -46,6 +45,7 @@ function App() {
           console.log("Response data:", data);
           if (response.ok) {
             setUsername(data.username);
+            setCoins(data.coins); // Устанавливаем количество монет
           } else {
             console.error('Error fetching username:', data.error);
           }
@@ -71,8 +71,30 @@ function App() {
       });
     }, time);
 
-    return () => clearInterval(interval);
-  }, [clickLimit, time]);
+    // Отправка монет на сервер каждые 3 секунды
+    const saveCoinsInterval = setInterval(async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('userId');
+      if (userId) {
+        try {
+          await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId, coins }),
+          });
+        } catch (error) {
+          console.error('Error updating coins:', error);
+        }
+      }
+    }, 3000);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(saveCoinsInterval);
+    };
+  }, [clickLimit, time, coins]);
 
   // Если данные все еще загружаются, показываем экран загрузки
   if (loading) {
@@ -143,7 +165,7 @@ function App() {
       <div className="App">
         <div className="info">
           <img src={Icon} alt="Icon" />
-          <p>{response}</p> {/* Отображение имени пользователя */}
+          <p>{username}</p> {/* Отображение имени пользователя */}
           <img src={logo} alt="Bifclif" />
         </div>
         <div className="main">
