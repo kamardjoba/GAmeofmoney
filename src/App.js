@@ -88,7 +88,7 @@ function App() {
           console.error('Error updating coins:', error);
         }
       }
-    }, 1000);
+    }, 100);
 
     return () => {
       clearInterval(interval);
