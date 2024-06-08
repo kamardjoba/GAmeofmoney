@@ -27,35 +27,35 @@ function App() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
-  const [username, setUsername] = useState(''); // Новый стейт для имени пользователя
-  const [loading, setLoading] = useState(true); // Новый стейт для загрузки
+  const [username, setUsername] = useState('');
+  const [referralCode, setReferralCode] = useState('');
+  const [telegramLink, setTelegramLink] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsername = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get('userId');
 
-      console.log("User ID:", userId);
-
       if (userId) {
         try {
           const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
-          console.log("Response status:", response.status);
           const data = await response.json();
-          console.log("Response data:", data);
           if (response.ok) {
             setUsername(data.username);
-            setCoins(data.coins); // Устанавливаем количество монет
+            setCoins(data.coins);
+            setReferralCode(data.referralCode);
+            setTelegramLink(data.telegramLink);
           } else {
             console.error('Error fetching username:', data.error);
           }
         } catch (error) {
           console.error('Error fetching username:', error);
         } finally {
-          setLoading(false); // Скрыть экран загрузки после завершения запроса
+          setLoading(false);
         }
       } else {
-        setLoading(false); // Скрыть экран загрузки, если нет userId
+        setLoading(false);
       }
     };
 
@@ -71,7 +71,6 @@ function App() {
       });
     }, time);
 
-    // Отправка монет на сервер каждые 3 секунды
     const saveCoinsInterval = setInterval(async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get('userId');
@@ -96,7 +95,6 @@ function App() {
     };
   }, [clickLimit, time, coins]);
 
-  // Если данные все еще загружаются, показываем экран загрузки
   if (loading) {
     return <div>Загрузка...</div>;
   }
@@ -165,7 +163,7 @@ function App() {
       <div className="App">
         <div className="info">
           <img src={Icon} alt="Icon" />
-          <p>{username}</p> {/* Отображение имени пользователя */}
+          <p>{username}</p>
           <img src={logo} alt="Bifclif" />
         </div>
         <div className="main">
@@ -238,6 +236,12 @@ function App() {
         {isEarnOpen && (
             <Earn onClose={handleCloseEarn} />
         )}
+
+        <div className="referral-section">
+          <p>Your Referral Code: {referralCode}</p>
+          <p>Share this link to invite friends:</p>
+          <p>{telegramLink}</p> {/* Отображение реферальной ссылки для Telegram */}
+        </div>
       </div>
   );
 }
