@@ -31,12 +31,13 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUserData = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get('userId');
-
+      setUserId(userId);
       if (userId) {
         try {
           const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
@@ -47,10 +48,10 @@ function App() {
             setReferralCode(data.referralCode);
             setTelegramLink(data.telegramLink);
           } else {
-            console.error('Error fetching username:', data.error);
+            console.error('Error fetching user data:', data.error);
           }
         } catch (error) {
-          console.error('Error fetching username:', error);
+          console.error('Error fetching user data:', error);
         } finally {
           setLoading(false);
         }
@@ -58,8 +59,7 @@ function App() {
         setLoading(false);
       }
     };
-
-    fetchUsername().catch(error => console.error('fetchUsername error:', error));
+    fetchUserData().catch(error => console.error('fetchUserData error:', error));
 
     const interval = setInterval(() => {
       setEnergyNow((energyNow) => {
@@ -72,8 +72,6 @@ function App() {
     }, time);
 
     const saveCoinsInterval = setInterval(async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userId = urlParams.get('userId');
       if (userId) {
         try {
           await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
@@ -230,7 +228,7 @@ function App() {
         )}
 
         {isRefOpen && (
-            <Ref onClose={handleCloseRef} />
+            <Ref onClose={handleCloseRef} userId={userId} />
         )}
 
         {isEarnOpen && (
@@ -240,7 +238,7 @@ function App() {
         <div className="referral-section">
           <p>Your Referral Code: {referralCode}</p>
           <p>Share this link to invite friends:</p>
-          <p>{telegramLink}</p> {/* Отображение реферальной ссылки для Telegram */}
+          <p>{telegramLink}</p>
         </div>
       </div>
   );

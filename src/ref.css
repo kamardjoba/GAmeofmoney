@@ -61,7 +61,6 @@
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
-
 }
 
 .FrandsBorder{
@@ -151,4 +150,8 @@
     background: linear-gradient(135deg, #ff3300, #ff0000);
     width: 90%;
     height: 80%;
+}
+
+.close-button:hover {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
 }
