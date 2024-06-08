@@ -91,7 +91,7 @@ function App() {
       clearInterval(interval);
       clearInterval(saveCoinsInterval);
     };
-  }, [clickLimit, time, coins]);
+  }, [clickLimit, time, coins, userId]); // Добавьте `userId` сюда
 
   if (loading) {
     return <div>Загрузка...</div>;
