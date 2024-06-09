@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import defaultIcon from './IMG/N.png';
+import defaultIcon from './IMG/N.png'; // Добавьте изображение по умолчанию
 import logo from './IMG/b.png';
 import coinIcon from './IMG/CU.png';
 import BB from './IMG/BB.png';
@@ -48,7 +48,7 @@ function App() {
           if (response.ok) {
             setUsername(data.username);
             setCoins(data.coins);
-            setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
+            setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon); // Добавлено
             setReferralCode(data.referralCode);
             setTelegramLink(data.telegramLink);
           } else {
@@ -219,8 +219,6 @@ function App() {
                 <div className="CoinInfo">
                   <img src={coinIcon} alt="Coin" height="90%" />
                   <p>{coins}</p>
-                  <p>Реферальная ссылка:</p>
-                  <p><a href={telegramLink} target="_blank" rel="noopener noreferrer">{telegramLink}</a></p> {/* Обновлено */}
                 </div>
                 <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
                 <div className="Progress">
