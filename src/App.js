@@ -11,7 +11,6 @@ import Ref from './ref';
 import Earn from './earn';
 
 function App() {
-  const [ setClicks] = useState(0);
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
   const [upgradeLevel, setUpgradeLevel] = useState(1);
@@ -103,7 +102,6 @@ function App() {
         return newCoins;
       });
       setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
-      setClicks(prevClicks => prevClicks + 1);
     }
   };
 
