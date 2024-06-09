@@ -11,7 +11,7 @@ import Ref from './ref';
 import Earn from './earn';
 
 function App() {
-  const [clicks, setClicks] = useState(0);
+  const [ setClicks] = useState(0);
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
   const [upgradeLevel, setUpgradeLevel] = useState(1);
@@ -64,11 +64,11 @@ function App() {
     };
 
     const interval = setInterval(() => {
-      setEnergyNow((energyNow) => {
-        if (energyNow < clickLimit) {
-          return energyNow + 1;
+      setEnergyNow((prevEnergyNow) => {
+        if (prevEnergyNow < clickLimit) {
+          return prevEnergyNow + 1;
         } else {
-          return energyNow;
+          return prevEnergyNow;
         }
       });
     }, time);
@@ -78,9 +78,7 @@ function App() {
         try {
           await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId, coins }),
           });
         } catch (error) {
@@ -97,39 +95,57 @@ function App() {
     };
   }, [userId, clickLimit, time, coins]);
 
-  const handleCoinClick = async () => {
+  const handleCoinClick = () => {
     if (coinPerClick <= energyNow) {
-      setCoins(coins + coinPerClick);
-      setEnergyNow(energyNow - coinPerClick);
-      setClicks(clicks + 1);
+      setCoins(prevCoins => {
+        const newCoins = prevCoins + coinPerClick;
+        updateCoinsOnServer(newCoins);
+        return newCoins;
+      });
+      setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
+      setClicks(prevClicks => prevClicks + 1);
     }
   };
 
-  const CoinPerClickUpgrade = async () => {
+  const updateCoinsOnServer = async (newCoins) => {
+    if (userId) {
+      try {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, coins: newCoins }),
+        });
+      } catch (error) {
+        console.error('Error updating coins:', error);
+      }
+    }
+  };
+
+  const CoinPerClickUpgrade = () => {
     if (coins >= upgradeCost) {
-      setCoins(coins - upgradeCost);
-      setCoinPerClick(coinPerClick + 1);
-      setUpgradeLevel(upgradeLevel + 1);
-      setUpgradeCost(Math.floor(upgradeCost * 1.5));
+      setCoins(prevCoins => prevCoins - upgradeCost);
+      setCoinPerClick(prevCoinPerClick => prevCoinPerClick + 1);
+      setUpgradeLevel(prevUpgradeLevel => prevUpgradeLevel + 1);
+      setUpgradeCost(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
     }
   };
 
-  const EnergyUpgrade = async () => {
+  const EnergyUpgrade = () => {
     if (coins >= upgradeCostEnergy) {
-      setCoins(coins - upgradeCostEnergy);
-      setClickLimit(clickLimit * 2);
-      setUpgradeLevelEnergy(upgradeLevelEnergy + 1);
-      setUpgradeCostEnergy(Math.floor(upgradeCostEnergy * 1.5));
+      setCoins(prevCoins => prevCoins - upgradeCostEnergy);
+      setClickLimit(prevClickLimit => prevClickLimit * 2);
+      setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
+      setUpgradeCostEnergy(prevUpgradeCostEnergy => Math.floor(prevUpgradeCostEnergy * 1.5));
     }
   };
 
-  const EnergyTimeUpgrade = async () => {
+  const EnergyTimeUpgrade = () => {
     if (coins >= upgradeCostEnergyTime) {
-      setCoins(coins - upgradeCostEnergyTime);
-      setvalEnergyTime(valEnergyTime * 2);
-      setupgradeEnergyTimeLevel(upgradeEnergyTimeLevel + 1);
-      setTime(time / 2);
-      setUpgradeCostEnergyTime(Math.floor(upgradeCostEnergyTime * 1.5));
+      setCoins(prevCoins => prevCoins - upgradeCostEnergyTime);
+      setvalEnergyTime(prevValEnergyTime => prevValEnergyTime * 2);
+      setupgradeEnergyTimeLevel(prevUpgradeEnergyTimeLevel => prevUpgradeEnergyTimeLevel + 1);
+      setTime(prevTime => prevTime / 2);
+      setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
     }
   };
 
@@ -161,14 +177,12 @@ function App() {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId }),
       });
       const data = await response.json();
       if (response.ok && data.isSubscribed) {
-        setCoins(coins + 50000); // Начисляем 50000 монет
+        setCoins(prevCoins => prevCoins + 50000); // Начисляем 50000 монет
         alert('Вы успешно подписались и получили 50000 монет!');
       } else {
         alert('Вы еще не подписаны на канал.');
