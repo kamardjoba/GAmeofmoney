@@ -30,7 +30,7 @@ function App() {
   const [username, setUsername] = useState('');
   const [referralCode, setReferralCode] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [ setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
