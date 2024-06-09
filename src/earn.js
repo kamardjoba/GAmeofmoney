@@ -3,7 +3,7 @@ import './earn.css';
 
 const Earn = ({ onClose, userId, onCheckSubscription }) => {
     const handleSubscribe = () => {
-        window.open('https://t.me/ваш_канал', '_blank');
+        window.open('https://t.me/Clickerroadtomoon', '_blank');
     };
 
     return (
