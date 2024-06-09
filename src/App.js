@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import coinIcon from './IMG/CU.png';
-import Icon from './IMG/N.png';
+import defaultIcon from './IMG/defaultIcon.png'; // Добавьте изображение по умолчанию
 import logo from './IMG/b.png';
+import coinIcon from './IMG/CU.png';
 import BB from './IMG/BB.png';
 import ProgressBar from './ProgressBar';
 import Shop from './shop';
@@ -27,6 +27,7 @@ function App() {
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [username, setUsername] = useState('');
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
   const [referralCode, setReferralCode] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
@@ -47,6 +48,7 @@ function App() {
           if (response.ok) {
             setUsername(data.username);
             setCoins(data.coins);
+            setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon); // Добавлено
             setReferralCode(data.referralCode);
             setTelegramLink(data.telegramLink);
           } else {
@@ -195,7 +197,7 @@ function App() {
         {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
-                <img src={Icon} alt="Icon" />
+                <img src={profilePhotoUrl} alt="Profile" className="profile-icon" />
                 <p>{username}</p>
                 <img src={logo} alt="Bifclif" />
               </div>
