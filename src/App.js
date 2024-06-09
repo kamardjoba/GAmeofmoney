@@ -48,7 +48,7 @@ function App() {
           if (response.ok) {
             setUsername(data.username);
             setCoins(data.coins);
-            setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon); // Добавлено
+            setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
             setReferralCode(data.referralCode);
             setTelegramLink(data.telegramLink);
           } else {
