@@ -30,14 +30,17 @@ function App() {
   const [username, setUsername] = useState('');
   const [referralCode, setReferralCode] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
-  const [ setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+    setUserId(userId);
+  }, []);
+
+  useEffect(() => {
     const fetchUserData = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userId = urlParams.get('userId');
-      setUserId(userId);
       if (userId) {
         try {
           const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
@@ -59,7 +62,6 @@ function App() {
         setLoading(false);
       }
     };
-    fetchUserData().catch(error => console.error('fetchUserData error:', error));
 
     const interval = setInterval(() => {
       setEnergyNow((energyNow) => {
@@ -87,11 +89,13 @@ function App() {
       }
     }, 3000);
 
+    fetchUserData();
+
     return () => {
       clearInterval(interval);
       clearInterval(saveCoinsInterval);
     };
-  }, [clickLimit, time, coins, userId]);
+  }, [userId, clickLimit, time, coins]);
 
   const handleCoinClick = async () => {
     if (coinPerClick <= energyNow) {
@@ -176,54 +180,58 @@ function App() {
 
   return (
       <div className="App">
-        <div className="info">
-          <img src={Icon} alt="Icon" />
-          <p>{username}</p>
-          <img src={logo} alt="Bifclif" />
-        </div>
-        <div className="main">
-          <div className="mainInfo">
-            <div className="halfBox">
-              <div className="halfBoxDiv">
-                <p>Coin Per Tap</p>
-                <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
+        {loading ? <div>Loading...</div> : (
+            <>
+              <div className="info">
+                <img src={Icon} alt="Icon" />
+                <p>{username}</p>
+                <img src={logo} alt="Bifclif" />
               </div>
-            </div>
-            <div className="halfBox">
-              <div className="halfBoxDiv">
-                <p>Energy</p>
-                <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
+              <div className="main">
+                <div className="mainInfo">
+                  <div className="halfBox">
+                    <div className="halfBoxDiv">
+                      <p>Coin Per Tap</p>
+                      <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
+                    </div>
+                  </div>
+                  <div className="halfBox">
+                    <div className="halfBoxDiv">
+                      <p>Energy</p>
+                      <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
+                    </div>
+                  </div>
+                </div>
+                <div className="CoinInfo">
+                  <img src={coinIcon} alt="Coin" height="90%" />
+                  <p>{coins}</p>
+                </div>
+                <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
+                <div className="Progress">
+                  <ProgressBar current={energyNow} max={clickLimit} />
+                </div>
+                <div className="lower">
+                  <div className="lowerDiv">
+                    <div className="BTNLOW" onClick={handleOpenEarn}>
+                      <p>Earn</p>
+                      <p>💸</p>
+                    </div>
+                    <div className="BTNLOW" onClick={handleOpenShop}>
+                      <p>Shop</p>
+                      <p>🛒</p>
+                    </div>
+                    <div className="BTNLOW" onClick={handleOpenRef}>
+                      <p>Ref</p>
+                      <p>👥</p>
+                    </div>
+                    <div className="BTNLOW">
+                      <p>🚀</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="CoinInfo">
-            <img src={coinIcon} alt="Coin" height="90%" />
-            <p>{coins}</p>
-          </div>
-          <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
-          <div className="Progress">
-            <ProgressBar current={energyNow} max={clickLimit} />
-          </div>
-          <div className="lower">
-            <div className="lowerDiv">
-              <div className="BTNLOW" onClick={handleOpenEarn}>
-                <p>Earn</p>
-                <p>💸</p>
-              </div>
-              <div className="BTNLOW" onClick={handleOpenShop}>
-                <p>Shop</p>
-                <p>🛒</p>
-              </div>
-              <div className="BTNLOW" onClick={handleOpenRef}>
-                <p>Ref</p>
-                <p>👥</p>
-              </div>
-              <div className="BTNLOW">
-                <p>🚀</p>
-              </div>
-            </div>
-          </div>
-        </div>
+            </>
+        )}
 
         {isShopOpen && (
             <Shop
