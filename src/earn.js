@@ -1,72 +1,26 @@
 import React from 'react';
-import './earn.css'
+import './earn.css';
 
+const Earn = ({ onClose, userId, onCheckSubscription }) => {
+    const handleSubscribe = () => {
+        window.open('https://t.me/ваш_канал', '_blank');
+    };
 
-const Earn = ({onClose}) => {
     return (
         <div className="earn">
-            <div className="zagolovok">
-                <p>Награди</p>
+            <div className="zagolovок">
+                <p>Заработать</p>
             </div>
-
-            <div className="EarnBorder">
-                <div className="EarnMenu">
-
-                    <div className="Zadanie">
-                        <div className="zg">
-                            <h1>Подписатся на tg-канал</h1>
-                        </div>
-                        <p>Награда: 10000</p>
-                        <button>
-                            Подписатся
-                        </button>
-                        <button>
-                            Проверить
-                        </button>
-                    </div>
-
-                    <div className="Zadanie">
-                        <div className="zg">
-                            <h1>Вступить в клан Clash Royale</h1>
-                        </div>
-                        <p>Награда: 99000</p>
-                        <button>
-                            Подписатся
-                        </button>
-                        <button>
-                            Проверить
-                        </button>
-                    </div>
-
-                    <div className="Zadanie">
-                        <div className="zg">
-                            <h1>Подписатся на twitter</h1>
-                        </div>
-                        <p>Награда: 10000</p>
-                        <button>
-                            Подписатся
-                        </button>
-                        <button>
-                            Проверить
-                        </button>
-                    </div>
-
-                    <div className="Zadanie">
-                        <div className="zg">
-                            <h1>Подписатся на Discord</h1>
-                        </div>
-                        <p>Награда: 10000</p>
-                        <button>
-                            Подписатся
-                        </button>
-                        <button>
-                            Проверить
-                        </button>
-                    </div>
-
+            <div className="earn-border">
+                <div className="earn-info">
+                    <p>Подписаться на наш Telegram канал</p>
+                </div>
+                <div className="earn-menu">
+                    <button onClick={handleSubscribe}>Подписаться</button>
+                    <button onClick={() => onCheckSubscription(userId)}>Проверить</button>
                 </div>
             </div>
-            <div className="zagolovok">
+            <div className="zagolovок">
                 <button onClick={onClose} className="close-button">Закрыть</button>
             </div>
         </div>

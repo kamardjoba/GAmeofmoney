@@ -91,11 +91,7 @@ function App() {
       clearInterval(interval);
       clearInterval(saveCoinsInterval);
     };
-  }, [clickLimit, time, coins, userId]); // Добавьте `userId` сюда
-
-  if (loading) {
-    return <div>Загрузка...</div>;
-  }
+  }, [clickLimit, time, coins, userId]);
 
   const handleCoinClick = async () => {
     if (coinPerClick <= energyNow) {
@@ -155,6 +151,27 @@ function App() {
 
   const handleCloseEarn = () => {
     setIsEarnOpen(false);
+  };
+
+  const handleCheckSubscription = async (userId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
+      const data = await response.json();
+      if (response.ok && data.isSubscribed) {
+        setCoins(coins + 50000); // Начисляем 50000 монет
+        alert('Вы успешно подписались и получили 50000 монет!');
+      } else {
+        alert('Вы еще не подписаны на канал.');
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
   };
 
   return (
@@ -232,7 +249,7 @@ function App() {
         )}
 
         {isEarnOpen && (
-            <Earn onClose={handleCloseEarn} />
+            <Earn onClose={handleCloseEarn} userId={userId} onCheckSubscription={handleCheckSubscription} />
         )}
 
         <div className="referral-section">
