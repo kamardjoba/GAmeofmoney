@@ -109,15 +109,16 @@ function App() {
 
   // Сохраняем данные при закрытии окна
   useEffect(() => {
-    const handleUnload = (event) => {
-      event.preventDefault();
-      saveProgress();
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'hidden') {
+        await saveProgress();
+      }
     };
 
-    window.addEventListener('beforeunload', handleUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      window.removeEventListener('beforeunload', handleUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [saveProgress]);
 
@@ -242,20 +243,20 @@ function App() {
                 <div className="mainInfo">
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <p>Монет за клик</p>
-                      <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
+                      <p>Монет за клик</п>
+                      <п>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></п>
                     </div>
                   </div>
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <p>Энергия</p>
-                      <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
+                      <п>Энергия</п>
+                      <п>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></п>
                     </div>
                   </div>
                 </div>
                 <div className="CoinInfo">
                   <img src={coinIcon} alt="Coin" height="90%" />
-                  <p>{coins}</p>
+                  <п>{coins}</п>
                 </div>
                 <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
                 <div className="Progress">
@@ -264,20 +265,20 @@ function App() {
                 <div className="lower">
                   <div className="lowerDiv">
                     <div className="BTNLOW" onClick={handleOpenEarn}>
-                      <p>Заработать</p>
-                      <p>💸</p>
+                      <п>Заработать</п>
+                      <п>💸</п>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenShop}>
-                      <p>Магазин</p>
-                      <p>🛒</p>
+                      <п>Магазин</п>
+                      <п>🛒</п>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenRef}>
-                      <p>Реф</p>
-                      <p>👥</p>
+                      <п>Реф</п>
+                      <п>👥</п>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <p>Играть</p>
-                      <p>🚀</p>
+                      <п>Играть</п>
+                      <п>🚀</п>
                     </div>
                   </div>
                 </div>
@@ -316,9 +317,9 @@ function App() {
         )}
 
         <div className="referral-section">
-          <p>Ваш реферальный код: {referralCode}</p>
-          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
-          <p>{telegramLink}</p>
+          <п>Ваш реферальный код: {referralCode}</п>
+          <п>Поделитесь этой ссылкой, чтобы пригласить друзей:</п>
+          <п>{telegramLink}</п>
         </div>
       </div>
   );
