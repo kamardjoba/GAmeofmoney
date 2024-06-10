@@ -11,7 +11,7 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
-import screenfull from 'screenfull';
+
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -64,12 +64,6 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('userId');
     setUserId(userId);
-  }, []);
-
-  useEffect(() => {
-    if (screenfull.isEnabled) {
-      screenfull.request();
-    }
 
     const fetchUserData = async () => {
       if (userId) {
