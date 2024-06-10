@@ -109,9 +109,15 @@ function App() {
 
   // Сохраняем данные при закрытии окна
   useEffect(() => {
-    window.addEventListener('beforeunload', saveProgress);
+    const handleUnload = (event) => {
+      event.preventDefault();
+      saveProgress();
+    };
+
+    window.addEventListener('beforeunload', handleUnload);
+
     return () => {
-      window.removeEventListener('beforeunload', saveProgress);
+      window.removeEventListener('beforeunload', handleUnload);
     };
   }, [saveProgress]);
 
