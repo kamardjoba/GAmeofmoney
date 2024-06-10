@@ -103,7 +103,7 @@ function App() {
     setUserId(userId);
 
     if (userId) {
-      loadProgress();
+      loadProgress().catch((error) => console.error('Error loading progress:', error));
     }
   }, [userId, loadProgress]);
 
@@ -111,7 +111,7 @@ function App() {
   useEffect(() => {
     const handleVisibilityChange = async () => {
       if (document.visibilityState === 'hidden') {
-        await saveProgress();
+        await saveProgress().catch((error) => console.error('Error saving progress:', error));
       }
     };
 
@@ -182,7 +182,8 @@ function App() {
     setIsShopOpen(true);
   };
 
-  const handleCloseShop = () => {
+  const handleCloseShop = async () => {
+    await saveProgress().catch((error) => console.error('Error saving progress:', error));
     setIsShopOpen(false);
   };
 
@@ -190,7 +191,8 @@ function App() {
     setIsRefOpen(true);
   };
 
-  const handleCloseRef = () => {
+  const handleCloseRef = async () => {
+    await saveProgress().catch((error) => console.error('Error saving progress:', error));
     setIsRefOpen(false);
   };
 
@@ -198,7 +200,8 @@ function App() {
     setIsEarnOpen(true);
   };
 
-  const handleCloseEarn = () => {
+  const handleCloseEarn = async () => {
+    await saveProgress().catch((error) => console.error('Error saving progress:', error));
     setIsEarnOpen(false);
   };
 
@@ -206,7 +209,8 @@ function App() {
     setIsMiniGameOpen(true);
   };
 
-  const handleCloseMiniGame = () => {
+  const handleCloseMiniGame = async () => {
+    await saveProgress().catch((error) => console.error('Error saving progress:', error));
     setIsMiniGameOpen(false);
   };
 
