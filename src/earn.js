@@ -8,7 +8,7 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
 
     return (
         <div className="earn">
-            <div className="zagolovок">
+            <div className="zagolовок">
                 <p>Заработать</p>
             </div>
             <div className="earn-border">
@@ -20,9 +20,7 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
                     <button onClick={() => onCheckSubscription(userId)}>Проверить</button>
                 </div>
             </div>
-            <div className="zagolовок">
-                <button onClick={onClose} className="close-button">Закрыть</button>
-            </div>
+            <button onClick={onClose} className="close-button">Закрыть</button>
         </div>
     );
 };

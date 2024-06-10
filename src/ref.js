@@ -22,7 +22,7 @@ const Ref = ({ onClose, userId }) => {
         };
 
         if (userId) {
-            fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
+            fetchReferralData();
         }
     }, [userId]);
 
@@ -34,20 +34,6 @@ const Ref = ({ onClose, userId }) => {
             .catch(err => {
                 console.error('Ошибка копирования ссылки:', err);
             });
-    };
-
-    const handleShareLink = () => {
-        if (navigator.share) {
-            navigator.share({
-                title: 'Пригласить Друга',
-                text: 'Присоединяйся к нашему приложению и получай бонусы!',
-                url: referralLink
-            })
-                .then(() => console.log('Ссылка успешно отправлена'))
-                .catch(err => console.error('Ошибка при отправке ссылки:', err));
-        } else {
-            alert('Ваш браузер не поддерживает функцию общего доступа. Скопируйте ссылку вручную.');
-        }
     };
 
     return (
@@ -62,7 +48,6 @@ const Ref = ({ onClose, userId }) => {
                 <div className="sendMenu">
                     <p className="referral-link">{referralLink}</p>
                     <button onClick={handleCopyLink}>Скопировать Ссылку</button>
-                    <button onClick={handleShareLink}>Поделиться</button> {/* Новая кнопка */}
                 </div>
             </div>
             <div className="FrandsBorder">
@@ -73,9 +58,7 @@ const Ref = ({ onClose, userId }) => {
                     <p>Количество приглашенных: {referralCount}</p>
                 </div>
             </div>
-            <div className="zagolовок">
-                <button onClick={onClose} className="close-button">Закрыть</button>
-            </div>
+            <button onClick={onClose} className="close-button">Закрыть</button>
         </div>
     );
 };

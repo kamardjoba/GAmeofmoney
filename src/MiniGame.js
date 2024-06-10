@@ -1,42 +1,24 @@
-// MiniGame.js
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './MiniGame.css';
 
-const MiniGame = ({ onClose }) => {
+const MiniGame = ({ onClose, onSaveState, miniGameState }) => {
     const canvasRef = useRef(null);
-    const [playerX, setPlayerX] = useState(240);
-    const [bullets, setBullets] = useState([]);
-    const [invaders, setInvaders] = useState([]);
-    const [invaderBullets, setInvaderBullets] = useState([]);
-    const [score, setScore] = useState(0);
-    const [lives, setLives] = useState(3);
-    const [direction, setDirection] = useState(1);
-    const [gameOver, setGameOver] = useState(false);
+    const [playerX, ] = useState(miniGameState.playerX || 240);
+    const [bullets, setBullets] = useState(miniGameState.bullets || []);
+    const [invaders, setInvaders] = useState(miniGameState.invaders || []);
+    const [invaderBullets, setInvaderBullets] = useState(miniGameState.invaderBullets || []);
+    const [score, setScore] = useState(miniGameState.score || 0);
+    const [lives, setLives] = useState(miniGameState.lives || 3);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
-        // Инициализация пришельцев
-        const initialInvaders = [];
-        for (let i = 0; i < 5; i++) {
-            for (let j = 0; j < 11; j++) {
-                initialInvaders.push({ x: 30 + j * 40, y: 30 + i * 30, width: 30, height: 20 });
-            }
-        }
-        setInvaders(initialInvaders);
-
-        // Основной цикл отрисовки
         const draw = () => {
-            if (gameOver) return; // Если игра окончена, прекращаем отрисовку
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Рисуем игрока
             ctx.fillStyle = 'green';
             ctx.fillRect(playerX, 460, 40, 10);
 
-            // Рисуем пули игрока
             ctx.fillStyle = 'red';
             bullets.forEach((bullet, index) => {
                 ctx.fillRect(bullet.x, bullet.y, 5, 10);
@@ -46,15 +28,13 @@ const MiniGame = ({ onClose }) => {
                 }
             });
 
-            // Рисуем пули пришельцев
             ctx.fillStyle = 'orange';
             invaderBullets.forEach((bullet, index) => {
                 ctx.fillRect(bullet.x, bullet.y, 5, 10);
-                bullet.y += 2; // Уменьшаем скорость пуль пришельцев
+                bullet.y += 2;
                 if (bullet.y > canvas.height) {
                     setInvaderBullets(prevBullets => prevBullets.filter((_, i) => i !== index));
                 }
-                // Проверка попадания по игроку
                 if (
                     bullet.y >= 460 &&
                     bullet.x >= playerX &&
@@ -65,17 +45,15 @@ const MiniGame = ({ onClose }) => {
                 }
             });
 
-            // Рисуем пришельцев
             ctx.fillStyle = 'white';
             invaders.forEach(invader => {
                 ctx.fillRect(invader.x, invader.y, invader.width, invader.height);
             });
 
-            // Обновление положения пришельцев и проверка столкновений
             let edgeReached = false;
             setInvaders(prevInvaders =>
                 prevInvaders.map(invader => {
-                    invader.x += direction * 1; // Скорость пришельцев
+                    invader.x += 1;
                     if (invader.x <= 0 || invader.x + invader.width >= canvas.width) {
                         edgeReached = true;
                     }
@@ -96,30 +74,17 @@ const MiniGame = ({ onClose }) => {
             );
 
             if (edgeReached) {
-                setDirection(prevDirection => -prevDirection);
                 setInvaders(prevInvaders =>
                     prevInvaders.map(invader => ({
                         ...invader,
-                        y: invader.y + 20,
+                        y: invader.y + 20
                     }))
                 );
-            }
-
-            // Вероятность выстрела пришельцев
-            if (Math.random() < 0.02) {
-                const shootingInvader = invaders[Math.floor(Math.random() * invaders.length)];
-                if (shootingInvader) {
-                    setInvaderBullets(prevBullets => [
-                        ...prevBullets,
-                        { x: shootingInvader.x + shootingInvader.width / 2, y: shootingInvader.y }
-                    ]);
-                }
             }
 
             if (lives > 0 && invaders.length > 0) {
                 requestAnimationFrame(draw);
             } else {
-                setGameOver(true);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = lives === 0 ? 'red' : 'green';
                 ctx.font = '30px Arial';
@@ -130,34 +95,21 @@ const MiniGame = ({ onClose }) => {
         draw();
 
         return () => {
-            setGameOver(true); // Устанавливаем состояние "игра окончена"
+            onSaveState({
+                playerX,
+                bullets,
+                invaders,
+                invaderBullets,
+                score,
+                lives
+            });
         };
-    }, [playerX, bullets, invaderBullets, invaders, direction, lives, gameOver]);
-
-    const handleTouchMove = (e) => {
-        const touch = e.touches[0];
-        setPlayerX(touch.clientX - 20); // Центрирование самолета по пальцу
-    };
-
-    const handleTouchStart = useCallback((e) => {
-        setBullets(prevBullets => [...prevBullets, { x: playerX + 17.5, y: 450 }]);
-    }, [playerX]);
-
-    useEffect(() => {
-        window.addEventListener('touchmove', handleTouchMove);
-        window.addEventListener('touchstart', handleTouchStart);
-        return () => {
-            window.removeEventListener('touchmove', handleTouchMove);
-            window.removeEventListener('touchstart', handleTouchStart);
-        };
-    }, [handleTouchStart]);
+    }, [playerX, bullets, invaderBullets, invaders, lives, score, onSaveState]);
 
     return (
         <div className="mini-game-overlay">
             <canvas ref={canvasRef} width={500} height={500}></canvas>
-            <div className="score">Score: {score}</div>
-            <div className="lives">Lives: {lives}</div>
-            <button onClick={() => { setGameOver(true); onClose(); }} className="close-button">Close</button>
+            <button onClick={onClose} className="close-button">Close</button>
         </div>
     );
 };
