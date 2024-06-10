@@ -12,7 +12,7 @@ const Ref = ({ onClose, userId }) => {
                 const data = await response.json();
                 if (response.ok) {
                     setReferralLink(data.telegramLink);
-                    setReferralCount(data.referralCount); // Отображение количества рефералов
+                    setReferralCount(data.referralCount);
                 } else {
                     console.error('Error fetching referral data:', data.error);
                 }
@@ -36,6 +36,11 @@ const Ref = ({ onClose, userId }) => {
             });
     };
 
+    const handleShareLink = () => {
+        const telegramShareUrl = `tg://msg_url?url=${encodeURIComponent(referralLink)}&text=Присоединяйся к нашему приложению!`;
+        window.open(telegramShareUrl, '_blank');
+    };
+
     return (
         <div className="ref">
             <div className="zagolovok">
@@ -48,6 +53,7 @@ const Ref = ({ onClose, userId }) => {
                 <div className="sendMenu">
                     <p className="referral-link">{referralLink}</p>
                     <button onClick={handleCopyLink}>Скопировать Ссылку</button>
+                    <button onClick={handleShareLink}>Поделиться</button> {/* Новая кнопка */}
                 </div>
             </div>
             <div className="FrandsBorder">
