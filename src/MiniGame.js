@@ -1,5 +1,5 @@
 // MiniGame.js
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import './MiniGame.css';
 
 const MiniGame = ({ onClose }) => {
@@ -13,7 +13,6 @@ const MiniGame = ({ onClose }) => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
-        // Создание начального состояния пришельцев
         const initialInvaders = [];
         for (let i = 0; i < 5; i++) {
             for (let j = 0; j < 11; j++) {
@@ -67,7 +66,7 @@ const MiniGame = ({ onClose }) => {
         draw();
     }, [playerX, bullets, invaders]);
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowLeft') {
             setPlayerX(prevX => Math.max(prevX - 10, 0));
         } else if (e.key === 'ArrowRight') {
@@ -75,14 +74,14 @@ const MiniGame = ({ onClose }) => {
         } else if (e.key === ' ') {
             setBullets(prevBullets => [...prevBullets, { x: playerX + 17.5, y: 450 }]);
         }
-    };
+    }, [playerX]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [handleKeyDown]);
 
     return (
         <div className="mini-game-overlay">

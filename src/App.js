@@ -23,7 +23,7 @@ function App() {
   const [energyNow, setEnergyNow] = useState(1000);
   const [upgradeCostEnergyTime, setUpgradeCostEnergyTime] = useState(200);
   const [valEnergyTime, setValEnergyTime] = useState(0.5);
-  const [upgradeEnergyTimeLevel, setUpgradeEnergyTimeLevel] = useState(1);
+  const [upgradeEnergyTimeLevel] = useState(1); // Изменено на одноразовый state
   const [time, setTime] = useState(2000);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
