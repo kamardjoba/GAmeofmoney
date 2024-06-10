@@ -82,6 +82,14 @@ function App() {
       }
     };
 
+    fetchUserData();
+
+    return () => {
+      saveProgress(); // Сохраняем прогресс при размонтировании компонента
+    };
+  }, [userId]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
         if (prevEnergyNow < clickLimit) {
@@ -92,40 +100,40 @@ function App() {
       });
     }, time);
 
-    fetchUserData();
-
     return () => {
       clearInterval(interval);
     };
-  }, [userId, clickLimit, time, valEnergyTime]);
+  }, [clickLimit, time, valEnergyTime]);
+
+  const saveProgress = async () => {
+    if (userId) {
+      try {
+        const upgrades = {
+          coinPerClick: { level: upgradeLevel, cost: upgradeCost },
+          energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
+          energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
+        };
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId,
+            coins,
+            upgrades,
+            miniGameState: {} // Замените на текущее состояние мини-игры
+          }),
+        });
+      } catch (error) {
+        console.error('Error saving progress:', error);
+      }
+    }
+  };
 
   useEffect(() => {
-    const saveProgressInterval = setInterval(async () => {
-      if (userId) {
-        try {
-          const upgrades = {
-            coinPerClick: { level: upgradeLevel, cost: upgradeCost },
-            energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
-            energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
-          };
-          await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              userId,
-              coins,
-              upgrades,
-              miniGameState: {} // Замените на текущее состояние мини-игры
-            }),
-          });
-        } catch (error) {
-          console.error('Error saving progress:', error);
-        }
-      }
-    }, 3000); // Сохраняйте прогресс каждые 3 секунды или установите подходящий интервал
+    window.addEventListener('beforeunload', saveProgress);
 
     return () => {
-      clearInterval(saveProgressInterval);
+      window.removeEventListener('beforeunload', saveProgress);
     };
   }, [userId, coins, upgradeLevel, upgradeCost, upgradeLevelEnergy, upgradeCostEnergy, clickLimit, upgradeCostEnergyTime, valEnergyTime, time]);
 
@@ -168,6 +176,7 @@ function App() {
   };
 
   const handleCloseShop = () => {
+    saveProgress();
     setIsShopOpen(false);
   };
 
@@ -176,6 +185,7 @@ function App() {
   };
 
   const handleCloseRef = () => {
+    saveProgress();
     setIsRefOpen(false);
   };
 
@@ -184,6 +194,7 @@ function App() {
   };
 
   const handleCloseEarn = () => {
+    saveProgress();
     setIsEarnOpen(false);
   };
 
@@ -192,6 +203,7 @@ function App() {
   };
 
   const handleCloseMiniGame = () => {
+    saveProgress();
     setIsMiniGameOpen(false);
   };
 
