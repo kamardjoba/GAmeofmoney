@@ -37,8 +37,17 @@ const Ref = ({ onClose, userId }) => {
     };
 
     const handleShareLink = () => {
-        const telegramShareUrl = `tg://msg_url?url=${encodeURIComponent(referralLink)}&text=Присоединяйся к нашему приложению!`;
-        window.open(telegramShareUrl, '_blank');
+        if (navigator.share) {
+            navigator.share({
+                title: 'Пригласить Друга',
+                text: 'Присоединяйся к нашему приложению и получай бонусы!',
+                url: referralLink
+            })
+                .then(() => console.log('Ссылка успешно отправлена'))
+                .catch(err => console.error('Ошибка при отправке ссылки:', err));
+        } else {
+            alert('Ваш браузер не поддерживает функцию общего доступа. Скопируйте ссылку вручную.');
+        }
     };
 
     return (
@@ -64,7 +73,7 @@ const Ref = ({ onClose, userId }) => {
                     <p>Количество приглашенных: {referralCount}</p>
                 </div>
             </div>
-            <div className="zagolovok">
+            <div className="zagolовок">
                 <button onClick={onClose} className="close-button">Закрыть</button>
             </div>
         </div>
