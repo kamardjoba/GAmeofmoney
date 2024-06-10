@@ -11,6 +11,7 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
+import screenfull from 'screenfull';
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -23,7 +24,6 @@ function App() {
   const [energyNow, setEnergyNow] = useState(1000);
   const [upgradeCostEnergyTime, setUpgradeCostEnergyTime] = useState(200);
   const [valEnergyTime, setValEnergyTime] = useState(0.5);
-  const [upgradeEnergyTimeLevel] = useState(1); // Изменено на одноразовый state
   const [time, setTime] = useState(2000);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
@@ -43,6 +43,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (screenfull.isEnabled) {
+      screenfull.request();
+    }
+
     const fetchUserData = async () => {
       if (userId) {
         try {
@@ -269,7 +273,6 @@ function App() {
                 upgradeLevelEnergy={upgradeLevelEnergy}
                 upgradeCostEnergyTime={upgradeCostEnergyTime}
                 valEnergyTime={valEnergyTime}
-                upgradeEnergyTimeLevel={upgradeEnergyTimeLevel}
                 onClose={handleCloseShop}
                 onUpgrade={CoinPerClickUpgrade}
                 onUpgradeEnergy={EnergyUpgrade}

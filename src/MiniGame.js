@@ -11,6 +11,7 @@ const MiniGame = ({ onClose }) => {
     const [score, setScore] = useState(0);
     const [lives, setLives] = useState(3);
     const [direction, setDirection] = useState(1);
+    const [gameOver, setGameOver] = useState(false);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -27,6 +28,8 @@ const MiniGame = ({ onClose }) => {
 
         // Основной цикл отрисовки
         const draw = () => {
+            if (gameOver) return; // Если игра окончена, прекращаем отрисовку
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Рисуем игрока
@@ -47,7 +50,7 @@ const MiniGame = ({ onClose }) => {
             ctx.fillStyle = 'orange';
             invaderBullets.forEach((bullet, index) => {
                 ctx.fillRect(bullet.x, bullet.y, 5, 10);
-                bullet.y += 3; // Увеличиваем скорость для плавности
+                bullet.y += 2; // Уменьшаем скорость пуль пришельцев
                 if (bullet.y > canvas.height) {
                     setInvaderBullets(prevBullets => prevBullets.filter((_, i) => i !== index));
                 }
@@ -103,7 +106,7 @@ const MiniGame = ({ onClose }) => {
             }
 
             // Вероятность выстрела пришельцев
-            if (Math.random() < 0.02) { // Увеличиваем вероятность для плавности
+            if (Math.random() < 0.02) {
                 const shootingInvader = invaders[Math.floor(Math.random() * invaders.length)];
                 if (shootingInvader) {
                     setInvaderBullets(prevBullets => [
@@ -115,21 +118,21 @@ const MiniGame = ({ onClose }) => {
 
             if (lives > 0 && invaders.length > 0) {
                 requestAnimationFrame(draw);
-            } else if (lives === 0) {
+            } else {
+                setGameOver(true);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'red';
+                ctx.fillStyle = lives === 0 ? 'red' : 'green';
                 ctx.font = '30px Arial';
-                ctx.fillText('Game Over', canvas.width / 2 - 80, canvas.height / 2);
-            } else if (invaders.length === 0) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'green';
-                ctx.font = '30px Arial';
-                ctx.fillText('You Win!', canvas.width / 2 - 60, canvas.height / 2);
+                ctx.fillText(lives === 0 ? 'Game Over' : 'You Win!', canvas.width / 2 - 80, canvas.height / 2);
             }
         };
 
         draw();
-    }, [playerX, bullets, invaderBullets, invaders, direction, lives]);
+
+        return () => {
+            setGameOver(true); // Устанавливаем состояние "игра окончена"
+        };
+    }, [playerX, bullets, invaderBullets, invaders, direction, lives, gameOver]);
 
     const handleTouchMove = (e) => {
         const touch = e.touches[0];
@@ -147,14 +150,14 @@ const MiniGame = ({ onClose }) => {
             window.removeEventListener('touchmove', handleTouchMove);
             window.removeEventListener('touchstart', handleTouchStart);
         };
-    }, [handleTouchStart]); // Добавьте handleTouchStart в зависимости
+    }, [handleTouchStart]);
 
     return (
         <div className="mini-game-overlay">
             <canvas ref={canvasRef} width={500} height={500}></canvas>
             <div className="score">Score: {score}</div>
             <div className="lives">Lives: {lives}</div>
-            <button onClick={onClose} className="close-button">Close</button>
+            <button onClick={() => { setGameOver(true); onClose(); }} className="close-button">Close</button>
         </div>
     );
 };
