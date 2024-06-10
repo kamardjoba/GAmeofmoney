@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import defaultIcon from './IMG/N.png';
+import defaultIcon from './IMG/defaultIcon.png';
 import logo from './IMG/b.png';
 import coinIcon from './IMG/CU.png';
 import BB from './IMG/BB.png';
