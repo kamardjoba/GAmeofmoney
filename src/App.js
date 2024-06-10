@@ -51,7 +51,7 @@ function App() {
           const { upgrades } = data.gameProgress;
           setUpgradeLevel(upgrades.coinPerClick.level);
           setUpgradeCost(upgrades.coinPerClick.cost);
-          setCoinPerClick(upgrades.coinPerClick.level); // Добавлено
+          setCoinPerClick(upgrades.coinPerClick.level);
           setClickLimit(upgrades.energy.limit);
           setUpgradeLevelEnergy(upgrades.energy.level);
           setUpgradeCostEnergy(upgrades.energy.cost);
@@ -105,11 +105,7 @@ function App() {
     if (userId) {
       loadProgress();
     }
-
-    return () => {
-      window.removeEventListener('beforeunload', saveProgress);
-    };
-  }, [userId, loadProgress, saveProgress]);
+  }, [userId, loadProgress]);
 
   // Сохраняем данные при закрытии окна
   useEffect(() => {
@@ -180,7 +176,6 @@ function App() {
   };
 
   const handleCloseShop = () => {
-    saveProgress();
     setIsShopOpen(false);
   };
 
@@ -189,7 +184,6 @@ function App() {
   };
 
   const handleCloseRef = () => {
-    saveProgress();
     setIsRefOpen(false);
   };
 
@@ -198,7 +192,6 @@ function App() {
   };
 
   const handleCloseEarn = () => {
-    saveProgress();
     setIsEarnOpen(false);
   };
 
@@ -207,7 +200,6 @@ function App() {
   };
 
   const handleCloseMiniGame = () => {
-    saveProgress();
     setIsMiniGameOpen(false);
   };
 
