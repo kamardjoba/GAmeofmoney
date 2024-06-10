@@ -1,53 +1,73 @@
 import React from 'react';
 import './shop.css';
 
-const Shop = ({ coins, onUpgrade, onClose, upgrades }) => {
-    return (
-        <div className="shop">
-            <div className="zagolovok">
-                <p>Магазин</p>
-            </div>
-            <div className="section">
-                <div className='hz'>
-                    <p>Монет за клик</p>
-                </div>
-                <div className="section-menu">
-                    <p>Уровень: {upgrades.coinPerClick.level}</p>
-                    <p>Стоимость: {upgrades.coinPerClick.cost}</p>
-                    <button onClick={() => onUpgrade('coinPerClick')} disabled={coins < upgrades.coinPerClick.cost}>
-                        Улучшить
-                    </button>
-                </div>
-            </div>
-            <div className="section">
-                <div className='hz'>
-                    <p>Энергия</p>
-                </div>
-                <div className="section-menu">
-                    <p>Лимит: {upgrades.energy.limit}</p>
-                    <p>Уровень: {upgrades.energy.level}</p>
-                    <p>Стоимость: {upgrades.energy.cost}</p>
-                    <button onClick={() => onUpgrade('energy')} disabled={coins < upgrades.energy.cost}>
-                        Улучшить
-                    </button>
-                </div>
-            </div>
-            <div className="section">
-                <div className='hz'>
-                    <p>Восстановление энергии</p>
-                </div>
-                <div className="section-menu">
-                    <p>Время: {upgrades.energyTime.time / 1000} сек</p>
-                    <p>Уровень: {upgrades.energyTime.level}</p>
-                    <p>Стоимость: {upgrades.energyTime.cost}</p>
-                    <button onClick={() => onUpgrade('energyTime')} disabled={coins < upgrades.energyTime.cost}>
-                        Улучшить
-                    </button>
-                </div>
-            </div>
-            <button onClick={onClose} className="close-button">Закрыть</button>
+const Shop = ({ coins, onClose, 
+                onUpgrade, coinPerClick, upgradeLevel, upgradeCost, 
+                onUpgradeEnergy, clickLimit, upgradeLevelEnergy, upgradeCostEnergy,
+                onUpgradeEnergyTime, valEnergyTime, upgradeEnergyTimeLevel, upgradeCostEnergyTime  }) => {
+  return (
+      <div className="shop">
+        <div class="zagolovok">
+        <p>Магазин</p>
         </div>
-    );
+        <div className="section">
+          <div className='hz'>
+            <p>Монет за клик</p>
+          </div>
+          <div className="section-menu">
+            <p>{coinPerClick}</p>
+            <div className="inform">
+              <p>Уровень улучшения: {upgradeLevel}</p>
+            </div>
+            <div className="inform">
+              <p>Стоимость улучшения: {upgradeCost}</p>
+            </div>
+            <button onClick={onUpgrade} disabled={coins < upgradeCost}>
+              Улучшить
+            </button>
+          </div>
+        </div>
+
+        <div className="section">
+          <div className='hz'>
+            <p>Энергия</p>
+          </div>
+          <div className="section-menu">
+            <p>{clickLimit}</p>
+            <div className="inform">
+              <p>Уровень улучшения: {upgradeLevelEnergy}</p>
+            </div>
+            <div className="inform">
+              <p>Стоимость улучшения: {upgradeCostEnergy}</p>
+            </div>
+            <button onClick={onUpgradeEnergy} disabled={coins < upgradeCostEnergy}>
+              Улучшить
+            </button>
+          </div>
+        </div>
+
+        <div className="section">
+          <div className='hz'>
+            <p>Востановления енергиї</p>
+          </div>
+          <div className="section-menu">
+            <p>{valEnergyTime} в секунду</p>
+            <div className="inform">
+              <p>Уровень улучшения: {upgradeEnergyTimeLevel}</p>
+            </div>
+            <div className="inform">
+              <p>Стоимость улучшения: {upgradeCostEnergyTime}</p>
+            </div>
+            <button onClick={onUpgradeEnergyTime} disabled={coins <upgradeCostEnergyTime}>
+              Улучшить
+            </button>
+          </div>
+        </div>
+        <div class="zagolovok">
+        <button onClick={onClose} className="close-button">Закрыть</button>
+        </div>
+      </div>
+  );
 };
 
 export default Shop;

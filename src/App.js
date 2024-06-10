@@ -1,142 +1,302 @@
+// App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import defaultIcon from './IMG/N.png';
+import logo from './IMG/b.png';
+import coinIcon from './IMG/CU.png';
+import BB from './IMG/BB.png';
 import ProgressBar from './ProgressBar';
-import Coindiv from './coin';
-import Earn from './earn';
-import Ref from './ref';
 import Shop from './shop';
+import Coindiv from './coin';
+import Ref from './ref';
+import Earn from './earn';
 import MiniGame from './MiniGame';
+import screenfull from 'screenfull';
 
 function App() {
   const [coins, setCoins] = useState(0);
-  const [upgrades, setUpgrades] = useState({
-    coinPerClick: { level: 1, cost: 10 },
-    energy: { level: 1, cost: 100, limit: 1000 },
-    energyTime: { level: 1, cost: 200, time: 2000, val: 0.5 }
-  });
-  const [miniGameState, setMiniGameState] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [upgradeCost, setUpgradeCost] = useState(10);
+  const [upgradeLevel, setUpgradeLevel] = useState(1);
+  const [coinPerClick, setCoinPerClick] = useState(1);
+  const [upgradeCostEnergy, setUpgradeCostEnergy] = useState(100);
+  const [upgradeLevelEnergy, setUpgradeLevelEnergy] = useState(1);
+  const [clickLimit, setClickLimit] = useState(1000);
+  const [energyNow, setEnergyNow] = useState(1000);
+  const [upgradeCostEnergyTime, setUpgradeCostEnergyTime] = useState(200);
+  const [valEnergyTime, setValEnergyTime] = useState(0.5);
+  const [time, setTime] = useState(2000);
   const [isShopOpen, setIsShopOpen] = useState(false);
-  const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
+  const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [isMiniGameOpen, setIsMiniGameOpen] = useState(false);
-
-  const userId = new URLSearchParams(window.location.search).get('userId');
+  const [username, setUsername] = useState('');
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
+  const [referralCode, setReferralCode] = useState('');
+  const [telegramLink, setTelegramLink] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const loadProgress = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
-        const data = await response.json();
-        if (response.ok) {
-          setCoins(data.gameProgress.coins || 0);
-          setUpgrades(prevUpgrades => ({
-            ...prevUpgrades,
-            ...data.gameProgress.upgrades,
-          }));
-          setMiniGameState(data.gameProgress.miniGameState || {});
-        } else {
-          console.error('Error loading progress:', data.error);
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+    setUserId(userId);
+  }, []);
+
+  useEffect(() => {
+    if (screenfull.isEnabled) {
+      screenfull.request();
+    }
+
+    const fetchUserData = async () => {
+      if (userId) {
+        try {
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
+          const data = await response.json();
+          if (response.ok) {
+            setUsername(data.username);
+            setCoins(data.coins);
+            setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
+            setReferralCode(data.referralCode);
+            setTelegramLink(data.telegramLink);
+          } else {
+            console.error('Error fetching user data:', data.error);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Error loading progress:', error);
-      } finally {
-        setIsLoading(false);
+      } else {
+        setLoading(false);
       }
     };
 
-    loadProgress();
-  }, [userId]);
+    const interval = setInterval(() => {
+      setEnergyNow((prevEnergyNow) => {
+        if (prevEnergyNow < clickLimit) {
+          return prevEnergyNow + 1;
+        } else {
+          return prevEnergyNow;
+        }
+      });
+    }, time);
 
-  useEffect(() => {
-    const saveProgress = async () => {
-      try {
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId, coins, upgrades, miniGameState }),
-        });
-      } catch (error) {
-        console.error('Error saving progress:', error);
+    const saveCoinsInterval = setInterval(async () => {
+      if (userId) {
+        try {
+          await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId, coins }),
+          });
+        } catch (error) {
+          console.error('Error updating coins:', error);
+        }
       }
+    }, 3000);
+
+    fetchUserData();
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(saveCoinsInterval);
     };
-
-    const interval = setInterval(saveProgress, 5000); // Сохранение каждые 5 секунд
-
-    return () => clearInterval(interval);
-  }, [userId, coins, upgrades, miniGameState]);
+  }, [userId, clickLimit, time, coins]);
 
   const handleCoinClick = () => {
-    setCoins(prevCoins => prevCoins + upgrades.coinPerClick.level);
+    if (coinPerClick <= energyNow) {
+      setCoins(prevCoins => {
+        const newCoins = prevCoins + coinPerClick;
+        updateCoinsOnServer(newCoins);
+        return newCoins;
+      });
+      setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
+    }
   };
 
-  const handleUpgrade = (type) => {
-    if (coins >= upgrades[type].cost) {
-      setCoins(prevCoins => prevCoins - upgrades[type].cost);
-      setUpgrades(prevUpgrades => ({
-        ...prevUpgrades,
-        [type]: {
-          ...prevUpgrades[type],
-          level: prevUpgrades[type].level + 1,
-          cost: Math.floor(prevUpgrades[type].cost * 1.5)
-        }
-      }));
+  const updateCoinsOnServer = async (newCoins) => {
+    if (userId) {
+      try {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId, coins: newCoins }),
+        });
+      } catch (error) {
+        console.error('Error updating coins:', error);
+      }
+    }
+  };
+
+  const CoinPerClickUpgrade = () => {
+    if (coins >= upgradeCost) {
+      setCoins(prevCoins => prevCoins - upgradeCost);
+      setCoinPerClick(prevCoinPerClick => prevCoinPerClick + 1);
+      setUpgradeLevel(prevUpgradeLevel => prevUpgradeLevel + 1);
+      setUpgradeCost(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
+    }
+  };
+
+  const EnergyUpgrade = () => {
+    if (coins >= upgradeCostEnergy) {
+      setCoins(prevCoins => prevCoins - upgradeCostEnergy);
+      setClickLimit(prevClickLimit => prevClickLimit * 2);
+      setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
+      setUpgradeCostEnergy(prevUpgradeCostEnergy => Math.floor(prevUpgradeCostEnergy * 1.5));
+    }
+  };
+
+  const EnergyTimeUpgrade = () => {
+    if (coins >= upgradeCostEnergyTime) {
+      setCoins(prevCoins => prevCoins - upgradeCostEnergyTime);
+      setValEnergyTime(prevValEnergyTime => prevValEnergyTime * 2);
+      setTime(prevTime => prevTime / 2);
+      setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
+    }
+  };
+
+  const handleOpenShop = () => {
+    setIsShopOpen(true);
+  };
+
+  const handleCloseShop = () => {
+    setIsShopOpen(false);
+  };
+
+  const handleOpenRef = () => {
+    setIsRefOpen(true);
+  };
+
+  const handleCloseRef = () => {
+    setIsRefOpen(false);
+  };
+
+  const handleOpenEarn = () => {
+    setIsEarnOpen(true);
+  };
+
+  const handleCloseEarn = () => {
+    setIsEarnOpen(false);
+  };
+
+  const handleOpenMiniGame = () => {
+    setIsMiniGameOpen(true);
+  };
+
+  const handleCloseMiniGame = () => {
+    setIsMiniGameOpen(false);
+  };
+
+  const handleCheckSubscription = async (userId) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      });
+      const data = await response.json();
+      if (response.ok && data.isSubscribed) {
+        setCoins(prevCoins => prevCoins + 50000); // Начисляем 50000 монет
+        alert('Вы успешно подписались и получили 50000 монет!');
+      } else {
+        alert('Вы еще не подписаны на канал.');
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
     }
   };
 
   return (
       <div className="App">
-        {isLoading ? (
-            <div>Loading...</div>
-        ) : (
+        {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
-                <p>Монеты: {coins}</p>
+                <img src={profilePhotoUrl} alt="Profile" className="profile-icon" />
+                <p>{username}</p>
+                <img src={logo} alt="Bifclif" />
               </div>
               <div className="main">
-                <Coindiv onClick={handleCoinClick} coinPerClick={upgrades.coinPerClick.level} energyNow={1000} />
-                <ProgressBar current={1000} max={upgrades.energy.limit} />
+                <div className="mainInfo">
+                  <div className="halfBox">
+                    <div className="halfBoxDiv">
+                      <p>Coin Per Tap</p>
+                      <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
+                    </div>
+                  </div>
+                  <div className="halfBox">
+                    <div className="halfBoxDiv">
+                      <p>Energy</p>
+                      <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
+                    </div>
+                  </div>
+                </div>
+                <div className="CoinInfo">
+                  <img src={coinIcon} alt="Coin" height="90%" />
+                  <p>{coins}</p>
+                </div>
+                <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
+                <div className="Progress">
+                  <ProgressBar current={energyNow} max={clickLimit} />
+                </div>
                 <div className="lower">
-                  <button onClick={() => setIsShopOpen(true)}>Shop</button>
-                  <button onClick={() => setIsEarnOpen(true)}>Earn</button>
-                  <button onClick={() => setIsRefOpen(true)}>Ref</button>
-                  <button onClick={() => setIsMiniGameOpen(true)}>Play</button>
+                  <div className="lowerDiv">
+                    <div className="BTNLOW" onClick={handleOpenEarn}>
+                      <p>Earn</p>
+                      <p>💸</p>
+                    </div>
+                    <div className="BTNLOW" onClick={handleOpenShop}>
+                      <p>Shop</p>
+                      <p>🛒</p>
+                    </div>
+                    <div className="BTNLOW" onClick={handleOpenRef}>
+                      <p>Ref</p>
+                      <p>👥</p>
+                    </div>
+                    <div className="BTNLOW" onClick={handleOpenMiniGame}>
+                      <p>Play</p>
+                      <p>🚀</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {isShopOpen && (
-                  <Shop
-                      coins={coins}
-                      onUpgrade={handleUpgrade}
-                      onClose={() => setIsShopOpen(false)}
-                      upgrades={upgrades}
-                  />
-              )}
-
-              {isEarnOpen && (
-                  <Earn
-                      onClose={() => setIsEarnOpen(false)}
-                      userId={userId}
-                      onCheckSubscription={() => {}}
-                  />
-              )}
-
-              {isRefOpen && (
-                  <Ref
-                      onClose={() => setIsRefOpen(false)}
-                      userId={userId}
-                  />
-              )}
-
-              {isMiniGameOpen && (
-                  <MiniGame
-                      onClose={() => setIsMiniGameOpen(false)}
-                      miniGameState={miniGameState}
-                      onSaveState={setMiniGameState}
-                  />
-              )}
             </>
         )}
+
+        {isShopOpen && (
+            <Shop
+                coins={coins}
+                coinPerClick={coinPerClick}
+                upgradeCost={upgradeCost}
+                upgradeLevel={upgradeLevel}
+                clickLimit={clickLimit}
+                upgradeCostEnergy={upgradeCostEnergy}
+                upgradeLevelEnergy={upgradeLevelEnergy}
+                upgradeCostEnergyTime={upgradeCostEnergyTime}
+                valEnergyTime={valEnergyTime}
+                onClose={handleCloseShop}
+                onUpgrade={CoinPerClickUpgrade}
+                onUpgradeEnergy={EnergyUpgrade}
+                onUpgradeEnergyTime={EnergyTimeUpgrade}
+            />
+        )}
+
+        {isRefOpen && (
+            <Ref onClose={handleCloseRef} userId={userId} />
+        )}
+
+        {isEarnOpen && (
+            <Earn onClose={handleCloseEarn} userId={userId} onCheckSubscription={handleCheckSubscription} />
+        )}
+
+        {isMiniGameOpen && (
+            <MiniGame onClose={handleCloseMiniGame} />
+        )}
+
+        <div className="referral-section">
+          <p>Your Referral Code: {referralCode}</p>
+          <p>Share this link to invite friends:</p>
+          <p>{telegramLink}</p>
+        </div>
       </div>
   );
 }
