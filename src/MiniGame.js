@@ -5,6 +5,7 @@ import './MiniGame.css';
 const MiniGame = ({ onClose }) => {
     const canvasRef = useRef(null);
     const [playerX, setPlayerX] = useState(240);
+    // Удаляем setPlayerY, так как он не используется
     const [bullets, setBullets] = useState([]);
     const [invaders, setInvaders] = useState([]);
     const [invaderBullets, setInvaderBullets] = useState([]);
@@ -16,6 +17,7 @@ const MiniGame = ({ onClose }) => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
+        // Инициализация пришельцев
         const initialInvaders = [];
         for (let i = 0; i < 5; i++) {
             for (let j = 0; j < 11; j++) {
@@ -24,6 +26,7 @@ const MiniGame = ({ onClose }) => {
         }
         setInvaders(initialInvaders);
 
+        // Основной цикл отрисовки
         const draw = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -46,7 +49,7 @@ const MiniGame = ({ onClose }) => {
             invaderBullets.forEach((bullet, index) => {
                 ctx.fillRect(bullet.x, bullet.y, 5, 10);
                 bullet.y += 5;
-                if (bullet.y > 500) {
+                if (bullet.y > canvas.height) {
                     setInvaderBullets(prevBullets => prevBullets.filter((_, i) => i !== index));
                 }
                 // Проверка попадания по игроку
@@ -129,22 +132,25 @@ const MiniGame = ({ onClose }) => {
         draw();
     }, [playerX, bullets, invaderBullets, invaders, direction, lives]);
 
-    const handleKeyDown = useCallback((e) => {
-        if (e.key === 'ArrowLeft') {
-            setPlayerX(prevX => Math.max(prevX - 10, 0));
-        } else if (e.key === 'ArrowRight') {
-            setPlayerX(prevX => Math.min(prevX + 10, 460)); // Оставляем место для ширины игрока
-        } else if (e.key === ' ') {
-            setBullets(prevBullets => [...prevBullets, { x: playerX + 17.5, y: 450 }]);
-        }
+    const handleTouchMove = (e) => {
+        const touch = e.touches[0];
+        setPlayerX(touch.clientX - 20); // Центрирование самолета по пальцу
+    };
+
+    const handleTouchStart = useCallback((e) => {
+        const touch = e.touches[0];
+        setBullets(prevBullets => [...prevBullets, { x: playerX + 17.5, y: 450 }]);
+        setPlayerX(touch.clientX - 20); // Центрирование самолета по пальцу
     }, [playerX]);
 
     useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('touchmove', handleTouchMove);
+        window.addEventListener('touchstart', handleTouchStart);
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchstart', handleTouchStart);
         };
-    }, [handleKeyDown]);
+    }, [handleTouchStart]); // Добавьте handleTouchStart в зависимости
 
     return (
         <div className="mini-game-overlay">
@@ -157,4 +163,3 @@ const MiniGame = ({ onClose }) => {
 };
 
 export default MiniGame;
-
