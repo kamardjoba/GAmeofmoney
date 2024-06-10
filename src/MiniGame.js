@@ -5,7 +5,6 @@ import './MiniGame.css';
 const MiniGame = ({ onClose }) => {
     const canvasRef = useRef(null);
     const [playerX, setPlayerX] = useState(240);
-    // Удаляем setPlayerY, так как он не используется
     const [bullets, setBullets] = useState([]);
     const [invaders, setInvaders] = useState([]);
     const [invaderBullets, setInvaderBullets] = useState([]);
@@ -48,7 +47,7 @@ const MiniGame = ({ onClose }) => {
             ctx.fillStyle = 'orange';
             invaderBullets.forEach((bullet, index) => {
                 ctx.fillRect(bullet.x, bullet.y, 5, 10);
-                bullet.y += 5;
+                bullet.y += 3; // Увеличиваем скорость для плавности
                 if (bullet.y > canvas.height) {
                     setInvaderBullets(prevBullets => prevBullets.filter((_, i) => i !== index));
                 }
@@ -104,7 +103,7 @@ const MiniGame = ({ onClose }) => {
             }
 
             // Вероятность выстрела пришельцев
-            if (Math.random() < 0.01) {
+            if (Math.random() < 0.02) { // Увеличиваем вероятность для плавности
                 const shootingInvader = invaders[Math.floor(Math.random() * invaders.length)];
                 if (shootingInvader) {
                     setInvaderBullets(prevBullets => [
@@ -138,9 +137,7 @@ const MiniGame = ({ onClose }) => {
     };
 
     const handleTouchStart = useCallback((e) => {
-        const touch = e.touches[0];
         setBullets(prevBullets => [...prevBullets, { x: playerX + 17.5, y: 450 }]);
-        setPlayerX(touch.clientX - 20); // Центрирование самолета по пальцу
     }, [playerX]);
 
     useEffect(() => {
