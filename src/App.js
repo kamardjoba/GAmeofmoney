@@ -1,5 +1,5 @@
 // App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
 import logo from './IMG/b.png';
@@ -35,6 +35,30 @@ function App() {
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+
+  const saveProgress = useCallback(async () => {
+    if (userId) {
+      try {
+        const upgrades = {
+          coinPerClick: { level: upgradeLevel, cost: upgradeCost },
+          energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
+          energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
+        };
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId,
+            coins,
+            upgrades,
+            miniGameState: {} // Замените на текущее состояние мини-игры
+          }),
+        });
+      } catch (error) {
+        console.error('Error saving progress:', error);
+      }
+    }
+  }, [userId, coins, upgradeLevel, upgradeCost, upgradeLevelEnergy, upgradeCostEnergy, clickLimit, upgradeCostEnergyTime, valEnergyTime, time]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -87,7 +111,7 @@ function App() {
     return () => {
       saveProgress(); // Сохраняем прогресс при размонтировании компонента
     };
-  }, [userId]);
+  }, [userId, saveProgress]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -105,37 +129,13 @@ function App() {
     };
   }, [clickLimit, time, valEnergyTime]);
 
-  const saveProgress = async () => {
-    if (userId) {
-      try {
-        const upgrades = {
-          coinPerClick: { level: upgradeLevel, cost: upgradeCost },
-          energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
-          energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
-        };
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId,
-            coins,
-            upgrades,
-            miniGameState: {} // Замените на текущее состояние мини-игры
-          }),
-        });
-      } catch (error) {
-        console.error('Error saving progress:', error);
-      }
-    }
-  };
-
   useEffect(() => {
     window.addEventListener('beforeunload', saveProgress);
 
     return () => {
       window.removeEventListener('beforeunload', saveProgress);
     };
-  }, [userId, coins, upgradeLevel, upgradeCost, upgradeLevelEnergy, upgradeCostEnergy, clickLimit, upgradeCostEnergyTime, valEnergyTime, time]);
+  }, [saveProgress]);
 
   const handleCoinClick = () => {
     if (coinPerClick <= energyNow) {
