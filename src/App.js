@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
@@ -9,6 +10,7 @@ import Shop from './shop';
 import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
+import MiniGame from './MiniGame';
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -20,12 +22,13 @@ function App() {
   const [clickLimit, setClickLimit] = useState(1000);
   const [energyNow, setEnergyNow] = useState(1000);
   const [upgradeCostEnergyTime, setUpgradeCostEnergyTime] = useState(200);
-  const [valEnergyTime, setvalEnergyTime] = useState(0.5);
-  const [upgradeEnergyTimeLevel, setupgradeEnergyTimeLevel] = useState(1);
+  const [valEnergyTime, setValEnergyTime] = useState(0.5);
+  const [upgradeEnergyTimeLevel, setUpgradeEnergyTimeLevel] = useState(1);
   const [time, setTime] = useState(2000);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
+  const [isMiniGameOpen, setIsMiniGameOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
   const [referralCode, setReferralCode] = useState('');
@@ -142,8 +145,7 @@ function App() {
   const EnergyTimeUpgrade = () => {
     if (coins >= upgradeCostEnergyTime) {
       setCoins(prevCoins => prevCoins - upgradeCostEnergyTime);
-      setvalEnergyTime(prevValEnergyTime => prevValEnergyTime * 2);
-      setupgradeEnergyTimeLevel(prevUpgradeEnergyTimeLevel => prevUpgradeEnergyTimeLevel + 1);
+      setValEnergyTime(prevValEnergyTime => prevValEnergyTime * 2);
       setTime(prevTime => prevTime / 2);
       setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
     }
@@ -171,6 +173,14 @@ function App() {
 
   const handleCloseEarn = () => {
     setIsEarnOpen(false);
+  };
+
+  const handleOpenMiniGame = () => {
+    setIsMiniGameOpen(true);
+  };
+
+  const handleCloseMiniGame = () => {
+    setIsMiniGameOpen(false);
   };
 
   const handleCheckSubscription = async (userId) => {
@@ -238,7 +248,8 @@ function App() {
                       <p>Ref</p>
                       <p>👥</p>
                     </div>
-                    <div className="BTNLOW">
+                    <div className="BTNLOW" onClick={handleOpenMiniGame}>
+                      <p>Play</p>
                       <p>🚀</p>
                     </div>
                   </div>
@@ -272,6 +283,10 @@ function App() {
 
         {isEarnOpen && (
             <Earn onClose={handleCloseEarn} userId={userId} onCheckSubscription={handleCheckSubscription} />
+        )}
+
+        {isMiniGameOpen && (
+            <MiniGame onClose={handleCloseMiniGame} />
         )}
 
         <div className="referral-section">
