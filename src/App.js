@@ -243,20 +243,20 @@ function App() {
                 <div className="mainInfo">
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <p>Монет за клик</п>
-                      <п>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></п>
+                      <p>Монет за клик</p>
+                      <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
                     </div>
                   </div>
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <п>Энергия</п>
-                      <п>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></п>
+                      <p>Энергия</p>
+                      <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
                     </div>
                   </div>
                 </div>
                 <div className="CoinInfo">
                   <img src={coinIcon} alt="Coin" height="90%" />
-                  <п>{coins}</п>
+                  <p>{coins}</p>
                 </div>
                 <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
                 <div className="Progress">
@@ -265,20 +265,20 @@ function App() {
                 <div className="lower">
                   <div className="lowerDiv">
                     <div className="BTNLOW" onClick={handleOpenEarn}>
-                      <п>Заработать</п>
-                      <п>💸</п>
+                      <p>Заработать</p>
+                      <p>💸</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenShop}>
-                      <п>Магазин</п>
-                      <п>🛒</п>
+                      <p>Магазин</p>
+                      <p>🛒</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenRef}>
-                      <п>Реф</п>
-                      <п>👥</п>
+                      <p>Реф</p>
+                      <p>👥</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <п>Играть</п>
-                      <п>🚀</п>
+                      <p>Играть</p>
+                      <p>🚀</p>
                     </div>
                   </div>
                 </div>
@@ -317,9 +317,9 @@ function App() {
         )}
 
         <div className="referral-section">
-          <п>Ваш реферальный код: {referralCode}</п>
-          <п>Поделитесь этой ссылкой, чтобы пригласить друзей:</п>
-          <п>{telegramLink}</п>
+          <p>Ваш реферальный код: {referralCode}</p>
+          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
+          <p>{telegramLink}</p>
         </div>
       </div>
   );
