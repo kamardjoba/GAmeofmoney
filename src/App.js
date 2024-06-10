@@ -12,7 +12,6 @@ import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
 
-
 function App() {
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
@@ -35,6 +34,41 @@ function App() {
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+
+  const loadProgress = useCallback(async () => {
+    if (userId) {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
+        const data = await response.json();
+        if (response.ok) {
+          setUsername(data.username);
+          setCoins(data.coins);
+          setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
+          setReferralCode(data.referralCode);
+          setTelegramLink(data.telegramLink);
+          // Устанавливаем прогресс игры из данных пользователя
+          const { upgrades } = data.gameProgress;
+          setUpgradeLevel(upgrades.coinPerClick.level);
+          setUpgradeCost(upgrades.coinPerClick.cost);
+          setCoinPerClick(upgrades.coinPerClick.level); // Добавлено
+          setClickLimit(upgrades.energy.limit);
+          setUpgradeLevelEnergy(upgrades.energy.level);
+          setUpgradeCostEnergy(upgrades.energy.cost);
+          setValEnergyTime(upgrades.energyTime.val);
+          setTime(upgrades.energyTime.time);
+          setUpgradeCostEnergyTime(upgrades.energyTime.cost);
+        } else {
+          console.error('Error fetching user data:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [userId]);
 
   const saveProgress = useCallback(async () => {
     if (userId) {
@@ -65,47 +99,21 @@ function App() {
     const userId = urlParams.get('userId');
     setUserId(userId);
 
-    const fetchUserData = async () => {
-      if (userId) {
-        try {
-          const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
-          const data = await response.json();
-          if (response.ok) {
-            setUsername(data.username);
-            setCoins(data.coins);
-            setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
-            setReferralCode(data.referralCode);
-            setTelegramLink(data.telegramLink);
-            // Устанавливаем прогресс игры из данных пользователя
-            const { upgrades } = data.gameProgress;
-            setUpgradeLevel(upgrades.coinPerClick.level);
-            setUpgradeCost(upgrades.coinPerClick.cost);
-            setCoinPerClick(upgrades.coinPerClick.level); // Добавлено
-            setClickLimit(upgrades.energy.limit);
-            setUpgradeLevelEnergy(upgrades.energy.level);
-            setUpgradeCostEnergy(upgrades.energy.cost);
-            setValEnergyTime(upgrades.energyTime.val);
-            setTime(upgrades.energyTime.time);
-            setUpgradeCostEnergyTime(upgrades.energyTime.cost);
-          } else {
-            console.error('Error fetching user data:', data.error);
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
+    if (userId) {
+      loadProgress();
+    }
 
     return () => {
-      saveProgress(); // Сохраняем прогресс при размонтировании компонента
+      window.removeEventListener('beforeunload', saveProgress);
     };
-  }, [userId, saveProgress]);
+  }, [userId, loadProgress]);
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', saveProgress);
+    return () => {
+      window.removeEventListener('beforeunload', saveProgress);
+    };
+  }, [saveProgress]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -122,14 +130,6 @@ function App() {
       clearInterval(interval);
     };
   }, [clickLimit, time, valEnergyTime]);
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', saveProgress);
-
-    return () => {
-      window.removeEventListener('beforeunload', saveProgress);
-    };
-  }, [saveProgress]);
 
   const handleCoinClick = () => {
     if (coinPerClick <= energyNow) {
