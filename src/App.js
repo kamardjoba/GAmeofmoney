@@ -47,17 +47,21 @@ function App() {
           setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
-          // Устанавливаем прогресс игры из данных пользователя
-          const { upgrades } = data.gameProgress;
-          setUpgradeLevel(upgrades.coinPerClick.level);
-          setUpgradeCost(upgrades.coinPerClick.cost);
-          setCoinPerClick(upgrades.coinPerClick.level);
-          setClickLimit(upgrades.energy.limit);
-          setUpgradeLevelEnergy(upgrades.energy.level);
-          setUpgradeCostEnergy(upgrades.energy.cost);
-          setValEnergyTime(upgrades.energyTime.val);
-          setTime(upgrades.energyTime.time);
-          setUpgradeCostEnergyTime(upgrades.energyTime.cost);
+
+          // Проверяем наличие gameProgress перед использованием
+          const gameProgress = data.gameProgress || {}; // Используем значение по умолчанию
+          const upgrades = gameProgress.upgrades || {}; // Используем значение по умолчанию
+
+          // Установка значений с использованием логического ИЛИ
+          setUpgradeLevel(upgrades.coinPerClick?.level || 1);
+          setUpgradeCost(upgrades.coinPerClick?.cost || 10);
+          setCoinPerClick(upgrades.coinPerClick?.level || 1);
+          setClickLimit(upgrades.energy?.limit || 1000);
+          setUpgradeLevelEnergy(upgrades.energy?.level || 1);
+          setUpgradeCostEnergy(upgrades.energy?.cost || 100);
+          setValEnergyTime(upgrades.energyTime?.val || 0.5);
+          setTime(upgrades.energyTime?.time || 2000);
+          setUpgradeCostEnergyTime(upgrades.energyTime?.cost || 200);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -80,16 +84,17 @@ function App() {
           energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
           energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
         };
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId,
-            coins,
-            upgrades,
-            miniGameState: {} // Замените на текущее состояние мини-игры
-          }),
-        });
+        const data = {
+          userId,
+          coins,
+          upgrades,
+          miniGameState: {} // Замените на текущее состояние мини-игры
+        };
+
+        // Использование navigator.sendBeacon для сохранения
+        const url = `${process.env.REACT_APP_BACKEND_URL}/save-progress`;
+        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+        navigator.sendBeacon(url, blob);
       } catch (error) {
         console.error('Error saving progress:', error);
       }
