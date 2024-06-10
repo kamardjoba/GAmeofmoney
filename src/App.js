@@ -35,6 +35,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
+  // Загрузка прогресса
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
@@ -70,6 +71,7 @@ function App() {
     }
   }, [userId]);
 
+  // Сохранение прогресса
   const saveProgress = useCallback(async () => {
     if (userId) {
       try {
@@ -94,6 +96,7 @@ function App() {
     }
   }, [userId, coins, upgradeLevel, upgradeCost, upgradeLevelEnergy, upgradeCostEnergy, clickLimit, upgradeCostEnergyTime, valEnergyTime, time]);
 
+  // Загружаем данные при открытии
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('userId');
@@ -106,8 +109,9 @@ function App() {
     return () => {
       window.removeEventListener('beforeunload', saveProgress);
     };
-  }, [userId, loadProgress]);
+  }, [userId, loadProgress, saveProgress]);
 
+  // Сохраняем данные при закрытии окна
   useEffect(() => {
     window.addEventListener('beforeunload', saveProgress);
     return () => {
@@ -115,6 +119,7 @@ function App() {
     };
   }, [saveProgress]);
 
+  // Обновление энергии с интервалом
   useEffect(() => {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
@@ -131,6 +136,7 @@ function App() {
     };
   }, [clickLimit, time, valEnergyTime]);
 
+  // Обработка клика по монете
   const handleCoinClick = () => {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => prevCoins + coinPerClick);
@@ -138,6 +144,7 @@ function App() {
     }
   };
 
+  // Улучшение монет за клик
   const CoinPerClickUpgrade = () => {
     if (coins >= upgradeCost) {
       setCoins(prevCoins => prevCoins - upgradeCost);
@@ -147,6 +154,7 @@ function App() {
     }
   };
 
+  // Улучшение энергии
   const EnergyUpgrade = () => {
     if (coins >= upgradeCostEnergy) {
       setCoins(prevCoins => prevCoins - upgradeCostEnergy);
@@ -156,6 +164,7 @@ function App() {
     }
   };
 
+  // Улучшение времени восстановления энергии
   const EnergyTimeUpgrade = () => {
     if (coins >= upgradeCostEnergyTime) {
       setCoins(prevCoins => prevCoins - upgradeCostEnergyTime);
@@ -165,6 +174,7 @@ function App() {
     }
   };
 
+  // Открытие/закрытие модальных окон
   const handleOpenShop = () => {
     setIsShopOpen(true);
   };
@@ -201,6 +211,7 @@ function App() {
     setIsMiniGameOpen(false);
   };
 
+  // Проверка подписки
   const handleCheckSubscription = async (userId) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, {
