@@ -58,6 +58,17 @@ function App() {
             setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
             setReferralCode(data.referralCode);
             setTelegramLink(data.telegramLink);
+            // Устанавливаем прогресс игры из данных пользователя
+            const { upgrades } = data.gameProgress;
+            setUpgradeLevel(upgrades.coinPerClick.level);
+            setUpgradeCost(upgrades.coinPerClick.cost);
+            setCoinPerClick(upgrades.coinPerClick.level); // Добавлено
+            setClickLimit(upgrades.energy.limit);
+            setUpgradeLevelEnergy(upgrades.energy.level);
+            setUpgradeCostEnergy(upgrades.energy.cost);
+            setValEnergyTime(upgrades.energyTime.val);
+            setTime(upgrades.energyTime.time);
+            setUpgradeCostEnergyTime(upgrades.energyTime.cost);
           } else {
             console.error('Error fetching user data:', data.error);
           }
@@ -74,57 +85,54 @@ function App() {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
         if (prevEnergyNow < clickLimit) {
-          return prevEnergyNow + 1;
+          return prevEnergyNow + valEnergyTime; // Изменено
         } else {
           return prevEnergyNow;
         }
       });
     }, time);
 
-    const saveCoinsInterval = setInterval(async () => {
-      if (userId) {
-        try {
-          await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId, coins }),
-          });
-        } catch (error) {
-          console.error('Error updating coins:', error);
-        }
-      }
-    }, 3000);
-
     fetchUserData();
 
     return () => {
       clearInterval(interval);
-      clearInterval(saveCoinsInterval);
     };
-  }, [userId, clickLimit, time, coins]);
+  }, [userId, clickLimit, time, valEnergyTime]);
+
+  useEffect(() => {
+    const saveProgressInterval = setInterval(async () => {
+      if (userId) {
+        try {
+          const upgrades = {
+            coinPerClick: { level: upgradeLevel, cost: upgradeCost },
+            energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
+            energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
+          };
+          await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              userId,
+              coins,
+              upgrades,
+              miniGameState: {} // Замените на текущее состояние мини-игры
+            }),
+          });
+        } catch (error) {
+          console.error('Error saving progress:', error);
+        }
+      }
+    }, 3000); // Сохраняйте прогресс каждые 3 секунды или установите подходящий интервал
+
+    return () => {
+      clearInterval(saveProgressInterval);
+    };
+  }, [userId, coins, upgradeLevel, upgradeCost, upgradeLevelEnergy, upgradeCostEnergy, clickLimit, upgradeCostEnergyTime, valEnergyTime, time]);
 
   const handleCoinClick = () => {
     if (coinPerClick <= energyNow) {
-      setCoins(prevCoins => {
-        const newCoins = prevCoins + coinPerClick;
-        updateCoinsOnServer(newCoins);
-        return newCoins;
-      });
+      setCoins(prevCoins => prevCoins + coinPerClick);
       setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
-    }
-  };
-
-  const updateCoinsOnServer = async (newCoins) => {
-    if (userId) {
-      try {
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/update-coins`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId, coins: newCoins }),
-        });
-      } catch (error) {
-        console.error('Error updating coins:', error);
-      }
     }
   };
 
@@ -219,13 +227,13 @@ function App() {
                 <div className="mainInfo">
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <p>Coin Per Tap</p>
+                      <p>Монет за клик</p>
                       <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
                     </div>
                   </div>
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <p>Energy</p>
+                      <p>Энергия</p>
                       <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
                     </div>
                   </div>
@@ -241,19 +249,19 @@ function App() {
                 <div className="lower">
                   <div className="lowerDiv">
                     <div className="BTNLOW" onClick={handleOpenEarn}>
-                      <p>Earn</p>
+                      <p>Заработать</p>
                       <p>💸</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenShop}>
-                      <p>Shop</p>
+                      <p>Магазин</p>
                       <p>🛒</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenRef}>
-                      <p>Ref</p>
+                      <p>Реф</p>
                       <p>👥</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <p>Play</p>
+                      <p>Играть</p>
                       <p>🚀</p>
                     </div>
                   </div>
@@ -293,8 +301,8 @@ function App() {
         )}
 
         <div className="referral-section">
-          <p>Your Referral Code: {referralCode}</p>
-          <p>Share this link to invite friends:</p>
+          <p>Ваш реферальный код: {referralCode}</p>
+          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
           <p>{telegramLink}</p>
         </div>
       </div>
