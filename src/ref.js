@@ -60,6 +60,7 @@ const Ref = ({ onClose, userId }) => {
                     <p>Пригласить Друга</p>
                 </div>
                 <div className="sendMenu">
+                    <p className="referral-link">{referralLink}</p>
                     <button onClick={handleCopyLink}>Скопировать Ссылку</button>
                     <button onClick={handleShareLink}>Поделиться</button> {/* Новая кнопка */}
                 </div>
