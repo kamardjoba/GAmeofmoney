@@ -11,6 +11,9 @@ import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
 
+// Обеспечиваем доступ к API Telegram Web Apps
+const tg = window.Telegram.WebApp;
+
 function App() {
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
@@ -109,18 +112,15 @@ function App() {
     }
   }, [userId, loadProgress]);
 
-  // Сохраняем данные при закрытии окна
+  // Сохраняем данные при закрытии приложения
   useEffect(() => {
-    const handleVisibilityChange = async () => {
-      if (document.visibilityState === 'hidden') {
-        await saveProgress().catch((error) => console.error('Error saving progress:', error));
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    // Отслеживаем событие закрытия Telegram Mini App
+    tg.onEvent('close', async () => {
+      await saveProgress().catch((error) => console.error('Error saving progress:', error));
+    });
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      tg.offEvent('close');
     };
   }, [saveProgress]);
 
@@ -129,7 +129,7 @@ function App() {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
         if (prevEnergyNow < clickLimit) {
-          return prevEnergyNow + valEnergyTime; // Изменено
+          return prevEnergyNow + valEnergyTime;
         } else {
           return prevEnergyNow;
         }
@@ -283,7 +283,7 @@ function App() {
                       <p>👥</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <p>Играть</p>
+                      <p></p>Играть</п>
                       <p>🚀</p>
                     </div>
                   </div>
