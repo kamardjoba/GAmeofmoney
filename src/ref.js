@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './ref.css';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
-    const [referralLink, setReferralLink] = useState(telegramLink);
+    const [referralLink] = useState(telegramLink);
     const [referralCount, setReferralCount] = useState(0);
 
     useEffect(() => {
