@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
@@ -97,7 +98,7 @@ function App() {
     }
   }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick, upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow, upgradeCostEnergyTime, valEnergyTime, time]);
 
-  // Загружаем данные при открытии
+  // Загрузка данных при открытии
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('userId');
@@ -108,16 +109,20 @@ function App() {
     }
   }, [loadProgress]);
 
-  // Сохраняем данные при закрытии окна
+  // Сохранение данных при сворачивании или закрытии окна
   useEffect(() => {
-    const saveBeforeUnload = async (event) => {
-      await saveProgress();
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        saveProgress().catch((error) => console.error('Error saving progress:', error));
+      }
     };
 
-    window.addEventListener('beforeunload', saveBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', saveProgress);
 
     return () => {
-      window.removeEventListener('beforeunload', saveBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', saveProgress);
     };
   }, [saveProgress]);
 
