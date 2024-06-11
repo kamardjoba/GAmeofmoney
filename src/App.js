@@ -1,4 +1,3 @@
-// App.js
 import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
@@ -13,6 +12,7 @@ import Earn from './earn';
 import MiniGame from './MiniGame';
 import { debounce } from 'lodash';
 
+// Initial state for useReducer
 const initialState = {
   coins: 0,
   upgradeCost: 10,
@@ -37,6 +37,7 @@ const initialState = {
   userId: null,
 };
 
+// Reducer function for useReducer
 function reducer(state, action) {
   switch (action.type) {
     case 'SET_STATE':
@@ -60,33 +61,63 @@ function reducer(state, action) {
   }
 }
 
+// Define the debounced function outside the component
+const debouncedSaveProgress = debounce(async (state) => {
+  if (state.userId) {
+    try {
+      const upgrades = {
+        coinPerClick: { level: state.upgradeLevel, cost: state.upgradeCost },
+        energy: { level: state.upgradeLevelEnergy, cost: state.upgradeCostEnergy, limit: state.clickLimit },
+        energyTime: { level: state.upgradeLevelEnergy, cost: state.upgradeCostEnergyTime, time: state.time, val: state.valEnergyTime }
+      };
+      const data = {
+        userId: state.userId,
+        coins: state.coins,
+        upgrades,
+        miniGameState: {} // Replace with the current mini-game state
+      };
+
+      const url = `${process.env.REACT_APP_BACKEND_URL}/save-progress`;
+      const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+      navigator.sendBeacon(url, blob);
+    } catch (error) {
+      console.error('Error saving progress:', error);
+    }
+  }
+}, 300);
+
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const saveProgress = useCallback(debounce(async () => {
-    if (state.userId) {
-      try {
-        const upgrades = {
-          coinPerClick: { level: state.upgradeLevel, cost: state.upgradeCost },
-          energy: { level: state.upgradeLevelEnergy, cost: state.upgradeCostEnergy, limit: state.clickLimit },
-          energyTime: { level: state.upgradeLevelEnergy, cost: state.upgradeCostEnergyTime, time: state.time, val: state.valEnergyTime }
-        };
-        const data = {
-          userId: state.userId,
-          coins: state.coins,
-          upgrades,
-          miniGameState: {} // Замените на текущее состояние мини-игры
-        };
+  // Memoize saveProgress with proper dependencies
+  const saveProgress = useCallback(() => {
+    const progressState = {
+      userId: state.userId,
+      coins: state.coins,
+      upgradeLevel: state.upgradeLevel,
+      upgradeCost: state.upgradeCost,
+      upgradeLevelEnergy: state.upgradeLevelEnergy,
+      upgradeCostEnergy: state.upgradeCostEnergy,
+      clickLimit: state.clickLimit,
+      upgradeCostEnergyTime: state.upgradeCostEnergyTime,
+      valEnergyTime: state.valEnergyTime,
+      time: state.time
+    };
+    debouncedSaveProgress(progressState);
+  }, [
+    state.userId,
+    state.coins,
+    state.upgradeLevel,
+    state.upgradeCost,
+    state.upgradeLevelEnergy,
+    state.upgradeCostEnergy,
+    state.clickLimit,
+    state.upgradeCostEnergyTime,
+    state.valEnergyTime,
+    state.time
+  ]);
 
-        const url = `${process.env.REACT_APP_BACKEND_URL}/save-progress`;
-        const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-        navigator.sendBeacon(url, blob);
-      } catch (error) {
-        console.error('Error saving progress:', error);
-      }
-    }
-  }, 300), [state.userId, state.coins, state.upgradeLevel, state.upgradeCost, state.upgradeLevelEnergy, state.upgradeCostEnergy, state.clickLimit, state.upgradeCostEnergyTime, state.valEnergyTime, state.time]);
-
+  // Load user progress
   const loadProgress = useCallback(async () => {
     if (state.userId) {
       try {
@@ -128,6 +159,7 @@ const App = () => {
     }
   }, [state.userId]);
 
+  // Initial loading effect
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('userId');
@@ -138,6 +170,7 @@ const App = () => {
     }
   }, [loadProgress]);
 
+  // Save progress on page visibility change
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
@@ -149,16 +182,21 @@ const App = () => {
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [saveProgress]);
 
+  // Energy regeneration effect
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch({ type: 'SET_STATE', payload: {
+      dispatch({
+        type: 'SET_STATE',
+        payload: {
           energyNow: Math.min(state.energyNow + state.valEnergyTime, state.clickLimit)
-        }});
+        }
+      });
     }, state.time);
 
     return () => clearInterval(interval);
   }, [state.clickLimit, state.time, state.valEnergyTime, state.energyNow]);
 
+  // Load state from localStorage on mount
   useEffect(() => {
     const savedState = JSON.parse(localStorage.getItem('gameState'));
     if (savedState) {
@@ -166,51 +204,64 @@ const App = () => {
     }
   }, []);
 
+  // Save state to localStorage on state change
   useEffect(() => {
     localStorage.setItem('gameState', JSON.stringify(state));
   }, [state]);
 
-  const handleCoinClick = () => {
+  // Coin click handler
+  const handleCoinClick = useCallback(() => {
     if (state.coinPerClick <= state.energyNow) {
       dispatch({ type: 'INCREMENT_COINS', payload: state.coinPerClick });
       dispatch({ type: 'SET_STATE', payload: { energyNow: state.energyNow - state.coinPerClick } });
     }
-  };
+  }, [state.coinPerClick, state.energyNow]);
 
-  const CoinPerClickUpgrade = () => {
+  // Upgrade handlers
+  const CoinPerClickUpgrade = useCallback(() => {
     if (state.coins >= state.upgradeCost) {
       dispatch({ type: 'DECREMENT_COINS', payload: state.upgradeCost });
-      dispatch({ type: 'SET_STATE', payload: {
+      dispatch({
+        type: 'SET_STATE',
+        payload: {
           coinPerClick: state.coinPerClick + 1,
           upgradeLevel: state.upgradeLevel + 1,
           upgradeCost: Math.floor(state.upgradeCost * 1.5)
-        }});
+        }
+      });
     }
-  };
+  }, [state.coins, state.upgradeCost, state.coinPerClick, state.upgradeLevel]);
 
-  const EnergyUpgrade = () => {
+  const EnergyUpgrade = useCallback(() => {
     if (state.coins >= state.upgradeCostEnergy) {
       dispatch({ type: 'DECREMENT_COINS', payload: state.upgradeCostEnergy });
-      dispatch({ type: 'SET_STATE', payload: {
+      dispatch({
+        type: 'SET_STATE',
+        payload: {
           clickLimit: state.clickLimit * 2,
           upgradeLevelEnergy: state.upgradeLevelEnergy + 1,
           upgradeCostEnergy: Math.floor(state.upgradeCostEnergy * 1.5)
-        }});
+        }
+      });
     }
-  };
+  }, [state.coins, state.upgradeCostEnergy, state.clickLimit, state.upgradeLevelEnergy]);
 
-  const EnergyTimeUpgrade = () => {
+  const EnergyTimeUpgrade = useCallback(() => {
     if (state.coins >= state.upgradeCostEnergyTime) {
       dispatch({ type: 'DECREMENT_COINS', payload: state.upgradeCostEnergyTime });
-      dispatch({ type: 'SET_STATE', payload: {
+      dispatch({
+        type: 'SET_STATE',
+        payload: {
           valEnergyTime: state.valEnergyTime * 2,
           time: state.time / 2,
           upgradeCostEnergyTime: Math.floor(state.upgradeCostEnergyTime * 1.5)
-        }});
+        }
+      });
     }
-  };
+  }, [state.coins, state.upgradeCostEnergyTime, state.valEnergyTime, state.time]);
 
-  const handleCheckSubscription = async (userId) => {
+  // Check subscription handler
+  const handleCheckSubscription = useCallback(async (userId) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, {
         method: 'POST',
@@ -220,15 +271,16 @@ const App = () => {
       const data = await response.json();
       if (response.ok && data.isSubscribed) {
         dispatch({ type: 'INCREMENT_COINS', payload: 50000 });
-        alert('Вы успешно подписались и получили 50000 монет!');
+        alert('You have successfully subscribed and received 50000 coins!');
       } else {
-        alert('Вы еще не подписаны на канал.');
+        alert('You are not yet subscribed to the channel.');
       }
     } catch (error) {
       console.error('Error checking subscription:', error);
     }
-  };
+  }, []);
 
+  // Memoized components
   const MemoizedProfileInfo = useMemo(() => (
       <ProfileInfo username={state.username} profilePhotoUrl={state.profilePhotoUrl} />
   ), [state.username, state.profilePhotoUrl]);
@@ -246,14 +298,14 @@ const App = () => {
                 <div className="mainInfo">
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <p>Монет за клик</p>
+                      <p>Coins per Click</p>
                       <p>+{state.coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
                     </div>
                   </div>
                   <div className="halfBox">
                     <div className="halfBoxDiv">
-                      <p>Энергия</p>
-                      <p>{state.clickLimit} / {state.energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
+                      <p>Energy</p>
+                      <p>{state.energyNow} / {state.clickLimit} <img src={BB} alt="Battery" className="coin-image" /></p>
                     </div>
                   </div>
                 </div>
@@ -265,19 +317,19 @@ const App = () => {
                 <div className="lower">
                   <div className="lowerDiv">
                     <div className="BTNLOW" onClick={() => dispatch({ type: 'TOGGLE_EARN' })}>
-                      <p>Заработать</p>
+                      <p>Earn</p>
                       <p>💸</p>
                     </div>
                     <div className="BTNLOW" onClick={() => dispatch({ type: 'TOGGLE_SHOP' })}>
-                      <p>Магазин</p>
+                      <p>Shop</p>
                       <p>🛒</p>
                     </div>
                     <div className="BTNLOW" onClick={() => dispatch({ type: 'TOGGLE_REF' })}>
-                      <p>Реф</p>
+                      <p>Ref</p>
                       <p>👥</p>
                     </div>
                     <div className="BTNLOW" onClick={() => dispatch({ type: 'TOGGLE_MINI_GAME' })}>
-                      <p>Играть</p>
+                      <p>Play</p>
                       <p>🚀</p>
                     </div>
                   </div>
@@ -317,14 +369,15 @@ const App = () => {
         )}
 
         <div className="referral-section">
-          <p>Ваш реферальный код: {state.referralCode}</p>
-          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
+          <p>Your referral code: {state.referralCode}</p>
+          <p>Share this link to invite friends:</p>
           <p>{state.telegramLink}</p>
         </div>
       </div>
   );
 };
 
+// Memoized ProfileInfo component
 const ProfileInfo = React.memo(({ username, profilePhotoUrl }) => (
     <div className="info">
       <img src={profilePhotoUrl} alt="Profile" className="profile-icon" />
@@ -333,6 +386,7 @@ const ProfileInfo = React.memo(({ username, profilePhotoUrl }) => (
     </div>
 ));
 
+// Memoized CoinInfo component
 const CoinInfo = React.memo(({ coins }) => (
     <div className="CoinInfo">
       <img src={coinIcon} alt="Coin" height="90%" />
