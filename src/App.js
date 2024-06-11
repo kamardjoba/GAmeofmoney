@@ -283,7 +283,7 @@ function App() {
                       <p>👥</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <p></p>Играть</п>
+                      <p>Играть</p>
                       <p>🚀</p>
                     </div>
                   </div>
