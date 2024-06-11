@@ -1,3 +1,4 @@
+// App.js
 import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
@@ -61,7 +62,6 @@ function reducer(state, action) {
   }
 }
 
-// Define the debounced function outside the component
 const debouncedSaveProgress = debounce(async (state) => {
   if (state.userId) {
     try {
@@ -89,7 +89,6 @@ const debouncedSaveProgress = debounce(async (state) => {
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // Memoize saveProgress with proper dependencies
   const saveProgress = useCallback(() => {
     const progressState = {
       userId: state.userId,
@@ -117,11 +116,10 @@ const App = () => {
     state.time
   ]);
 
-  // Load user progress
   const loadProgress = useCallback(async () => {
     if (state.userId) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${state.userId}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${state.userId}`);
         const data = await response.json();
         if (response.ok) {
           const gameProgress = data.gameProgress || {};
@@ -130,11 +128,11 @@ const App = () => {
           dispatch({
             type: 'SET_STATE',
             payload: {
-              username: data.username,
-              coins: data.coins,
+              username: data.username || '',
+              coins: data.coins || 0,
               profilePhotoUrl: data.profilePhotoUrl || defaultIcon,
-              referralCode: data.referralCode,
-              telegramLink: data.telegramLink,
+              referralCode: data.referralCode || '',
+              telegramLink: data.telegramLink || '',
               upgradeLevel: upgrades.coinPerClick?.level || 1,
               upgradeCost: upgrades.coinPerClick?.cost || 10,
               coinPerClick: upgrades.coinPerClick?.level || 1,
@@ -159,7 +157,6 @@ const App = () => {
     }
   }, [state.userId]);
 
-  // Initial loading effect
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('userId');
@@ -170,7 +167,6 @@ const App = () => {
     }
   }, [loadProgress]);
 
-  // Save progress on page visibility change
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
@@ -182,7 +178,6 @@ const App = () => {
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [saveProgress]);
 
-  // Energy regeneration effect
   useEffect(() => {
     const interval = setInterval(() => {
       dispatch({
@@ -196,7 +191,6 @@ const App = () => {
     return () => clearInterval(interval);
   }, [state.clickLimit, state.time, state.valEnergyTime, state.energyNow]);
 
-  // Load state from localStorage on mount
   useEffect(() => {
     const savedState = JSON.parse(localStorage.getItem('gameState'));
     if (savedState) {
@@ -204,12 +198,10 @@ const App = () => {
     }
   }, []);
 
-  // Save state to localStorage on state change
   useEffect(() => {
     localStorage.setItem('gameState', JSON.stringify(state));
   }, [state]);
 
-  // Coin click handler
   const handleCoinClick = useCallback(() => {
     if (state.coinPerClick <= state.energyNow) {
       dispatch({ type: 'INCREMENT_COINS', payload: state.coinPerClick });
@@ -217,7 +209,6 @@ const App = () => {
     }
   }, [state.coinPerClick, state.energyNow]);
 
-  // Upgrade handlers
   const CoinPerClickUpgrade = useCallback(() => {
     if (state.coins >= state.upgradeCost) {
       dispatch({ type: 'DECREMENT_COINS', payload: state.upgradeCost });
@@ -260,7 +251,6 @@ const App = () => {
     }
   }, [state.coins, state.upgradeCostEnergyTime, state.valEnergyTime, state.time]);
 
-  // Check subscription handler
   const handleCheckSubscription = useCallback(async (userId) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, {
@@ -280,7 +270,6 @@ const App = () => {
     }
   }, []);
 
-  // Memoized components
   const MemoizedProfileInfo = useMemo(() => (
       <ProfileInfo username={state.username} profilePhotoUrl={state.profilePhotoUrl} />
   ), [state.username, state.profilePhotoUrl]);
@@ -377,16 +366,14 @@ const App = () => {
   );
 };
 
-// Memoized ProfileInfo component
 const ProfileInfo = React.memo(({ username, profilePhotoUrl }) => (
     <div className="info">
       <img src={profilePhotoUrl} alt="Profile" className="profile-icon" />
       <p>{username}</p>
-      <img src={logo} alt="Bifclif" />
+      <img src={logo} alt="Logo" />
     </div>
 ));
 
-// Memoized CoinInfo component
 const CoinInfo = React.memo(({ coins }) => (
     <div className="CoinInfo">
       <img src={coinIcon} alt="Coin" height="90%" />
