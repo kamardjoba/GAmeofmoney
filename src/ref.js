@@ -3,16 +3,16 @@ import React, { useState, useEffect } from 'react';
 import './ref.css';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
-    const [referralLink] = useState(telegramLink);
-    const [referralCount, setReferralCount] = useState(0);
+    const [referralLink, setReferralLink] = useState(telegramLink);
+    const [referrals, setReferrals] = useState([]);
 
     useEffect(() => {
         const fetchReferralData = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
                 const data = await response.json();
                 if (response.ok) {
-                    setReferralCount(data.referralCount);
+                    setReferrals(data.referrals);
                 } else {
                     console.error('Error fetching referral data:', data.error);
                 }
@@ -62,15 +62,22 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                 <div className="sendMenu">
                     <p className="referral-link">{referralLink}</p>
                     <button onClick={handleCopyLink}>Скопировать Ссылку</button>
-                    <button onClick={handleShareLink}>Поделиться</button> {/* Новая кнопка */}
+                    <button onClick={handleShareLink}>Поделиться</button>
                 </div>
             </div>
             <div className="FrandsBorder">
                 <div className='FrendsInfo'>
-                    <p>Мои друзья</p>
+                    <p>Мои друзья ({referrals.length})</p>
                 </div>
                 <div className="FrendsMenu">
-                    <p>Количество приглашенных: {referralCount}</p>
+                    {referrals.map((referral, index) => (
+                        <div key={index} className="Frends">
+                            <div className="FrendsAvatar">
+                                <img src={referral.profilePhotoUrl || defaultIcon} alt="Avatar" />
+                            </div>
+                            <p>{referral.username || `user${referral.telegramId}`}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
             <div className="zagolовок">
