@@ -24,7 +24,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "NODE_ENV=development react-scripts start",
+    "start": "cross-env PORT=3000 react-scripts start",
+    "start-3001": "cross-env PORT=3001 react-scripts start",
+    "start-multiple": "concurrently \"npm run start\" \"npm run start-3001\"",
+    "dev": "nodemon app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -48,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^3.1.2"
   }
 }
