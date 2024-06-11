@@ -10,6 +10,7 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
+import axios from 'axios';
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -38,9 +39,11 @@ function App() {
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
-        const data = await response.json();
-        if (response.ok) {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, {
+          params: { userId }
+        });
+        const data = response.data;
+        if (response.status === 200) {
           setUsername(data.username);
           setCoins(data.coins);
           setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
@@ -74,23 +77,19 @@ function App() {
   const saveProgress = useCallback(async () => {
     if (userId) {
       try {
-        await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId,
-            coins,
-            upgradeCost,
-            upgradeLevel,
-            coinPerClick,
-            upgradeCostEnergy,
-            upgradeLevelEnergy,
-            clickLimit,
-            energyNow,
-            upgradeCostEnergyTime,
-            valEnergyTime,
-            time
-          }),
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
+          userId,
+          coins,
+          upgradeCost,
+          upgradeLevel,
+          coinPerClick,
+          upgradeCostEnergy,
+          upgradeLevelEnergy,
+          clickLimit,
+          energyNow,
+          upgradeCostEnergyTime,
+          valEnergyTime,
+          time
         });
       } catch (error) {
         console.error('Error saving progress:', error);
@@ -101,26 +100,24 @@ function App() {
   // Загружаем данные при открытии
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('userId');
-    setUserId(userId);
+    const userIdFromURL = urlParams.get('userId');
+    setUserId(userIdFromURL);
 
-    if (userId) {
+    if (userIdFromURL) {
       loadProgress().catch((error) => console.error('Error loading progress:', error));
     }
-  }, [userId, loadProgress]);
+  }, [loadProgress]);
 
   // Сохраняем данные при закрытии окна
   useEffect(() => {
-    const handleVisibilityChange = async () => {
-      if (document.visibilityState === 'hidden') {
-        await saveProgress().catch((error) => console.error('Error saving progress:', error));
-      }
+    const saveBeforeUnload = async (event) => {
+      await saveProgress();
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', saveBeforeUnload);
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', saveBeforeUnload);
     };
   }, [saveProgress]);
 
@@ -129,7 +126,7 @@ function App() {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
         if (prevEnergyNow < clickLimit) {
-          return prevEnergyNow + valEnergyTime; // Изменено
+          return prevEnergyNow + valEnergyTime;
         } else {
           return prevEnergyNow;
         }
@@ -217,15 +214,11 @@ function App() {
   };
 
   // Проверка подписки
-  const handleCheckSubscription = async (userId) => {
+  const handleCheckSubscription = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId }),
-      });
-      const data = await response.json();
-      if (response.ok && data.isSubscribed) {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
+      const data = response.data;
+      if (response.status === 200 && data.isSubscribed) {
         setCoins(prevCoins => prevCoins + 50000); // Начисляем 50000 монет
         alert('Вы успешно подписались и получили 50000 монет!');
       } else {
