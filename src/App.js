@@ -85,7 +85,7 @@ const App = () => {
         console.error('Error saving progress:', error);
       }
     }
-  }, 300), [state]);
+  }, 300), [state.userId, state.coins, state.upgradeLevel, state.upgradeCost, state.upgradeLevelEnergy, state.upgradeCostEnergy, state.clickLimit, state.upgradeCostEnergyTime, state.valEnergyTime, state.time]);
 
   const loadProgress = useCallback(async () => {
     if (state.userId) {
@@ -157,7 +157,7 @@ const App = () => {
     }, state.time);
 
     return () => clearInterval(interval);
-  }, [state.clickLimit, state.time, state.valEnergyTime]);
+  }, [state.clickLimit, state.time, state.valEnergyTime, state.energyNow]);
 
   useEffect(() => {
     const savedState = JSON.parse(localStorage.getItem('gameState'));
