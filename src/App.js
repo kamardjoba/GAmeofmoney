@@ -12,6 +12,9 @@ import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
 
+
+
+
 function App() {
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
