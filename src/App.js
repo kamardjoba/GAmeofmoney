@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
@@ -39,7 +38,7 @@ function App() {
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
         const data = await response.json();
         if (response.ok) {
           setUsername(data.username);
@@ -48,16 +47,16 @@ function App() {
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
           // Устанавливаем прогресс игры из данных пользователя
-          const { upgrades } = data.gameProgress;
-          setUpgradeLevel(upgrades.coinPerClick.level);
-          setUpgradeCost(upgrades.coinPerClick.cost);
-          setCoinPerClick(upgrades.coinPerClick.level);
-          setClickLimit(upgrades.energy.limit);
-          setUpgradeLevelEnergy(upgrades.energy.level);
-          setUpgradeCostEnergy(upgrades.energy.cost);
-          setValEnergyTime(upgrades.energyTime.val);
-          setTime(upgrades.energyTime.time);
-          setUpgradeCostEnergyTime(upgrades.energyTime.cost);
+          setUpgradeCost(data.upgradeCost);
+          setUpgradeLevel(data.upgradeLevel);
+          setCoinPerClick(data.coinPerClick);
+          setClickLimit(data.clickLimit);
+          setUpgradeCostEnergy(data.upgradeCostEnergy);
+          setUpgradeLevelEnergy(data.upgradeLevelEnergy);
+          setEnergyNow(data.energyNow);
+          setValEnergyTime(data.valEnergyTime);
+          setTime(data.time);
+          setUpgradeCostEnergyTime(data.upgradeCostEnergyTime);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -75,26 +74,29 @@ function App() {
   const saveProgress = useCallback(async () => {
     if (userId) {
       try {
-        const upgrades = {
-          coinPerClick: { level: upgradeLevel, cost: upgradeCost },
-          energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
-          energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
-        };
         await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             userId,
             coins,
-            upgrades,
-            miniGameState: {} // Замените на текущее состояние мини-игры
+            upgradeCost,
+            upgradeLevel,
+            coinPerClick,
+            upgradeCostEnergy,
+            upgradeLevelEnergy,
+            clickLimit,
+            energyNow,
+            upgradeCostEnergyTime,
+            valEnergyTime,
+            time
           }),
         });
       } catch (error) {
         console.error('Error saving progress:', error);
       }
     }
-  }, [userId, coins, upgradeLevel, upgradeCost, upgradeLevelEnergy, upgradeCostEnergy, clickLimit, upgradeCostEnergyTime, valEnergyTime, time]);
+  }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick, upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow, upgradeCostEnergyTime, valEnergyTime, time]);
 
   // Загружаем данные при открытии
   useEffect(() => {
