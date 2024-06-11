@@ -31,8 +31,8 @@ function App() {
   const [isMiniGameOpen, setIsMiniGameOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
-  const [referralCode, setReferralCode] = useState('');
-  const [telegramLink, setTelegramLink] = useState('');
+  const [referralCode, setReferralCode] = useState(''); // Инициализация
+  const [telegramLink, setTelegramLink] = useState(''); // Инициализация
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
@@ -48,8 +48,8 @@ function App() {
           setUsername(data.username);
           setCoins(data.coins);
           setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
-          setReferralCode(data.referralCode);
-          setTelegramLink(data.telegramLink);
+          setReferralCode(data.referralCode); // Обработка
+          setTelegramLink(data.telegramLink); // Обработка
           // Устанавливаем прогресс игры из данных пользователя
           setUpgradeCost(data.upgradeCost);
           setUpgradeLevel(data.upgradeLevel);
