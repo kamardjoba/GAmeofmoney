@@ -109,23 +109,6 @@ function App() {
     }
   }, [loadProgress]);
 
-  // Сохранение данных при сворачивании или закрытии окна
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        saveProgress().catch((error) => console.error('Error saving progress:', error));
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('beforeunload', saveProgress);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('beforeunload', saveProgress);
-    };
-  }, [saveProgress]);
-
   // Обновление энергии с интервалом
   useEffect(() => {
     const interval = setInterval(() => {
@@ -144,44 +127,56 @@ function App() {
   }, [clickLimit, time, valEnergyTime]);
 
   // Обработка клика по монете
-  const handleCoinClick = () => {
+  const handleCoinClick = async () => {
     if (coinPerClick <= energyNow) {
-      setCoins(prevCoins => prevCoins + coinPerClick);
+      setCoins(prevCoins => {
+        const newCoins = prevCoins + coinPerClick;
+        saveProgressData(newCoins, energyNow - coinPerClick);
+        return newCoins;
+      });
       setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
-      saveProgress(); // Сохраняем прогресс при клике по монете
     }
   };
 
   // Улучшение монет за клик
-  const CoinPerClickUpgrade = () => {
+  const CoinPerClickUpgrade = async () => {
     if (coins >= upgradeCost) {
-      setCoins(prevCoins => prevCoins - upgradeCost);
+      setCoins(prevCoins => {
+        const newCoins = prevCoins - upgradeCost;
+        saveProgressData(newCoins);
+        return newCoins;
+      });
       setCoinPerClick(prevCoinPerClick => prevCoinPerClick + 1);
       setUpgradeLevel(prevUpgradeLevel => prevUpgradeLevel + 1);
       setUpgradeCost(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
-      saveProgress(); // Сохраняем прогресс при улучшении
     }
   };
 
   // Улучшение энергии
-  const EnergyUpgrade = () => {
+  const EnergyUpgrade = async () => {
     if (coins >= upgradeCostEnergy) {
-      setCoins(prevCoins => prevCoins - upgradeCostEnergy);
+      setCoins(prevCoins => {
+        const newCoins = prevCoins - upgradeCostEnergy;
+        saveProgressData(newCoins);
+        return newCoins;
+      });
       setClickLimit(prevClickLimit => prevClickLimit * 2);
       setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
       setUpgradeCostEnergy(prevUpgradeCostEnergy => Math.floor(prevUpgradeCostEnergy * 1.5));
-      saveProgress(); // Сохраняем прогресс при улучшении энергии
     }
   };
 
   // Улучшение времени восстановления энергии
-  const EnergyTimeUpgrade = () => {
+  const EnergyTimeUpgrade = async () => {
     if (coins >= upgradeCostEnergyTime) {
-      setCoins(prevCoins => prevCoins - upgradeCostEnergyTime);
+      setCoins(prevCoins => {
+        const newCoins = prevCoins - upgradeCostEnergyTime;
+        saveProgressData(newCoins);
+        return newCoins;
+      });
       setValEnergyTime(prevValEnergyTime => prevValEnergyTime * 2);
       setTime(prevTime => prevTime / 2);
       setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
-      saveProgress(); // Сохраняем прогресс при улучшении времени восстановления энергии
     }
   };
 
@@ -233,10 +228,14 @@ function App() {
       } else {
         alert('Вы еще не подписаны на канал.');
       }
-      saveProgress(); // Сохраняем прогресс после проверки подписки
     } catch (error) {
       console.error('Error checking subscription:', error);
     }
+  };
+
+  // Функция для сохранения данных
+  const saveProgressData = async (newCoins = coins, newEnergyNow = energyNow) => {
+    await saveProgress().catch((error) => console.error('Error saving progress:', error));
   };
 
   return (
