@@ -8,23 +8,30 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
 
     return (
         <div className="earn">
-            <div className="zagolovок">
-                <p>Заработать</p>
+            <div className="zagolovok">
+                <p>Награди</p>
             </div>
-            <div className="earn-border">
-                <div className="earn-info">
-                    <p>Подписаться на наш Telegram канал</p>
+
+            <div className="EarnBorder">
+                <div className="EarnMenu">
+
+                    <div className="Zadanie">
+                        <div className="zg">
+                            <h1>Подписатся на tg-канал</h1>
+                        </div>
+                        <p>Награда: 10000</p>
+                        <button onClick={handleSubscribe}>Подписаться</button>
+                        <button onClick={() => onCheckSubscription(userId)}>Проверить</button>
+                    </div>
                 </div>
-                <div className="earn-menu">
-                    <button onClick={handleSubscribe}>Подписаться</button>
-                    <button onClick={() => onCheckSubscription(userId)}>Проверить</button>
-                </div>
+
             </div>
-            <div className="zagolовок">
+            <div className="zagolovok">
                 <button onClick={onClose} className="close-button">Закрыть</button>
             </div>
         </div>
     );
+
 };
 
 export default Earn;
