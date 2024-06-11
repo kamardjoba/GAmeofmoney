@@ -148,6 +148,7 @@ function App() {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => prevCoins + coinPerClick);
       setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
+      saveProgress(); // Сохраняем прогресс при клике по монете
     }
   };
 
@@ -158,6 +159,7 @@ function App() {
       setCoinPerClick(prevCoinPerClick => prevCoinPerClick + 1);
       setUpgradeLevel(prevUpgradeLevel => prevUpgradeLevel + 1);
       setUpgradeCost(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
+      saveProgress(); // Сохраняем прогресс при улучшении
     }
   };
 
@@ -168,6 +170,7 @@ function App() {
       setClickLimit(prevClickLimit => prevClickLimit * 2);
       setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
       setUpgradeCostEnergy(prevUpgradeCostEnergy => Math.floor(prevUpgradeCostEnergy * 1.5));
+      saveProgress(); // Сохраняем прогресс при улучшении энергии
     }
   };
 
@@ -178,6 +181,7 @@ function App() {
       setValEnergyTime(prevValEnergyTime => prevValEnergyTime * 2);
       setTime(prevTime => prevTime / 2);
       setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
+      saveProgress(); // Сохраняем прогресс при улучшении времени восстановления энергии
     }
   };
 
@@ -229,6 +233,7 @@ function App() {
       } else {
         alert('Вы еще не подписаны на канал.');
       }
+      saveProgress(); // Сохраняем прогресс после проверки подписки
     } catch (error) {
       console.error('Error checking subscription:', error);
     }
