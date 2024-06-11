@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
@@ -10,9 +11,6 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
-
-// Обеспечиваем доступ к API Telegram Web Apps
-const tg = window.Telegram.WebApp;
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -41,7 +39,7 @@ function App() {
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
         const data = await response.json();
         if (response.ok) {
           setUsername(data.username);
@@ -50,16 +48,16 @@ function App() {
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
           // Устанавливаем прогресс игры из данных пользователя
-          setUpgradeCost(data.upgradeCost);
-          setUpgradeLevel(data.upgradeLevel);
-          setCoinPerClick(data.coinPerClick);
-          setClickLimit(data.clickLimit);
-          setUpgradeCostEnergy(data.upgradeCostEnergy);
-          setUpgradeLevelEnergy(data.upgradeLevelEnergy);
-          setEnergyNow(data.energyNow);
-          setValEnergyTime(data.valEnergyTime);
-          setTime(data.time);
-          setUpgradeCostEnergyTime(data.upgradeCostEnergyTime);
+          const { upgrades } = data.gameProgress;
+          setUpgradeLevel(upgrades.coinPerClick.level);
+          setUpgradeCost(upgrades.coinPerClick.cost);
+          setCoinPerClick(upgrades.coinPerClick.level);
+          setClickLimit(upgrades.energy.limit);
+          setUpgradeLevelEnergy(upgrades.energy.level);
+          setUpgradeCostEnergy(upgrades.energy.cost);
+          setValEnergyTime(upgrades.energyTime.val);
+          setTime(upgrades.energyTime.time);
+          setUpgradeCostEnergyTime(upgrades.energyTime.cost);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -77,29 +75,26 @@ function App() {
   const saveProgress = useCallback(async () => {
     if (userId) {
       try {
+        const upgrades = {
+          coinPerClick: { level: upgradeLevel, cost: upgradeCost },
+          energy: { level: upgradeLevelEnergy, cost: upgradeCostEnergy, limit: clickLimit },
+          energyTime: { level: upgradeLevelEnergy, cost: upgradeCostEnergyTime, time, val: valEnergyTime }
+        };
         await fetch(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             userId,
             coins,
-            upgradeCost,
-            upgradeLevel,
-            coinPerClick,
-            upgradeCostEnergy,
-            upgradeLevelEnergy,
-            clickLimit,
-            energyNow,
-            upgradeCostEnergyTime,
-            valEnergyTime,
-            time
+            upgrades,
+            miniGameState: {} // Замените на текущее состояние мини-игры
           }),
         });
       } catch (error) {
         console.error('Error saving progress:', error);
       }
     }
-  }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick, upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow, upgradeCostEnergyTime, valEnergyTime, time]);
+  }, [userId, coins, upgradeLevel, upgradeCost, upgradeLevelEnergy, upgradeCostEnergy, clickLimit, upgradeCostEnergyTime, valEnergyTime, time]);
 
   // Загружаем данные при открытии
   useEffect(() => {
@@ -112,15 +107,18 @@ function App() {
     }
   }, [userId, loadProgress]);
 
-  // Сохраняем данные при закрытии приложения
+  // Сохраняем данные при закрытии окна
   useEffect(() => {
-    // Отслеживаем событие закрытия Telegram Mini App
-    tg.onEvent('close', async () => {
-      await saveProgress().catch((error) => console.error('Error saving progress:', error));
-    });
+    const handleVisibilityChange = async () => {
+      if (document.visibilityState === 'hidden') {
+        await saveProgress().catch((error) => console.error('Error saving progress:', error));
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      tg.offEvent('close');
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [saveProgress]);
 
@@ -129,7 +127,7 @@ function App() {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
         if (prevEnergyNow < clickLimit) {
-          return prevEnergyNow + valEnergyTime;
+          return prevEnergyNow + valEnergyTime; // Изменено
         } else {
           return prevEnergyNow;
         }
