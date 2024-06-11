@@ -1,8 +1,9 @@
+// ref.js
 import React, { useState, useEffect } from 'react';
 import './ref.css';
 
-const Ref = ({ onClose, userId }) => {
-    const [referralLink, setReferralLink] = useState('');
+const Ref = ({ onClose, userId, telegramLink }) => {
+    const [referralLink, setReferralLink] = useState(telegramLink);
     const [referralCount, setReferralCount] = useState(0);
 
     useEffect(() => {
@@ -11,7 +12,6 @@ const Ref = ({ onClose, userId }) => {
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/username?userId=${userId}`);
                 const data = await response.json();
                 if (response.ok) {
-                    setReferralLink(data.telegramLink);
                     setReferralCount(data.referralCount);
                 } else {
                     console.error('Error fetching referral data:', data.error);

@@ -1,4 +1,5 @@
-*{
+/* ref.css */
+* {
     user-select: none;
 }
 
@@ -21,7 +22,7 @@
     flex-direction: column;
 }
 
-.zagolovok{
+.zagolovok {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,8 +32,8 @@
     color: #ff9a00;
 }
 
-.SendBorder{
-    background:#060927;
+.SendBorder {
+    background: #060927;
     border-radius: 10px;
     height: 25%;
     width: 90%;
@@ -42,7 +43,7 @@
     flex-direction: column;
 }
 
-.SendInfo{
+.SendInfo {
     width: 95%;
     height: 20%;
     display: flex;
@@ -52,7 +53,7 @@
 }
 
 .sendMenu {
-    background:orange;
+    background: orange;
     width: 95%;
     border-radius: 10px;
     box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
@@ -63,8 +64,8 @@
     flex-direction: column;
 }
 
-.FrandsBorder{
-    background:#060927;
+.FrandsBorder {
+    background: #060927;
     border-radius: 10px;
     height: 50%;
     width: 90%;
@@ -74,7 +75,7 @@
     flex-direction: column;
 }
 
-.FrendsInfo{
+.FrendsInfo {
     height: 10%;
     width: 95%;
     display: flex;
@@ -83,7 +84,7 @@
     font-size: 22px;
 }
 
-.FrendsMenu{
+.FrendsMenu {
     height: 80%;
     width: 95%;
     background: orange;
@@ -96,7 +97,7 @@
     overflow: scroll;
 }
 
-.Frends{
+.Frends {
     height: 25%;
     width: 95%;
     background: #060927;
@@ -113,13 +114,13 @@
     font-size: 22px;
 }
 
-.FrendsAvatar{
+.FrendsAvatar {
     height: 40px;
     width: 40px;
     margin-left: 20px;
 }
 
-.FrendsAvatar img{
+.FrendsAvatar img {
     height: 40px;
     width: 40px;
 }
@@ -156,7 +157,6 @@
     background: linear-gradient(135deg, #ff0000, #cc0000);
 }
 
-/* ref.css */
 .sendMenu {
     display: flex;
     flex-direction: column;

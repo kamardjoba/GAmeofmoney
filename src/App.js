@@ -313,7 +313,11 @@ function App() {
         )}
 
         {isRefOpen && (
-            <Ref onClose={handleCloseRef} userId={userId} />
+            <Ref
+                onClose={handleCloseRef}
+                userId={userId}
+                telegramLink={telegramLink} // Передаем ссылку
+            />
         )}
 
         {isEarnOpen && (
@@ -334,3 +338,4 @@ function App() {
 }
 
 export default App;
+
