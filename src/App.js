@@ -31,8 +31,8 @@ function App() {
   const [isMiniGameOpen, setIsMiniGameOpen] = useState(false);
   const [username, setUsername] = useState('');
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
-  const [referralCode, setReferralCode] = useState(''); // Инициализация
-  const [telegramLink, setTelegramLink] = useState(''); // Инициализация
+  const [referralCode, setReferralCode] = useState('');
+  const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
@@ -48,8 +48,8 @@ function App() {
           setUsername(data.username);
           setCoins(data.coins);
           setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
-          setReferralCode(data.referralCode); // Обработка
-          setTelegramLink(data.telegramLink); // Обработка
+          setReferralCode(data.referralCode);
+          setTelegramLink(data.telegramLink);
           // Устанавливаем прогресс игры из данных пользователя
           setUpgradeCost(data.upgradeCost);
           setUpgradeLevel(data.upgradeLevel);
@@ -222,14 +222,15 @@ function App() {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
       const data = response.data;
-      if (response.status === 200 && data.isSubscribed) {
-        setCoins(prevCoins => prevCoins + 50000); // Начисляем 50000 монет
-        alert('Вы успешно подписались и получили 50000 монет!');
+      if (response.status === 200 && data.success) {
+        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет
+        alert(data.message);
       } else {
-        alert('Вы еще не подписаны на канал.');
+        alert(data.message);
       }
     } catch (error) {
       console.error('Error checking subscription:', error);
+      alert('Произошла ошибка при проверке подписки.');
     }
   };
 
@@ -324,6 +325,7 @@ function App() {
             <Earn
                 onClose={handleCloseEarn}
                 userId={userId}
+                onCheckSubscription={handleCheckSubscription} // Передаем функцию проверки подписки
             />
         )}
 
