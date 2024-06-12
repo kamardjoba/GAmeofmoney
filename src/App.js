@@ -221,24 +221,14 @@ function App() {
   const handleCheckSubscription = async (userId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
-      return response.data;
+      const data = response.data;
+      if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
+        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет при первой подписке
+      }
+      return data;
     } catch (error) {
       console.error('Error checking subscription:', error);
       return { success: false, message: 'Произошла ошибка при проверке подписки.' };
-    }
-  };
-
-  // Подтверждение подписки
-  const handleConfirmSubscription = async (userId) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/confirm-subscription`, { userId });
-      if (response.status === 200 && response.data.success) {
-        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет
-      }
-      return response.data;
-    } catch (error) {
-      console.error('Error confirming subscription:', error);
-      return { success: false, message: 'Произошла ошибка при подтверждении подписки.' };
     }
   };
 
@@ -334,7 +324,6 @@ function App() {
                 onClose={handleCloseEarn}
                 userId={userId}
                 onCheckSubscription={handleCheckSubscription} // Передаем функцию проверки подписки
-                onConfirmSubscription={handleConfirmSubscription} // Передаем функцию подтверждения подписки
             />
         )}
 

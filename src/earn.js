@@ -3,11 +3,10 @@ import React, { useState, useEffect } from 'react';
 import './earn.css';
 const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGOGgogogooo";
 
-const Earn = ({ onClose, userId, onCheckSubscription, onConfirmSubscription }) => {
+const Earn = ({ onClose, userId, onCheckSubscription }) => {
     const [message, setMessage] = useState('');
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [isChecking, setIsChecking] = useState(false);
-    const [hasCheckedSubscription, setHasCheckedSubscription] = useState(false);
 
     useEffect(() => {
         const checkSubscription = async () => {
@@ -15,7 +14,6 @@ const Earn = ({ onClose, userId, onCheckSubscription, onConfirmSubscription }) =
             try {
                 const result = await onCheckSubscription(userId);
                 setIsSubscribed(result.isSubscribed);
-                setHasCheckedSubscription(result.hasCheckedSubscription);
                 setMessage(result.message);
             } catch (error) {
                 setMessage('Произошла ошибка при проверке подписки.');
@@ -27,18 +25,14 @@ const Earn = ({ onClose, userId, onCheckSubscription, onConfirmSubscription }) =
         checkSubscription();
     }, [userId, onCheckSubscription]);
 
-    const handleSubscriptionConfirm = async () => {
+    const handleSubscriptionCheck = async () => {
         setIsChecking(true);
         try {
-            const result = await onConfirmSubscription(userId);
-            if (result.success) {
-                setHasCheckedSubscription(true);
-                setMessage(result.message);
-            } else {
-                setMessage(result.message);
-            }
+            const result = await onCheckSubscription(userId);
+            setIsSubscribed(result.isSubscribed);
+            setMessage(result.message);
         } catch (error) {
-            setMessage('Произошла ошибка при подтверждении подписки.');
+            setMessage('Произошла ошибка при проверке подписки.');
         } finally {
             setIsChecking(false);
         }
@@ -53,10 +47,10 @@ const Earn = ({ onClose, userId, onCheckSubscription, onConfirmSubscription }) =
                 <p>Подпишитесь на наш Telegram канал и получите 5000 монет!</p>
                 <a href={`https://t.me/${REACT_APP_CHANNEL_NAME}`} target="_blank" rel="noopener noreferrer">Подписаться на канал</a>
                 <button
-                    onClick={handleSubscriptionConfirm}
-                    disabled={!isSubscribed || hasCheckedSubscription || isChecking}
+                    onClick={handleSubscriptionCheck}
+                    disabled={isSubscribed || isChecking}
                 >
-                    Проверить Подписку {hasCheckedSubscription ? '✔️' : ''}
+                    Проверить Подписку {isSubscribed ? '✔️' : ''}
                 </button>
                 <p>{message}</p>
             </div>
