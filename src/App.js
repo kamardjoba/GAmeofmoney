@@ -223,7 +223,7 @@ function App() {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
       const data = response.data;
       if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
-        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет при подписке
+        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет при первой подписке
       }
       return data;
     } catch (error) {
