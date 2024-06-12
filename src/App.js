@@ -280,12 +280,12 @@ function App() {
                       <p>🛒</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenRef}>
-                      <p>Реф</п>
-                      <п>👥</п>
+                      <p>Реф</p>
+                      <p>👥</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <п>Играть</п>
-                      <п>🚀</п>
+                      <p>Играть</p>
+                      <p>🚀</p>
                     </div>
                   </div>
                 </div>
@@ -333,8 +333,8 @@ function App() {
 
         <div className="referral-section">
           <p>Ваш реферальный код: {referralCode}</p>
-          <п>Поделитесь этой ссылкой, чтобы пригласить друзей:</п>
-          <п>{telegramLink}</п>
+          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
+          <p>{telegramLink}</p>
         </div>
       </div>
   );
