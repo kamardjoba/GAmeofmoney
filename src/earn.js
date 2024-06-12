@@ -1,7 +1,7 @@
 // earn.js
 import React, { useState, useEffect } from 'react';
 import './earn.css';
-const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGOGgogogooo"
+const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGOGgogogooo";
 
 const Earn = ({ onClose, userId, onCheckSubscription }) => {
     const [message, setMessage] = useState('');
@@ -9,6 +9,7 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
     const [isChecking, setIsChecking] = useState(false);
 
     useEffect(() => {
+        // Проверяем подписку при монтировании компонента
         const checkSubscription = async () => {
             setIsChecking(true);
             try {

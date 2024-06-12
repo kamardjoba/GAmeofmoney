@@ -222,12 +222,10 @@ function App() {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
       const data = response.data;
-      if (response.status === 200) {
-        if (data.isSubscribed) {
-          setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет при подписке
-        }
-        return data;
+      if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
+        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет при подписке
       }
+      return data;
     } catch (error) {
       console.error('Error checking subscription:', error);
       return { success: false, message: 'Произошла ошибка при проверке подписки.' };
@@ -282,12 +280,12 @@ function App() {
                       <p>🛒</p>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenRef}>
-                      <p>Реф</p>
-                      <p>👥</p>
+                      <p>Реф</п>
+                      <п>👥</п>
                     </div>
                     <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <p>Играть</p>
-                      <p>🚀</p>
+                      <п>Играть</п>
+                      <п>🚀</п>
                     </div>
                   </div>
                 </div>
@@ -335,8 +333,8 @@ function App() {
 
         <div className="referral-section">
           <p>Ваш реферальный код: {referralCode}</p>
-          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
-          <p>{telegramLink}</p>
+          <п>Поделитесь этой ссылкой, чтобы пригласить друзей:</п>
+          <п>{telegramLink}</п>
         </div>
       </div>
   );
