@@ -9,7 +9,6 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
     const [isChecking, setIsChecking] = useState(false);
 
     useEffect(() => {
-        // Проверяем подписку при монтировании компонента
         const checkSubscription = async () => {
             setIsChecking(true);
             try {
