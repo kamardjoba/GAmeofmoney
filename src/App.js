@@ -321,7 +321,10 @@ function App() {
         )}
 
         {isEarnOpen && (
-            <Earn onClose={handleCloseEarn} userId={userId} onCheckSubscription={handleCheckSubscription} />
+            <Earn
+                onClose={handleCloseEarn}
+                userId={userId}
+            />
         )}
 
         {isMiniGameOpen && (

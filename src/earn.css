@@ -1,3 +1,4 @@
+/* earn.css */
 .earn {
     position: fixed;
     width: 100%;
@@ -17,7 +18,7 @@
     flex-direction: column;
 }
 
-.zagolovok{
+.zagolovok {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,68 +28,55 @@
     color: #ff9a00;
 }
 
-.EarnBorder{
-    background:#060927;
-    border-radius: 10px;
-    height: 80%;
+.earn-content {
     width: 90%;
+    height: 70%;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
     flex-direction: column;
-}
-
-.EarnMenu{
-    height: 95%;
-    width: 95%;
-    background: orange;
-    border-radius: 10px;
-    box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-wrap: wrap;
-    box-sizing: border-box;
+    align-items: center;
     justify-content: center;
-    overflow: scroll;
-}
-
-.Zadanie{
-    height: 40%;
-    width: 95%;
     background: #060927;
     border-radius: 10px;
-    margin: 10px;
-    background: linear-gradient(135deg, #3E2C56, #060927);
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
+    padding: 20px;
 }
 
-.Zadanie button {
-    background: linear-gradient(135deg,#060927, #3E2C56);
-    height: 20%;
-    width: 90%;
-    border-radius: 10px;
+.earn-content a {
+    margin: 20px;
     font-size: 20px;
-    font-weight: bold;
+    color: #ff9a00;
+    text-decoration: none;
+}
+
+.earn-content button {
+    background: linear-gradient(135deg, #060927, #3E2C56);
+    border: none;
+    height: 35px;
+    width: 80%;
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
-    color: white;
-    border: 1px solid white;
-
+    margin: 20px 0;
 }
 
-.zg{
-    height: 16%;
-    width: 100%;
+.earn-content button:hover {
+    background: linear-gradient(135deg, #ff6600, #ff3300);
+    transform: translateY(-2px);
 }
 
-.Zadanie h1{
-    font-size: 24px;
-    margin: 0;
-    color: orange;
+.earn-content p {
+    font-size: 18px;
+    color: #ff9a00;
 }
 
-.Zadanie p{
-    margin: 0;
+.close-button {
+    background: linear-gradient(135deg, #ff3300, #ff0000);
+    width: 90%;
+    height: 80%;
+    margin-top: 20px;
+}
+
+.close-button:hover {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
 }
