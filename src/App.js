@@ -218,19 +218,16 @@ function App() {
   };
 
   // Проверка подписки
-  const handleCheckSubscription = async () => {
+  const handleCheckSubscription = async (userId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
       const data = response.data;
-      if (response.status === 200 && data.success) {
-        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет
-        alert(data.message);
-      } else {
-        alert(data.message);
+      if (response.status === 200) {
+        return data;
       }
     } catch (error) {
       console.error('Error checking subscription:', error);
-      alert('Произошла ошибка при проверке подписки.');
+      return { success: false, message: 'Произошла ошибка при проверке подписки.' };
     }
   };
 
