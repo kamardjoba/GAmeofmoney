@@ -6,7 +6,7 @@ import defaultIcon from './IMG/N.png';
 const Ref = ({ onClose, userId, telegramLink }) => {
     const [referralLink] = useState(telegramLink);
     const [referrals, setReferrals] = useState([]);
-    const [ setIsReferralUsed] = useState(false); // Добавлено
+    const [isReferralUsed, setIsReferralUsed] = useState(false); // Добавлено
 
     useEffect(() => {
         const fetchReferralData = async () => {
@@ -85,9 +85,10 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                     ))}
                 </div>
             </div>
-            <div className="zagolовок">
+            <div className="zagоловок">
                 <button onClick={onClose} className="close-button">Закрыть</button>
             </div>
+            {isReferralUsed && <p>Вы использовали реферальный код.</p>}
         </div>
     );
 };
