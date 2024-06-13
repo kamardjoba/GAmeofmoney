@@ -1,5 +1,5 @@
 // App.js
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
 import logo from './IMG/b.png';
@@ -36,12 +36,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
-  // Функция для обновления фото профиля
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, {
-        telegramId
-      });
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
       if (response.data.success) {
         setProfilePhotoUrl(response.data.profilePhotoUrl || defaultIcon);
       } else {
@@ -52,13 +49,10 @@ function App() {
     }
   }, []);
 
-  // Загрузка прогресса
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, {
-          params: { userId }
-        });
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
         const data = response.data;
         if (response.status === 200) {
           setUsername(data.username);
@@ -66,7 +60,6 @@ function App() {
           setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
-          // Устанавливаем прогресс игры из данных пользователя
           setUpgradeCost(data.upgradeCost);
           setUpgradeLevel(data.upgradeLevel);
           setCoinPerClick(data.coinPerClick);
@@ -90,45 +83,37 @@ function App() {
     }
   }, [userId]);
 
-  // Сохранение прогресса
   const saveProgress = useCallback(async () => {
     if (userId) {
       try {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          userId,
-          coins,
-          upgradeCost,
-          upgradeLevel,
-          coinPerClick,
-          upgradeCostEnergy,
-          upgradeLevelEnergy,
-          clickLimit,
-          energyNow,
-          upgradeCostEnergyTime,
-          valEnergyTime,
-          time
+          userId, coins, upgradeCost, upgradeLevel, coinPerClick,
+          upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
+          upgradeCostEnergyTime, valEnergyTime, time
         });
       } catch (error) {
         console.error('Error saving progress:', error);
       }
     }
-  }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick, upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow, upgradeCostEnergyTime, valEnergyTime, time]);
+  }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick,
+    upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
+    upgradeCostEnergyTime, valEnergyTime, time]);
 
-  // Загрузка данных при открытии
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userIdFromURL = urlParams.get('userId');
-    setUserId(userIdFromURL);
+    const loadAndUpdate = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdFromURL = urlParams.get('userId');
+      setUserId(userIdFromURL);
 
-    if (userIdFromURL) {
-      // Обновляем фото пользователя
-      updateProfilePhoto(userIdFromURL);
-      // Загрузка прогресса
-      loadProgress().catch((error) => console.error('Error loading progress:', error));
-    }
+      if (userIdFromURL) {
+        await updateProfilePhoto(userIdFromURL);
+        await loadProgress();
+      }
+      setLoading(false);
+    };
+    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
   }, [loadProgress, updateProfilePhoto]);
 
-  // Обновление энергии с интервалом
   useEffect(() => {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
@@ -145,8 +130,7 @@ function App() {
     };
   }, [clickLimit, time, valEnergyTime]);
 
-  // Обработка клика по монете
-  const handleCoinClick = async () => {
+  const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => {
         const newCoins = prevCoins + coinPerClick;
@@ -155,10 +139,9 @@ function App() {
       });
       setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
     }
-  };
+  }, [coinPerClick, energyNow]);
 
-  // Улучшение монет за клик
-  const CoinPerClickUpgrade = async () => {
+  const CoinPerClickUpgrade = useCallback(async () => {
     if (coins >= upgradeCost) {
       setCoins(prevCoins => {
         const newCoins = prevCoins - upgradeCost;
@@ -169,10 +152,9 @@ function App() {
       setUpgradeLevel(prevUpgradeLevel => prevUpgradeLevel + 1);
       setUpgradeCost(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
     }
-  };
+  }, [coins, upgradeCost]);
 
-  // Улучшение энергии
-  const EnergyUpgrade = async () => {
+  const EnergyUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergy) {
       setCoins(prevCoins => {
         const newCoins = prevCoins - upgradeCostEnergy;
@@ -183,10 +165,9 @@ function App() {
       setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
       setUpgradeCostEnergy(prevUpgradeCostEnergy => Math.floor(prevUpgradeCostEnergy * 1.5));
     }
-  };
+  }, [coins, upgradeCostEnergy]);
 
-  // Улучшение времени восстановления энергии
-  const EnergyTimeUpgrade = async () => {
+  const EnergyTimeUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergyTime) {
       setCoins(prevCoins => {
         const newCoins = prevCoins - upgradeCostEnergyTime;
@@ -197,47 +178,45 @@ function App() {
       setTime(prevTime => prevTime / 2);
       setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
     }
-  };
+  }, [coins, upgradeCostEnergyTime]);
 
-  // Открытие/закрытие модальных окон
-  const handleOpenShop = () => {
+  const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
-  };
+  }, []);
 
-  const handleCloseShop = async () => {
-    await saveProgress().catch((error) => console.error('Error saving progress:', error));
+  const handleCloseShop = useCallback(async () => {
+    await saveProgress();
     setIsShopOpen(false);
-  };
+  }, [saveProgress]);
 
-  const handleOpenRef = () => {
+  const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
-  };
+  }, []);
 
-  const handleCloseRef = async () => {
-    await saveProgress().catch((error) => console.error('Error saving progress:', error));
+  const handleCloseRef = useCallback(async () => {
+    await saveProgress();
     setIsRefOpen(false);
-  };
+  }, [saveProgress]);
 
-  const handleOpenEarn = () => {
+  const handleOpenEarn = useCallback(() => {
     setIsEarnOpen(true);
-  };
+  }, []);
 
-  const handleCloseEarn = async () => {
-    await saveProgress().catch((error) => console.error('Error saving progress:', error));
+  const handleCloseEarn = useCallback(async () => {
+    await saveProgress();
     setIsEarnOpen(false);
-  };
+  }, [saveProgress]);
 
-  const handleOpenMiniGame = () => {
+  const handleOpenMiniGame = useCallback(() => {
     setIsMiniGameOpen(true);
-  };
+  }, []);
 
-  const handleCloseMiniGame = async () => {
-    await saveProgress().catch((error) => console.error('Error saving progress:', error));
+  const handleCloseMiniGame = useCallback(async () => {
+    await saveProgress();
     setIsMiniGameOpen(false);
-  };
+  }, [saveProgress]);
 
-  // Проверка подписки
-  const handleCheckSubscription = async (userId) => {
+  const handleCheckSubscription = useCallback(async (userId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
       const data = response.data;
@@ -249,12 +228,11 @@ function App() {
       console.error('Error checking subscription:', error);
       return { success: false, message: 'Произошла ошибка при проверке подписки.' };
     }
-  };
+  }, []);
 
-  // Функция для сохранения данных
-  const saveProgressData = async (newCoins = coins, newEnergyNow = energyNow) => {
-    await saveProgress().catch((error) => console.error('Error saving progress:', error));
-  };
+  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
+    await saveProgress();
+  }, [coins, energyNow, saveProgress]);
 
   return (
       <div className="App">
