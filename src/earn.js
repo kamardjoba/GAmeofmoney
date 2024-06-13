@@ -7,6 +7,7 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
     const [message, setMessage] = useState('');
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [isChecking, setIsChecking] = useState(false);
+    const [hasCheckedSubscription, setHasCheckedSubscription] = useState(false); // Новый стейт для проверки
 
     useEffect(() => {
         const checkSubscription = async () => {
@@ -14,6 +15,7 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
             try {
                 const result = await onCheckSubscription(userId);
                 setIsSubscribed(result.isSubscribed);
+                setHasCheckedSubscription(result.hasCheckedSubscription); // Обновляем состояние
                 setMessage(result.message);
             } catch (error) {
                 setMessage('Произошла ошибка при проверке подписки.');
@@ -26,10 +28,15 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
     }, [userId, onCheckSubscription]);
 
     const handleSubscriptionCheck = async () => {
+        if (hasCheckedSubscription) {
+            setMessage('Вы уже проверяли подписку и получили свои монеты.');
+            return;
+        }
         setIsChecking(true);
         try {
             const result = await onCheckSubscription(userId);
             setIsSubscribed(result.isSubscribed);
+            setHasCheckedSubscription(result.hasCheckedSubscription); // Обновляем состояние
             setMessage(result.message);
         } catch (error) {
             setMessage('Произошла ошибка при проверке подписки.');
