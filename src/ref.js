@@ -6,7 +6,7 @@ import defaultIcon from './IMG/N.png';
 const Ref = ({ onClose, userId, telegramLink }) => {
     const [referralLink] = useState(telegramLink);
     const [referrals, setReferrals] = useState([]);
-    const [isReferralUsed, setIsReferralUsed] = useState(false); // Добавлено
+    const [isReferralUsed] = useState(false); // Добавлено
 
     useEffect(() => {
         const fetchReferralData = async () => {
@@ -15,19 +15,16 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                 const data = await response.json();
                 if (response.ok) {
                     setReferrals(data.referrals);
-                    if (data.referredBy) {
-                        setIsReferralUsed(true); // Флаг для проверки, был ли использован реферальный код
-                    }
                 } else {
-                    console.error('Error fetching referral data:', data.error);
+                    console.error('Ошибка при получении данных рефералов:', data.error);
                 }
             } catch (error) {
-                console.error('Error fetching referral data:', error);
+                console.error('Ошибка при получении данных рефералов:', error);
             }
         };
 
         if (userId) {
-            fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
+            fetchReferralData();
         }
     }, [userId]);
 

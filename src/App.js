@@ -50,7 +50,6 @@ function App() {
           setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
-          // Устанавливаем прогресс игры из данных пользователя
           setUpgradeCost(data.upgradeCost);
           setUpgradeLevel(data.upgradeLevel);
           setCoinPerClick(data.coinPerClick);
