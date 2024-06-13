@@ -6,7 +6,6 @@ import defaultIcon from './IMG/N.png';
 const Ref = ({ onClose, userId, telegramLink }) => {
     const [referralLink] = useState(telegramLink);
     const [referrals, setReferrals] = useState([]);
-    const [isReferralUsed] = useState(false); // Добавлено
 
     useEffect(() => {
         const fetchReferralData = async () => {
@@ -16,15 +15,15 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                 if (response.ok) {
                     setReferrals(data.referrals);
                 } else {
-                    console.error('Ошибка при получении данных рефералов:', data.error);
+                    console.error('Error fetching referral data:', data.error);
                 }
             } catch (error) {
-                console.error('Ошибка при получении данных рефералов:', error);
+                console.error('Error fetching referral data:', error);
             }
         };
 
         if (userId) {
-            fetchReferralData();
+            fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
         }
     }, [userId]);
 
@@ -54,7 +53,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
 
     return (
         <div className="ref">
-            <div className="zagolовок">
+            <div className="zagolovok">
                 <p>Рефералы</p>
             </div>
             <div className="SendBorder">
@@ -82,10 +81,9 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                     ))}
                 </div>
             </div>
-            <div className="zagоловок">
+            <div className="zagolовок">
                 <button onClick={onClose} className="close-button">Закрыть</button>
             </div>
-            {isReferralUsed && <p>Вы использовали реферальный код.</p>}
         </div>
     );
 };
