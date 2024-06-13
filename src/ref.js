@@ -5,9 +5,9 @@ import defaultIcon from './IMG/N.png';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
     const [referralLink] = useState(telegramLink);
-    const [referrals, setReferrals, setIsReferralUsed] = useState([]);
+    const [referrals, setReferrals] = useState([]);
+    const [ setIsReferralUsed] = useState(false); // Добавлено
 
-    // ref.js
     useEffect(() => {
         const fetchReferralData = async () => {
             try {
@@ -30,7 +30,6 @@ const Ref = ({ onClose, userId, telegramLink }) => {
             fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
         }
     }, [userId]);
-
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(referralLink)
@@ -58,7 +57,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
 
     return (
         <div className="ref">
-            <div className="zagolovok">
+            <div className="zagolовок">
                 <p>Рефералы</p>
             </div>
             <div className="SendBorder">
