@@ -36,6 +36,22 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
+  // Функция для обновления фото профиля
+  const updateProfilePhoto = useCallback(async (telegramId) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, {
+        telegramId
+      });
+      if (response.data.success) {
+        setProfilePhotoUrl(response.data.profilePhotoUrl || defaultIcon);
+      } else {
+        console.error('Error updating profile photo:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error updating profile photo:', error);
+    }
+  }, []);
+
   // Загрузка прогресса
   const loadProgress = useCallback(async () => {
     if (userId) {
@@ -105,9 +121,12 @@ function App() {
     setUserId(userIdFromURL);
 
     if (userIdFromURL) {
+      // Обновляем фото пользователя
+      updateProfilePhoto(userIdFromURL);
+      // Загрузка прогресса
       loadProgress().catch((error) => console.error('Error loading progress:', error));
     }
-  }, [loadProgress]);
+  }, [loadProgress, updateProfilePhoto]);
 
   // Обновление энергии с интервалом
   useEffect(() => {
@@ -315,7 +334,7 @@ function App() {
             <Ref
                 onClose={handleCloseRef}
                 userId={userId}
-                telegramLink={telegramLink} // Передаем ссылку
+                telegramLink={telegramLink}
             />
         )}
 
@@ -323,7 +342,7 @@ function App() {
             <Earn
                 onClose={handleCloseEarn}
                 userId={userId}
-                onCheckSubscription={handleCheckSubscription} // Передаем функцию проверки подписки
+                onCheckSubscription={handleCheckSubscription}
             />
         )}
 
