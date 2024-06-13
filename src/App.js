@@ -1,5 +1,5 @@
 // App.js
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import defaultIcon from './IMG/N.png';
 import logo from './IMG/b.png';
@@ -130,6 +130,10 @@ function App() {
     };
   }, [clickLimit, time, valEnergyTime]);
 
+  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
+    await saveProgress();
+  }, [coins, energyNow, saveProgress]);
+
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => {
@@ -139,7 +143,7 @@ function App() {
       });
       setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
     }
-  }, [coinPerClick, energyNow]);
+  }, [coinPerClick, energyNow, saveProgressData]);
 
   const CoinPerClickUpgrade = useCallback(async () => {
     if (coins >= upgradeCost) {
@@ -152,7 +156,7 @@ function App() {
       setUpgradeLevel(prevUpgradeLevel => prevUpgradeLevel + 1);
       setUpgradeCost(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
     }
-  }, [coins, upgradeCost]);
+  }, [coins, upgradeCost, saveProgressData]);
 
   const EnergyUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergy) {
@@ -165,7 +169,7 @@ function App() {
       setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
       setUpgradeCostEnergy(prevUpgradeCostEnergy => Math.floor(prevUpgradeCostEnergy * 1.5));
     }
-  }, [coins, upgradeCostEnergy]);
+  }, [coins, upgradeCostEnergy, saveProgressData]);
 
   const EnergyTimeUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergyTime) {
@@ -178,7 +182,7 @@ function App() {
       setTime(prevTime => prevTime / 2);
       setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
     }
-  }, [coins, upgradeCostEnergyTime]);
+  }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
@@ -221,7 +225,7 @@ function App() {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
       const data = response.data;
       if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
-        setCoins(prevCoins => prevCoins + 5000); // Начисляем 5000 монет при первой подписке
+        setCoins(prevCoins => prevCoins + 5000);
       }
       return data;
     } catch (error) {
@@ -229,10 +233,6 @@ function App() {
       return { success: false, message: 'Произошла ошибка при проверке подписки.' };
     }
   }, []);
-
-  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
-    await saveProgress();
-  }, [coins, energyNow, saveProgress]);
 
   return (
       <div className="App">
