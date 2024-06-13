@@ -7,6 +7,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
     const [referralLink] = useState(telegramLink);
     const [referrals, setReferrals] = useState([]);
 
+    // ref.js
     useEffect(() => {
         const fetchReferralData = async () => {
             try {
@@ -14,6 +15,9 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                 const data = await response.json();
                 if (response.ok) {
                     setReferrals(data.referrals);
+                    if (data.referredBy) {
+                        setIsReferralUsed(true); // Флаг для проверки, был ли использован реферальный код
+                    }
                 } else {
                     console.error('Error fetching referral data:', data.error);
                 }
@@ -26,6 +30,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
             fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
         }
     }, [userId]);
+
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(referralLink)
