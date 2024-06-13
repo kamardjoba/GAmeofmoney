@@ -4,8 +4,8 @@ import './ref.css';
 import defaultIcon from './IMG/N.png';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
-    const [referralLink, setIsReferralUsed] = useState(telegramLink);
-    const [referrals, setReferrals] = useState([]);
+    const [referralLink] = useState(telegramLink);
+    const [referrals, setReferrals, setIsReferralUsed] = useState([]);
 
     // ref.js
     useEffect(() => {
