@@ -1,99 +1,69 @@
+// earn.js
 import React, { useState, useEffect } from 'react';
-import './ref.css';
-import defaultIcon from './IMG/N.png';
+import './earn.css';
+const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGOGgogogooo";
 
-const Ref = ({ onClose, userId, telegramLink }) => {
-    const [referrals, setReferrals] = useState([]);
-    const [showCopyNotification, setShowCopyNotification] = useState(false);
+const Earn = ({ onClose, userId, onCheckSubscription }) => {
+    const [message, setMessage] = useState('');
+    const [isSubscribed, setIsSubscribed] = useState(false);
+    const [isChecking, setIsChecking] = useState(false);
+    const [hasCheckedSubscription, setHasCheckedSubscription] = useState(false); // Новый стейт для проверки
 
     useEffect(() => {
-        const fetchReferralData = async () => {
+        const checkSubscription = async () => {
+            setIsChecking(true);
             try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
-                const data = await response.json();
-                if (response.ok) {
-                    setReferrals(data.referrals);
-                } else {
-                    console.error('Ошибка при получении данных рефералов:', data.error);
-                }
+                const result = await onCheckSubscription(userId);
+                setIsSubscribed(result.isSubscribed);
+                setHasCheckedSubscription(result.hasCheckedSubscription); // Обновляем состояние
+                setMessage(result.message);
             } catch (error) {
-                console.error('Ошибка при получении данных рефералов:', error);
+                setMessage('Произошла ошибка при проверке подписки.');
+            } finally {
+                setIsChecking(false);
             }
         };
 
-        if (userId) {
-            fetchReferralData().catch(error => console.error('Ошибка fetchReferralData:', error));
+        checkSubscription();
+    }, [userId, onCheckSubscription]);
+
+    const handleSubscriptionCheck = async () => {
+        if (hasCheckedSubscription) {
+            setMessage('Вы уже проверяли подписку и получили свои монеты.');
+            return;
         }
-    }, [userId]);
-
-    const handleCopyLink = () => {
-        navigator.clipboard.writeText(telegramLink)
-            .then(() => {
-                setShowCopyNotification(true);
-                setTimeout(() => setShowCopyNotification(false), 2000);
-            })
-            .catch(err => {
-                console.error('Ошибка копирования ссылки:', err);
-            });
-    };
-
-    const handleShareTelegram = () => {
+        setIsChecking(true);
         try {
-            const encodedLink = encodeURIComponent(telegramLink);
-            const message = encodeURIComponent(
-                `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${encodedLink}`
-            );
-            const telegramShareLink = `tg://msg?text=${message}`;
-
-            // Открываем Telegram с ссылкой
-            window.location.href = telegramShareLink;
-
-            // Резервный переход на веб-версию через задержку
-            setTimeout(() => {
-                window.open(`https://telegram.me/share/url?url=${encodedLink}&text=${message}`, '_blank');
-            }, 1000);
+            const result = await onCheckSubscription(userId);
+            setIsSubscribed(result.isSubscribed);
+            setHasCheckedSubscription(result.hasCheckedSubscription); // Обновляем состояние
+            setMessage(result.message);
         } catch (error) {
-            console.error('Ошибка при отправке через Telegram:', error);
-            alert('Не удалось открыть Telegram. Убедитесь, что приложение установлено.');
+            setMessage('Произошла ошибка при проверке подписки.');
+        } finally {
+            setIsChecking(false);
         }
     };
 
     return (
-        <div className="ref">
+        <div className="earn">
             <div className="zagolovok">
-                <p>Рефералы</p>
+                <p>Заработать</p>
             </div>
-            <div className="SendBorder">
-                <div className='SendInfo'>
-                    <p>Пригласить Друга</p>
-                </div>
-                <div className="sendMenu">
-                    <p className="referral-link">{telegramLink}</p>
-                    <button onClick={handleCopyLink}>Скопировать Ссылку</button>
-                    <button onClick={handleShareTelegram}>Поделиться в Telegram</button>
-                </div>
-                {showCopyNotification && <div className="copy-notification">Ссылка скопирована!</div>}
+            <div className="earn-content">
+                <p>Подпишитесь на наш Telegram канал и получите 5000 монет!</p>
+                <a href={`https://t.me/${REACT_APP_CHANNEL_NAME}`} target="_blank" rel="noopener noreferrer">Подписаться на канал</a>
+                <button
+                    onClick={handleSubscriptionCheck}
+                    disabled={isSubscribed || isChecking}
+                >
+                    Проверить Подписку {isSubscribed ? '✔️' : ''}
+                </button>
+                <p>{message}</p>
             </div>
-            <div className="FrandsBorder">
-                <div className='FrendsInfo'>
-                    <p>Мои друзья ({referrals.length})</p>
-                </div>
-                <div className="FrendsMenu">
-                    {referrals.map((referral, index) => (
-                        <div key={index} className="Frends">
-                            <div className="FrendsAvatar">
-                                <img src={referral.profilePhotoUrl || defaultIcon} alt="Avatar" />
-                            </div>
-                            <p>{referral.username || `user${referral.telegramId}`}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="zagоловок">
-                <button onClick={onClose} className="close-button">Закрыть</button>
-            </div>
+            <button onClick={onClose} className="close-button">Закрыть</button>
         </div>
     );
 };
 
-export default Ref;
+export default Earn;
