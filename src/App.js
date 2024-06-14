@@ -13,7 +13,7 @@ import Earn from './earn';
 import MiniGame from './MiniGame';
 import axios from 'axios';
 import Navbar from './Navbar';
-import Home from './Home'; // Предполагаемый главный компонент
+
 
 function App() {
   const [coins, setCoins] = useState(0);
