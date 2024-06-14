@@ -243,7 +243,7 @@ function App() {
               <>
                 <Navbar />
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route path="/" element={<App />} />
                   <Route path="/earn" element={<Earn />} />
                   <Route path="/ref" element={<Ref />} />
                   {/* Добавьте другие маршруты здесь */}
