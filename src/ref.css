@@ -157,3 +157,68 @@
 .close-button:hover {
     background: linear-gradient(135deg, #ff0000, #cc0000);
 }
+
+/* ref.css */
+.ref {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.zagolovok {
+    margin-bottom: 10px;
+}
+
+.SendBorder, .FrandsBorder {
+    margin-bottom: 20px;
+}
+
+.sendMenu, .FrendsMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.referral-link {
+    font-size: 14px;
+    word-break: break-all;
+}
+
+button {
+    background-color: #0088cc;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+button:hover {
+    background-color: #0077b5;
+}
+
+.close-button {
+    background-color: #f44336;
+}
+
+.copy-notification {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4caf50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    animation: fadeInOut 2s;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}

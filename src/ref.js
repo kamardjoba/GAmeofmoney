@@ -4,8 +4,9 @@ import './ref.css';
 import defaultIcon from './IMG/N.png';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
-    const [referralLink] = useState(telegramLink);
+    const [referralLink, setReferralLink] = useState(telegramLink);
     const [referrals, setReferrals] = useState([]);
+    const [showCopyNotification, setShowCopyNotification] = useState(false);
 
     useEffect(() => {
         const fetchReferralData = async () => {
@@ -30,25 +31,22 @@ const Ref = ({ onClose, userId, telegramLink }) => {
     const handleCopyLink = () => {
         navigator.clipboard.writeText(referralLink)
             .then(() => {
-                alert('Ссылка скопирована в буфер обмена!');
+                setShowCopyNotification(true);
+                setTimeout(() => setShowCopyNotification(false), 2000);
             })
             .catch(err => {
                 console.error('Ошибка копирования ссылки:', err);
             });
     };
 
-    const handleShareLink = () => {
-        if (navigator.share) {
-            navigator.share({
-                title: 'Пригласить Друга',
-                text: 'Присоединяйся к нашему приложению и получай бонусы!',
-                url: referralLink
-            })
-                .then(() => console.log('Ссылка успешно отправлена'))
-                .catch(err => console.error('Ошибка при отправке ссылки:', err));
-        } else {
-            alert('Ваш браузер не поддерживает функцию общего доступа. Скопируйте ссылку вручную.');
-        }
+    const handleShareTelegram = () => {
+        const message = encodeURIComponent(
+            `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${referralLink}`
+        );
+        const telegramShareLink = `tg://msg?text=${message}`;
+
+        // Открываем Telegram через ссылку
+        window.location.href = telegramShareLink;
     };
 
     return (
@@ -63,8 +61,9 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                 <div className="sendMenu">
                     <p className="referral-link">{referralLink}</p>
                     <button onClick={handleCopyLink}>Скопировать Ссылку</button>
-                    <button onClick={handleShareLink}>Поделиться</button>
+                    <button onClick={handleShareTelegram}>Поделиться в Telegram</button>
                 </div>
+                {showCopyNotification && <div className="copy-notification">Ссылка скопирована!</div>}
             </div>
             <div className="FrandsBorder">
                 <div className='FrendsInfo'>
@@ -81,7 +80,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                     ))}
                 </div>
             </div>
-            <div className="zagolовок">
+            <div className="zagоловок">
                 <button onClick={onClose} className="close-button">Закрыть</button>
             </div>
         </div>
