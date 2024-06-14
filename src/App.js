@@ -1,7 +1,6 @@
-// App.js
 import React, { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import defaultIcon from './IMG/N.png';
 import logo from './IMG/b.png';
 import coinIcon from './IMG/CU.png';
@@ -13,8 +12,8 @@ import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
 import axios from 'axios';
-import Navbar from './Navbar'
-
+import Navbar from './Navbar';
+import Home from './Home'; // Предполагаемый главный компонент
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -38,10 +37,6 @@ function App() {
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
-
-
-
-
 
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
@@ -119,7 +114,7 @@ function App() {
       setLoading(false);
     };
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-  }, [loadProgress, updateProfilePhoto]);
+  }, [loadProgress, updateProfilePhoto, userId]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -242,121 +237,65 @@ function App() {
   }, []);
 
   return (
+      <Router>
+        <div className="App">
+          {loading ? <div>Loading...</div> : (
+              <>
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/earn" element={<Earn />} />
+                  <Route path="/ref" element={<Ref />} />
+                  {/* Добавьте другие маршруты здесь */}
+                </Routes>
+              </>
+          )}
+          {isShopOpen && (
+              <Shop
+                  coins={coins}
+                  coinPerClick={coinPerClick}
+                  upgradeCost={upgradeCost}
+                  upgradeLevel={upgradeLevel}
+                  clickLimit={clickLimit}
+                  upgradeCostEnergy={upgradeCostEnergy}
+                  upgradeLevelEnergy={upgradeLevelEnergy}
+                  upgradeCostEnergyTime={upgradeCostEnergyTime}
+                  valEnergyTime={valEnergyTime}
+                  onClose={handleCloseShop}
+                  onUpgrade={CoinPerClickUpgrade}
+                  onUpgradeEnergy={EnergyUpgrade}
+                  onUpgradeEnergyTime={EnergyTimeUpgrade}
+              />
+          )}
 
-      <div className="App">
-        {loading ? <div>Loading...</div> : (
-            <>
-              <div className="info">
-                <img src={profilePhotoUrl} alt="Profile" className="profile-icon" />
-                <p>{username}</p>
-                <img src={logo} alt="Bifclif" />
-              </div>
-              <div className="main">
-                <div className="mainInfo">
-                  <div className="halfBox">
-                    <div className="halfBoxDiv">
-                      <p>Монет за клик</p>
-                      <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
-                    </div>
-                  </div>
-                  <div className="halfBox">
-                    <div className="halfBoxDiv">
-                      <p>Энергия</p>
-                      <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
-                    </div>
-                  </div>
-                </div>
-                <div className="CoinInfo">
-                  <img src={coinIcon} alt="Coin" height="90%" />
-                  <p>{coins}</p>
-                </div>
-                <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
-                <div className="Progress">
-                  <ProgressBar current={energyNow} max={clickLimit} />
-                </div>
-                <div className="lower">
-                  <div className="lowerDiv">
-                    <div className="BTNLOW" onClick={handleOpenEarn}>
-                      <p>Заработать</p>
-                      <p>💸</p>
-                    </div>
-                    <div className="BTNLOW" onClick={handleOpenShop}>
-                      <p>Магазин</p>
-                      <p>🛒</p>
-                    </div>
-                    <div className="BTNLOW" onClick={handleOpenRef}>
-                      <p>Реф</p>
-                      <p>👥</p>
-                    </div>
-                    <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <p>Играть</p>
-                      <p>🚀</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </>
-        )}
-        <Router>
-          <div className="App">
-            <Navbar />
-            <Routes>
-              <Route path="/" exact component={App} />
-              <Route path="/earn" component={Earn} />
-              <Route path="/ref" component={Ref} />
-              {/* Добавьте другие маршруты здесь */}
-            </Routes>
+          {isRefOpen && (
+              <Ref
+                  onClose={handleCloseRef}
+                  userId={userId}
+                  telegramLink={telegramLink}
+              />
+          )}
+
+          {isEarnOpen && (
+              <Earn
+                  onClose={handleCloseEarn}
+                  userId={userId}
+                  onCheckSubscription={handleCheckSubscription}
+              />
+          )}
+
+          {isMiniGameOpen && (
+              <MiniGame onClose={handleCloseMiniGame} />
+          )}
+
+          <div className="referral-section">
+            <p>Ваш реферальный код: {referralCode}</p>
+            <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
+            <p>{telegramLink}</p>
           </div>
-        </Router>
-        {isShopOpen && (
-            <Shop
-                coins={coins}
-                coinPerClick={coinPerClick}
-                upgradeCost={upgradeCost}
-                upgradeLevel={upgradeLevel}
-                clickLimit={clickLimit}
-                upgradeCostEnergy={upgradeCostEnergy}
-                upgradeLevelEnergy={upgradeLevelEnergy}
-                upgradeCostEnergyTime={upgradeCostEnergyTime}
-                valEnergyTime={valEnergyTime}
-                onClose={handleCloseShop}
-                onUpgrade={CoinPerClickUpgrade}
-                onUpgradeEnergy={EnergyUpgrade}
-                onUpgradeEnergyTime={EnergyTimeUpgrade}
-            />
-        )}
-
-        {isRefOpen && (
-            <Ref
-                onClose={handleCloseRef}
-                userId={userId}
-                telegramLink={telegramLink}
-            />
-        )}
-
-
-        {isEarnOpen && (
-            <Earn
-                onClose={handleCloseEarn}
-                userId={userId}
-                onCheckSubscription={handleCheckSubscription}
-            />
-        )}
-
-        {isMiniGameOpen && (
-            <MiniGame onClose={handleCloseMiniGame} />
-        )}
-
-        <div className="referral-section">
-          <p>Ваш реферальный код: {referralCode}</p>
-          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
-          <p>{telegramLink}</p>
         </div>
-      </div>
-
+      </Router>
   );
-
 }
-
 
 export default App;
