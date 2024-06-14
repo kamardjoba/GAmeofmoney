@@ -38,19 +38,10 @@ const Ref = ({ onClose, userId, telegramLink }) => {
     };
 
     const handleShareLink = () => {
-        if (navigator.share) {
-            navigator.share({
-                title: 'Пригласить Друга',
-                text: 'Присоединяйся к нашему приложению и получай бонусы!',
-                url: referralLink
-            }).then(() => {
-                console.log('Ссылка успешно отправлена');
-            }).catch(err => console.error('Ошибка при отправке ссылки:', err));
-        } else {
-            // Используйте ссылку Telegram для старых версий браузеров или если функция share не поддерживается
-            window.location.href = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Присоединяйся к нашему приложению и получай бонусы!')}`;
-        }
+        const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Присоединяйся к нашему приложению и получай бонусы!')}`;
+        window.open(telegramUrl, '_blank');
     };
+
 
 
     return (
