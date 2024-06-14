@@ -4,7 +4,6 @@ import './ref.css';
 import defaultIcon from './IMG/N.png';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
-    const [referralLink, setReferralLink] = useState(telegramLink);
     const [referrals, setReferrals] = useState([]);
     const [showCopyNotification, setShowCopyNotification] = useState(false);
 
@@ -29,7 +28,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
     }, [userId]);
 
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(referralLink)
+        navigator.clipboard.writeText(telegramLink)
             .then(() => {
                 setShowCopyNotification(true);
                 setTimeout(() => setShowCopyNotification(false), 2000);
@@ -41,11 +40,10 @@ const Ref = ({ onClose, userId, telegramLink }) => {
 
     const handleShareTelegram = () => {
         const message = encodeURIComponent(
-            `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${referralLink}`
+            `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${telegramLink}`
         );
         const telegramShareLink = `tg://msg?text=${message}`;
 
-        // Открываем Telegram через ссылку
         window.location.href = telegramShareLink;
     };
 
@@ -59,7 +57,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                     <p>Пригласить Друга</p>
                 </div>
                 <div className="sendMenu">
-                    <p className="referral-link">{referralLink}</p>
+                    <p className="referral-link">{telegramLink}</p>
                     <button onClick={handleCopyLink}>Скопировать Ссылку</button>
                     <button onClick={handleShareTelegram}>Поделиться в Telegram</button>
                 </div>
