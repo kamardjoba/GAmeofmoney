@@ -42,8 +42,9 @@ const Ref = ({ onClose, userId, telegramLink }) => {
         const message = encodeURIComponent(
             `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${telegramLink}`
         );
-        const telegramShareLink = `tg://msg?text=${message}`;
+        const telegramShareLink = `tg://msg_url?url=${telegramLink}&text=${message}`;
 
+        // Открываем Telegram через ссылку
         window.location.href = telegramShareLink;
     };
 
