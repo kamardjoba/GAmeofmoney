@@ -1,4 +1,3 @@
-// ref.js
 import React, { useState, useEffect } from 'react';
 import './ref.css';
 import defaultIcon from './IMG/N.png';
@@ -39,12 +38,13 @@ const Ref = ({ onClose, userId, telegramLink }) => {
     };
 
     const handleShareTelegram = () => {
+        const encodedLink = encodeURIComponent(telegramLink);
         const message = encodeURIComponent(
-            `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${telegramLink}`
+            `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${encodedLink}`
         );
-        const telegramShareLink = `tg://msg_url?url=${telegramLink}&text=${message}`;
+        const telegramShareLink = `tg://msg?text=${message}`;
 
-        // Открываем Telegram через ссылку
+        // Open Telegram with the share link
         window.location.href = telegramShareLink;
     };
 
