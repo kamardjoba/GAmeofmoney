@@ -14,15 +14,15 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                 if (response.ok) {
                     setReferrals(data.referrals);
                 } else {
-                    console.error('Error fetching referral data:', data.error);
+                    console.error('Ошибка при получении данных рефералов:', data.error);
                 }
             } catch (error) {
-                console.error('Error fetching referral data:', error);
+                console.error('Ошибка при получении данных рефералов:', error);
             }
         };
 
         if (userId) {
-            fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
+            fetchReferralData().catch(error => console.error('Ошибка fetchReferralData:', error));
         }
     }, [userId]);
 
@@ -38,14 +38,24 @@ const Ref = ({ onClose, userId, telegramLink }) => {
     };
 
     const handleShareTelegram = () => {
-        const encodedLink = encodeURIComponent(telegramLink);
-        const message = encodeURIComponent(
-            `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${encodedLink}`
-        );
-        const telegramShareLink = `tg://msg?text=${message}`;
+        try {
+            const encodedLink = encodeURIComponent(telegramLink);
+            const message = encodeURIComponent(
+                `Присоединяйся к нашему приложению и получай бонусы по этой ссылке: ${encodedLink}`
+            );
+            const telegramShareLink = `tg://msg?text=${message}`;
 
-        // Open Telegram with the share link
-        window.location.href = telegramShareLink;
+            // Открываем Telegram с ссылкой
+            window.location.href = telegramShareLink;
+
+            // Резервный переход на веб-версию через задержку
+            setTimeout(() => {
+                window.open(`https://telegram.me/share/url?url=${encodedLink}&text=${message}`, '_blank');
+            }, 1000);
+        } catch (error) {
+            console.error('Ошибка при отправке через Telegram:', error);
+            alert('Не удалось открыть Telegram. Убедитесь, что приложение установлено.');
+        }
     };
 
     return (
