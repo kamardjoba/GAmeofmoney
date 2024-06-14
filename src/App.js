@@ -1,6 +1,7 @@
 // App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import defaultIcon from './IMG/N.png';
 import logo from './IMG/b.png';
 import coinIcon from './IMG/CU.png';
@@ -12,6 +13,8 @@ import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
 import axios from 'axios';
+import Navbar from './Navbar'
+
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -35,6 +38,10 @@ function App() {
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+
+
+
+
 
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
@@ -235,6 +242,7 @@ function App() {
   }, []);
 
   return (
+
       <div className="App">
         {loading ? <div>Loading...</div> : (
             <>
@@ -289,7 +297,17 @@ function App() {
               </div>
             </>
         )}
-
+        <Router>
+          <div className="App">
+            <Navbar />
+            <Routes>
+              <Route path="/" exact component={App} />
+              <Route path="/earn" component={Earn} />
+              <Route path="/ref" component={Ref} />
+              {/* Добавьте другие маршруты здесь */}
+            </Routes>
+          </div>
+        </Router>
         {isShopOpen && (
             <Shop
                 coins={coins}
@@ -335,7 +353,10 @@ function App() {
           <p>{telegramLink}</p>
         </div>
       </div>
+
   );
+
 }
+
 
 export default App;
