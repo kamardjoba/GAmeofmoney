@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ref.css';
-import defaultIcon from './IMG/ink.png';
+import defaultIcon from './IMG/avatar.png';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
     const [referralLink] = useState(telegramLink);
@@ -72,37 +72,43 @@ const Ref = ({ onClose, userId, telegramLink }) => {
             <div className="refFrandsBorder">
                 <div className='refFrendsInfo'>
                     <p>Мои друзья ({referrals.length})</p>
-                    <img src={defaultIcon} alt='defaultIcon' height={"40%"} />
+                    <img src={defaultIcon} alt='defaultIcon' height={"40%"}/>
                 </div>
                 <div className="refFrendsMenu">
                     {referrals.map((referral, index) => (
                         <div key={index} className='refFrends'>
                             <div className='refFrendsIcon'>
-                                <img src={referral.profilePhotoUrl || defaultIcon} alt="Avatar" height={"75%"} />
+                                <img src={referral.profilePhotoUrl || defaultIcon} alt="Avatar" height={"75%"}/>
                             </div>
                             <div className='refFrendsName'>
                                 <p>{referral.username || `user${referral.telegramId}`}</p>
-                                <p id="Friends_rank">{referral.rank || 'Новичок'} <span id="Beginner_rank"> ● </span></p>
+                                <p id="Friends_rank">{referral.rank || 'Новичок'} <span id="Beginner_rank"> ● </span>
+                                </p>
                             </div>
                             <div className='refFrendsIcon'>
-                                <img src={defaultIcon} alt='defaultIcon' height={"65%"} />
+                                <img src={defaultIcon} alt='defaultIcon' height={"65%"}/>
                             </div>
                         </div>
                     ))}
                 </div>
+
             </div>
 
             <div className="refthripleBTN">
                 <button className="refgo" onClick={handleShareLink}>
                     <p>Поделиться </p>
-                    <img src={defaultIcon} alt='defaultIcon' height={"110%"} />
+                    <img src={defaultIcon} alt='defaultIcon' height={"110%"}/>
                 </button>
                 <button className="refgo" id='refgoCopy' onClick={handleCopyLink}>
-                    <img src={defaultIcon} alt='defaultIcon' height={"50%"} />
+                    <img src={defaultIcon} alt='defaultIcon' height={"50%"}/>
                     <p>Скопировать</p>
                 </button>
             </div>
-            <button id='CloseDebug' onClick={(event) => { onClose(event); handleCloseRefAnim(event); }}>X</button>
+            <button id='CloseDebug' onClick={(event) => {
+                onClose(event);
+                handleCloseRefAnim(event);
+            }}>X
+            </button>
         </div>
     );
 };
