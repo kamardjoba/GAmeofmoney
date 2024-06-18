@@ -1,3 +1,4 @@
+// ref.js
 import React, { useState, useEffect } from 'react';
 import './ref.css';
 import defaultIcon from './IMG/avatar.png';
@@ -84,9 +85,6 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                                 <p>{referral.username || `user${referral.telegramId}`}</p>
                                 <p id="Friends_rank">{referral.rank || 'Новичок'} <span id="Beginner_rank"> ● </span>
                                 </p>
-                            </div>
-                            <div className='refFrendsIcon'>
-                                <img src={defaultIcon} alt='defaultIcon' height={"65%"}/>
                             </div>
                         </div>
                     ))}

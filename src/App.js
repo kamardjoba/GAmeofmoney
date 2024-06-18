@@ -2,10 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import axios from 'axios';
-
-// Import images
 import Icon from './IMG/logo.png';
-//import avatar from './IMG/avatar.png';
 import inviteIcon from './IMG/LowerIcon/Invite_Icon.png';
 import lootIcon from './IMG/LowerIcon/Loot_Icon.png';
 import p2eIcon from './IMG/LowerIcon/P2E_Icon.png';
@@ -15,8 +12,6 @@ import MainLogo from './IMG/mainLogo.png';
 import InviteLogo from './IMG/inviteLogo.png';
 import EarnLogo from './IMG/earnLogo.png';
 import defaultIcon from './IMG/ink.png';
-
-// Import components
 import ProgressBar from './ProgressBar';
 import Shop from './shop';
 import Coindiv from './coin';
@@ -25,7 +20,6 @@ import Earn from './earn';
 import MiniGame from './MiniGame';
 
 function App() {
-  // State definitions
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
   const [upgradeLevel, setUpgradeLevel] = useState(1);
@@ -52,7 +46,6 @@ function App() {
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
 
-  // Update profile photo function
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
@@ -66,7 +59,6 @@ function App() {
     }
   }, []);
 
-  // Load progress function
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
@@ -165,7 +157,6 @@ function App() {
     await saveProgress();
   }, [coins, energyNow, saveProgress]);
 
-  // Handlers
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => {
@@ -216,7 +207,6 @@ function App() {
     }
   }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
-  // Opening and closing handlers
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
   }, []);
