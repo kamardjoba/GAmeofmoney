@@ -73,7 +73,6 @@ const Ref = ({ onClose, userId, telegramLink }) => {
             <div className="refFrandsBorder">
                 <div className='refFrendsInfo'>
                     <p>Мои друзья ({referrals.length})</p>
-                    <img src={defaultIcon} alt='defaultIcon' height={"40%"}/>
                 </div>
                 <div className="refFrendsMenu">
                     {referrals.map((referral, index) => (
