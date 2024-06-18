@@ -40,7 +40,7 @@ function App() {
   const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [isMiniGameOpen, setIsMiniGameOpen] = useState(false);
   const [username, setUsername] = useState('');
-  const [referralCode, setReferralCode] = useState('');
+  const [ setReferralCode] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
