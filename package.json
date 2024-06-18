@@ -28,7 +28,6 @@
     "start": "cross-env PORT=3000 react-scripts start",
     "start-3001": "cross-env PORT=3001 react-scripts start",
     "start-multiple": "concurrently \"npm run start\" \"npm run start-3001\"",
-    "dev": "nodemon app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
