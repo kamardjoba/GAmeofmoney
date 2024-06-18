@@ -1,9 +1,11 @@
 // App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
+import axios from 'axios';
 
+// Import images
 import Icon from './IMG/logo.png';
-import avatar from './IMG/avatar.png';
+//import avatar from './IMG/avatar.png';
 import inviteIcon from './IMG/LowerIcon/Invite_Icon.png';
 import lootIcon from './IMG/LowerIcon/Loot_Icon.png';
 import p2eIcon from './IMG/LowerIcon/P2E_Icon.png';
@@ -13,8 +15,8 @@ import MainLogo from './IMG/mainLogo.png';
 import InviteLogo from './IMG/inviteLogo.png';
 import EarnLogo from './IMG/earnLogo.png';
 import defaultIcon from './IMG/ink.png';
-import axios from 'axios';
 
+// Import components
 import ProgressBar from './ProgressBar';
 import Shop from './shop';
 import Coindiv from './coin';
@@ -23,7 +25,7 @@ import Earn from './earn';
 import MiniGame from './MiniGame';
 
 function App() {
-  // Состояния
+  // State definitions
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
   const [upgradeLevel, setUpgradeLevel] = useState(1);
@@ -40,18 +42,17 @@ function App() {
   const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [isMiniGameOpen, setIsMiniGameOpen] = useState(false);
   const [username, setUsername] = useState('');
-  const [ setReferralCode] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
-  const [ setProfilePhotoUrl] = useState(defaultIcon);
-
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
+  const [referralCode, setReferralCode] = useState('');
 
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
 
-  // Загрузка и обновление профиля
+  // Update profile photo function
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
@@ -63,8 +64,9 @@ function App() {
     } catch (error) {
       console.error('Error updating profile photo:', error);
     }
-  }, [setProfilePhotoUrl]);
+  }, []);
 
+  // Load progress function
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
@@ -97,7 +99,20 @@ function App() {
     } else {
       setLoading(false);
     }
-  }, [userId, setProfilePhotoUrl]);
+  }, [userId]);
+
+  useEffect(() => {
+    const loadAndUpdate = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdFromURL = urlParams.get('userId');
+      setUserId(userIdFromURL);
+
+      if (userIdFromURL) {
+        await loadProgress();
+      }
+    };
+    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
+  }, [loadProgress]);
 
   const saveProgress = useCallback(async () => {
     if (userId) {
@@ -150,7 +165,7 @@ function App() {
     await saveProgress();
   }, [coins, energyNow, saveProgress]);
 
-  // Обработчики нажатий
+  // Handlers
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => {
@@ -201,7 +216,7 @@ function App() {
     }
   }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
-  // Открытие/закрытие окон
+  // Opening and closing handlers
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
   }, []);
@@ -260,7 +275,7 @@ function App() {
       return data;
     } catch (error) {
       console.error('Error checking subscription:', error);
-      return { success: false, message: 'Произошла ошибка при проверке подписки.' };
+      return { success: false, message: 'Error checking subscription.' };
     }
   }, []);
 
@@ -269,27 +284,27 @@ function App() {
         {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
-                <img src={Icon} alt="Icon" height={"55%"} />
+                <img src={Icon} alt="Icon" height="55%"/>
                 <p>{username}</p>
-                <img src={avatar} alt="Avatar" height={"70%"} />
+                <img src={profilePhotoUrl} alt="Avatar" height="70%"/>
               </div>
               <div className="logo">
                 <img
                     src={MainLogo}
                     alt="Main Logo"
-                    height={"95%"}
+                    height="95%"
                     className={isLogoVisible ? 'fade-in' : 'fade-out'}
                 />
                 <img
                     src={InviteLogo}
                     alt="Invite Logo"
-                    height={"85%"}
+                    height="85%"
                     className={isInviteLogoVisible ? 'fade-in' : 'fade-out'}
                 />
                 <img
                     src={EarnLogo}
                     alt="Earn Logo"
-                    height={"85%"}
+                    height="85%"
                     className={isEarnLogoVisible ? 'fade-in' : 'fade-out'}
                 />
               </div>
@@ -298,7 +313,7 @@ function App() {
                   <div className="BorderMainInfo">
                     <div id="left_thriple" className="tripleBox">
                       <p>LVL.1</p>
-                      <p id="nonBold"> <img src={Icon} alt='Ink' /> {coins}/300</p>
+                      <p id="nonBold"><img src={Icon} alt="Ink"/> {coins}/300</p>
                     </div>
                     <div className="tripleBox">
                       <p>EARN</p>
@@ -313,42 +328,42 @@ function App() {
                     </div>
                   </div>
                 </div>
-                <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
+                <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow}/>
                 <div className="Progress">
                   <div className="userStatus">
-                    <p>Beginner &gt; </p>
+                    <p>Beginner &gt;</p>
                   </div>
-                  <ProgressBar current={energyNow} max={clickLimit} />
+                  <ProgressBar current={energyNow} max={clickLimit}/>
                   <div className="energy">
-                    <img src={Icon} alt='Ink' height={"70%"} />
+                    <img src={Icon} alt="Ink" height="70%"/>
                     <p id="odstup">{energyNow}/{clickLimit}</p>
-                    <img onClick={handleOpenEarn} id="kalendar" src={earnIcon} alt='Earn Icon' height={"65%"} />
+                    <img onClick={handleOpenEarn} id="kalendar" src={earnIcon} alt="Earn Icon" height="65%"/>
                     <p onClick={handleOpenEarn}>EARN</p>
                   </div>
                 </div>
                 <div className="lower">
                   <div className="lowerDown">
-                    <div className='BTN' onClick={handleOpenShop}>
+                    <div className="BTN" onClick={handleOpenShop}>
                       <div className="BTNLOW">
-                        <img src={shopIcon} height={"90%"} alt='Shop Icon' />
+                        <img src={shopIcon} height="90%" alt="Shop Icon"/>
                       </div>
                       <p>SHOP</p>
                     </div>
-                    <div className='BTN' onClick={handleOpenRef}>
+                    <div className="BTN" onClick={handleOpenRef}>
                       <div className="BTNLOW">
-                        <img src={inviteIcon} height={"115%"} alt='Invite Icon' />
+                        <img src={inviteIcon} height="115%" alt="Invite Icon"/>
                       </div>
                       <p>INVITE</p>
                     </div>
-                    <div className='BTN'>
+                    <div className="BTN">
                       <div className="BTNLOW">
-                        <img src={lootIcon} height={"90%"} alt='Loot Icon' />
+                        <img src={lootIcon} height="90%" alt="Loot Icon"/>
                       </div>
                       <p>LOOT</p>
                     </div>
-                    <div className='BTN' onClick={handleOpenMiniGame}>
+                    <div className="BTN" onClick={handleOpenMiniGame}>
                       <div className="BTNLOW">
-                        <img src={p2eIcon} height={"90%"} alt='P2E Icon' />
+                        <img src={p2eIcon} height="90%" alt="P2E Icon"/>
                       </div>
                       <p>P2E</p>
                     </div>
@@ -393,10 +408,11 @@ function App() {
         )}
 
         {isMiniGameOpen && (
-            <MiniGame onClose={handleCloseMiniGame} />
+            <MiniGame onClose={handleCloseMiniGame}/>
         )}
-
-
+        <div className="referral-section">
+          <p>Ваш реферальный код: {referralCode}</p>
+        </div>
       </div>
   );
 }
