@@ -396,11 +396,7 @@ function App() {
             <MiniGame onClose={handleCloseMiniGame} />
         )}
 
-        <div className="referral-section">
-          <p>Ваш реферальный код: {referralCode}</p>
-          <p>Поделитесь этой ссылкой, чтобы пригласить друзей:</p>
-          <p>{telegramLink}</p>
-        </div>
+
       </div>
   );
 }
