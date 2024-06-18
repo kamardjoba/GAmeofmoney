@@ -1,19 +1,29 @@
 // App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
-import defaultIcon from './IMG/N.png';
-import logo from './IMG/b.png';
-import coinIcon from './IMG/CU.png';
-import BB from './IMG/BB.png';
+
+import Icon from './IMG/logo.png';
+import avatar from './IMG/avatar.png';
+import inviteIcon from './IMG/LowerIcon/Invite_Icon.png';
+import lootIcon from './IMG/LowerIcon/Loot_Icon.png';
+import p2eIcon from './IMG/LowerIcon/P2E_Icon.png';
+import shopIcon from './IMG/LowerIcon/Shop_Icon.png';
+import earnIcon from './IMG/earn.png';
+import MainLogo from './IMG/mainLogo.png';
+import InviteLogo from './IMG/inviteLogo.png';
+import EarnLogo from './IMG/earnLogo.png';
+import defaultIcon from './IMG/ink.png';
+import axios from 'axios';
+
 import ProgressBar from './ProgressBar';
 import Shop from './shop';
 import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
-import axios from 'axios';
 
 function App() {
+  // Состояния
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
   const [upgradeLevel, setUpgradeLevel] = useState(1);
@@ -30,12 +40,18 @@ function App() {
   const [isEarnOpen, setIsEarnOpen] = useState(false);
   const [isMiniGameOpen, setIsMiniGameOpen] = useState(false);
   const [username, setUsername] = useState('');
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
   const [referralCode, setReferralCode] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+  const [ setProfilePhotoUrl] = useState(defaultIcon);
 
+
+  const [isLogoVisible, setIsLogoVisible] = useState(true);
+  const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
+  const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
+
+  // Загрузка и обновление профиля
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
@@ -47,7 +63,7 @@ function App() {
     } catch (error) {
       console.error('Error updating profile photo:', error);
     }
-  }, []);
+  }, [setProfilePhotoUrl]);
 
   const loadProgress = useCallback(async () => {
     if (userId) {
@@ -57,7 +73,6 @@ function App() {
         if (response.status === 200) {
           setUsername(data.username);
           setCoins(data.coins);
-          setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
           setUpgradeCost(data.upgradeCost);
@@ -70,6 +85,7 @@ function App() {
           setValEnergyTime(data.valEnergyTime);
           setTime(data.time);
           setUpgradeCostEnergyTime(data.upgradeCostEnergyTime);
+          setProfilePhotoUrl(data.profilePhotoUrl || defaultIcon);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -81,7 +97,7 @@ function App() {
     } else {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userId, setProfilePhotoUrl]);
 
   const saveProgress = useCallback(async () => {
     if (userId) {
@@ -134,6 +150,7 @@ function App() {
     await saveProgress();
   }, [coins, energyNow, saveProgress]);
 
+  // Обработчики нажатий
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => {
@@ -184,6 +201,7 @@ function App() {
     }
   }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
+  // Открытие/закрытие окон
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
   }, []);
@@ -195,20 +213,32 @@ function App() {
 
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
+    setisInviteLogoVisible(true);
+    setIsLogoVisible(false);
   }, []);
 
   const handleCloseRef = useCallback(async () => {
+    setisInviteLogoVisible(false);
+    setIsLogoVisible(true);
+    setTimeout(() => {
+      setIsRefOpen(false);
+    }, 190);
     await saveProgress();
-    setIsRefOpen(false);
   }, [saveProgress]);
 
   const handleOpenEarn = useCallback(() => {
     setIsEarnOpen(true);
+    setisEarnLogoVisible(true);
+    setIsLogoVisible(false);
   }, []);
 
   const handleCloseEarn = useCallback(async () => {
+    setIsLogoVisible(true);
+    setisEarnLogoVisible(false);
+    setTimeout(() => {
+      setIsEarnOpen(false);
+    }, 190);
     await saveProgress();
-    setIsEarnOpen(false);
   }, [saveProgress]);
 
   const handleOpenMiniGame = useCallback(() => {
@@ -239,50 +269,88 @@ function App() {
         {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
-                <img src={profilePhotoUrl} alt="Profile" className="profile-icon" />
+                <img src={Icon} alt="Icon" height={"55%"} />
                 <p>{username}</p>
-                <img src={logo} alt="Bifclif" />
+                <img src={avatar} alt="Avatar" height={"70%"} />
+              </div>
+              <div className="logo">
+                <img
+                    src={MainLogo}
+                    alt="Main Logo"
+                    height={"95%"}
+                    className={isLogoVisible ? 'fade-in' : 'fade-out'}
+                />
+                <img
+                    src={InviteLogo}
+                    alt="Invite Logo"
+                    height={"85%"}
+                    className={isInviteLogoVisible ? 'fade-in' : 'fade-out'}
+                />
+                <img
+                    src={EarnLogo}
+                    alt="Earn Logo"
+                    height={"85%"}
+                    className={isEarnLogoVisible ? 'fade-in' : 'fade-out'}
+                />
               </div>
               <div className="main">
                 <div className="mainInfo">
-                  <div className="halfBox">
-                    <div className="halfBoxDiv">
-                      <p>Монет за клик</p>
-                      <p>+{coinPerClick} <img src={coinIcon} alt="Coin" className="coin-image" /></p>
+                  <div className="BorderMainInfo">
+                    <div id="left_thriple" className="tripleBox">
+                      <p>LVL.1</p>
+                      <p id="nonBold"> <img src={Icon} alt='Ink' /> {coins}/300</p>
+                    </div>
+                    <div className="tripleBox">
+                      <p>EARN</p>
+                      <p id="nonBold">4/255</p>
+                    </div>
+                    <div id="right_thriple" className="tripleBox">
+                      <p>ITEMS</p>
+                      <p id="nonBold">6/255</p>
+                      <div className="important">
+                        <p>important</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="halfBox">
-                    <div className="halfBoxDiv">
-                      <p>Энергия</p>
-                      <p>{clickLimit} / {energyNow}<img src={BB} alt="Battery" className="coin-image" /></p>
-                    </div>
-                  </div>
-                </div>
-                <div className="CoinInfo">
-                  <img src={coinIcon} alt="Coin" height="90%" />
-                  <p>{coins}</p>
                 </div>
                 <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
                 <div className="Progress">
+                  <div className="userStatus">
+                    <p>Beginner &gt; </p>
+                  </div>
                   <ProgressBar current={energyNow} max={clickLimit} />
+                  <div className="energy">
+                    <img src={Icon} alt='Ink' height={"70%"} />
+                    <p id="odstup">{energyNow}/{clickLimit}</p>
+                    <img onClick={handleOpenEarn} id="kalendar" src={earnIcon} alt='Earn Icon' height={"65%"} />
+                    <p onClick={handleOpenEarn}>EARN</p>
+                  </div>
                 </div>
                 <div className="lower">
-                  <div className="lowerDiv">
-                    <div className="BTNLOW" onClick={handleOpenEarn}>
-                      <p>Заработать</p>
-                      <p>💸</p>
+                  <div className="lowerDown">
+                    <div className='BTN' onClick={handleOpenShop}>
+                      <div className="BTNLOW">
+                        <img src={shopIcon} height={"90%"} alt='Shop Icon' />
+                      </div>
+                      <p>SHOP</p>
                     </div>
-                    <div className="BTNLOW" onClick={handleOpenShop}>
-                      <p>Магазин</p>
-                      <p>🛒</p>
+                    <div className='BTN' onClick={handleOpenRef}>
+                      <div className="BTNLOW">
+                        <img src={inviteIcon} height={"115%"} alt='Invite Icon' />
+                      </div>
+                      <p>INVITE</p>
                     </div>
-                    <div className="BTNLOW" onClick={handleOpenRef}>
-                      <p>Реф</p>
-                      <p>👥</p>
+                    <div className='BTN'>
+                      <div className="BTNLOW">
+                        <img src={lootIcon} height={"90%"} alt='Loot Icon' />
+                      </div>
+                      <p>LOOT</p>
                     </div>
-                    <div className="BTNLOW" onClick={handleOpenMiniGame}>
-                      <p>Играть</p>
-                      <p>🚀</p>
+                    <div className='BTN' onClick={handleOpenMiniGame}>
+                      <div className="BTNLOW">
+                        <img src={p2eIcon} height={"90%"} alt='P2E Icon' />
+                      </div>
+                      <p>P2E</p>
                     </div>
                   </div>
                 </div>
@@ -315,7 +383,6 @@ function App() {
                 telegramLink={telegramLink}
             />
         )}
-
 
         {isEarnOpen && (
             <Earn
