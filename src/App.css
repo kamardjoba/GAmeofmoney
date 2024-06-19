@@ -7,8 +7,9 @@ body {
   margin: 0;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(#000000, #434343 20%);
   position: fixed;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .App {
@@ -326,7 +327,15 @@ body {
   position: absolute;
 }
 
+/* App.css */
+
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+/* Темная тема */
 body.dark {
-  background-color: #121212;
-  color: #ffffff;
+  --background-color: #121212;
+  --text-color: #ffffff;
 }

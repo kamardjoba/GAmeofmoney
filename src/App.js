@@ -98,10 +98,12 @@ function App() {
   useEffect(() => {
     if (window.Telegram.WebApp) {
       window.Telegram.WebApp.ready(() => {
-        window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
+        const theme = window.Telegram.WebApp.colorScheme;
+        document.body.className = theme === 'dark' ? 'dark' : 'light';
       });
     }
   }, []);
+
 
   // Загрузка данных при загрузке страницы
   useEffect(() => {
