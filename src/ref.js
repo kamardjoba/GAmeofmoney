@@ -39,6 +39,9 @@ const Ref = ({ onClose, userId, telegramLink }) => {
             window.Telegram.WebApp.BackButton.onClick(() => {
                 handleCloseRefAnim(); // Закрываем экран и возвращаемся на главный
                 onClose();
+                if (window.Telegram.WebApp.BackButton.isVisible) {
+                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
+                }
             });
         }
 

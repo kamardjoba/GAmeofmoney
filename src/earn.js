@@ -15,16 +15,22 @@ const Earn = ({ onClose }) => {
     useEffect(() => {
         // Настройка кнопки "Назад" при монтировании компонента
         if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.BackButton.show();
+            if (!window.Telegram.WebApp.BackButton.isVisible) {
+                window.Telegram.WebApp.BackButton.show();
+            }
+            window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
             window.Telegram.WebApp.BackButton.onClick(() => {
                 handleCloseEarnAnim(); // Закрываем экран и возвращаемся на главный
                 onClose();
+                if (window.Telegram.WebApp.BackButton.isVisible) {
+                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
+                }
             });
         }
 
         return () => {
             // Скрываем кнопку при размонтировании компонента
-            if (window.Telegram.WebApp) {
+            if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
                 window.Telegram.WebApp.BackButton.hide();
             }
         };

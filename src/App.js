@@ -220,7 +220,7 @@ function App() {
       window.Telegram.WebApp.BackButton.onClick(() => {
         setIsShopOpen(false);
         if (window.Telegram.WebApp.BackButton.isVisible) {
-          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
         }
       });
     }
@@ -252,7 +252,7 @@ function App() {
         setisInviteLogoVisible(false);
         setIsLogoVisible(true);
         if (window.Telegram.WebApp.BackButton.isVisible) {
-          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
         }
       });
     }
@@ -288,7 +288,7 @@ function App() {
         setisEarnLogoVisible(false);
         setIsLogoVisible(true);
         if (window.Telegram.WebApp.BackButton.isVisible) {
-          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
         }
       });
     }

@@ -17,7 +17,7 @@ const Shop = ({ coins, onClose,
             window.Telegram.WebApp.BackButton.onClick(() => {
                 onClose();
                 if (window.Telegram.WebApp.BackButton.isVisible) {
-                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
                 }
             });
         }
