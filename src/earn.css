@@ -1,146 +1,107 @@
-/* Основное окно Earn */
 .Earn_Window {
     width: 100%;
     height: 78%;
     position: fixed;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
     border-radius: 3vh 3vh 0 0;
     bottom: 0;
     color: white;
     background: #151515;
-    animation: slide-up 0.2s ease-out;
 }
 
-.Earn_Window.closing {
-    animation: slide-down 0.2s ease-in;
+.ScrollBorder{
+    height: 76%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
 }
 
-.Earn_Window.subscribed {
-    border: 2px solid green;
+.EarnSkrollMenu{
+    height: 96%;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    /*overflow: scroll;*/
 }
 
-/* Заголовок Earn */
-.earn-header {
+.TaskBorder{
+    height: 30%;
     width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2.5vh;
+}
+
+
+.Task{
+    background: #2D2D2D;
+    height: 100%;
+    width: 42%;
+    border-radius: 2vh;
+    box-shadow:inset 0 0 0 0.2vh #838282,
+                     2px 2px 3px rgba(0,0,0,50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1em;
-    border-bottom: 1px solid #2D2D2D;
-}
-
-.earn-header img {
-    height: 3em;
-    margin-right: 1em;
-}
-
-.earn-title p {
-    font-size: 1.5em;
-    margin: 0;
-    text-align: center;
-}
-
-.earn-title img {
-    height: 2em;
-    margin-left: 1em;
-}
-
-/* Основное содержимое Earn */
-.earn-content {
-    width: 80%;
-    text-align: center;
-    padding: 1em;
-}
-
-.earn-content p {
-    margin-bottom: 1em;
-    font-size: 1.2em;
-}
-
-.earn-content button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 0.5em 0;
-}
-
-.earn-content button:hover {
-    background-color: #0056b3;
-}
-
-.earn-content button:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-}
-
-/* Список заданий */
-.task-list {
-    width: 100%;
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 1em;
-    border-top: 1px solid #2D2D2D;
 }
 
-.task {
-    background: #2D2D2D;
-    width: 90%;
+.TaskText{
+    width: 100%;
+    height: 38%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-radius: 2vh;
-    box-shadow: inset 0 0 0 0.2vh #838282, 2px 2px 3px rgba(0, 0, 0, 50%);
-    margin-bottom: 1em;
-    padding: 1em;
+    justify-content: end;
+    flex-direction: column;
 }
 
-.task-text p {
-    font-size: 1.2em;
+.TaskText p{
+    font: 2.4vh Muller;
     margin: 0.2vh;
 }
 
-.task-img img {
-    height: 3em;
+.TaskIMG{
+    width: 100%;
+    height: 62%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Кнопка закрытия */
-#CloseDebug {
-    background: none;
-    color: white;
-    border: none;
-    font-size: 1.5em;
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    cursor: pointer;
+.TaskIMG img{
+    margin-bottom: 1vh;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,30%));
 }
 
-#CloseDebug:hover {
-    color: red;
+#BigTask{
+    width: 50%;
 }
 
-@keyframes slide-up {
-    from {
-        bottom: -80%;
-    }
-    to {
-        bottom: 0;
-    }
+#BigTask p {
+    font: 1.8vh Muller;
+    margin: 0;
 }
 
-@keyframes slide-down {
-    from {
-        bottom: 0;
-    }
-    to {
-        bottom: -80%;
-    }
+#BigTask img{
+    margin: 1vh;
+}
+
+#BigTask #littleEarn_p{
+    font: 1.5vh MullerLight !important;
+}
+
+
+
+.Earn_Window {
+    animation: slide-up 0.2s ease-out;
+}
+  
+.Earn_Window.closing {
+    animation: slide-down 0.2s ease-in;
 }
