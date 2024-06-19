@@ -63,6 +63,7 @@ function App() {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
         const data = response.data;
+        data.referralCode = undefined;
         if (response.status === 200) {
           setUsername(data.username);
           setCoins(data.coins);

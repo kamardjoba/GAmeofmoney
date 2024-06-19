@@ -321,3 +321,6 @@ body {
   justify-content: center;
   font: 2vh MullerMedium;
 }
+.referral-section{
+  visibility: hidden;
+}
