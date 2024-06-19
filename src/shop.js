@@ -55,15 +55,15 @@ const Shop = ({ coins, onClose,
 
             <div className="section">
                 <div className='hz'>
-                    <p>Энергия</п>
+                    <p>Энергия</p>
                 </div>
                 <div className="section-menu">
-                    <p>{clickLimit}</п>
+                    <p>{clickLimit}</p>
                     <div className="inform">
-                        <п>Уровень улучшения: {upgradeLevelEnergy}</п>
+                        <p>Уровень улучшения: {upgradeLevelEnergy}</p>
                     </div>
                     <div className="inform">
-                        <п>Стоимость улучшения: {upgradeCostEnergy}</п>
+                        <p>Стоимость улучшения: {upgradeCostEnergy}</p>
                     </div>
                     <button onClick={onUpgradeEnergy} disabled={coins < upgradeCostEnergy}>
                         Улучшить
@@ -73,15 +73,15 @@ const Shop = ({ coins, onClose,
 
             <div className="section">
                 <div className='hz'>
-                    <п>Востановления енергиї</п>
+                    <p>Востановления енергиї</p>
                 </div>
                 <div className="section-menu">
-                    <п>{valEnergyTime} в секунду</п>
+                    <p>{valEnergyTime} в секунду</p>
                     <div className="inform">
-                        <п>Уровень улучшения: {upgradeEnergyTimeLevel}</п>
+                        <p>Уровень улучшения: {upgradeEnergyTimeLevel}</p>
                     </div>
                     <div className="inform">
-                        <п>Стоимость улучшения: {upgradeCostEnergyTime}</п>
+                        <p>Стоимость улучшения: {upgradeCostEnergyTime}</p>
                     </div>
                     <button onClick={onUpgradeEnergyTime} disabled={coins < upgradeCostEnergyTime}>
                         Улучшить
