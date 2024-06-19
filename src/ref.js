@@ -1,7 +1,9 @@
-// ref.js
 import React, { useState, useEffect } from 'react';
 import './ref.css';
 import defaultIcon from './IMG/avatar.png';
+import Ref_Earn_Box from './IMG/box.png';
+import Ref_Earn_BoxLeft from './IMG/Znak.png';
+import inviteicon from './IMG/Invite.png';
 
 const Ref = ({ onClose, userId, telegramLink }) => {
     const [referralLink] = useState(telegramLink);
@@ -51,7 +53,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
         <div className={`Ref_Window ${isClosingRefForAnim ? 'closing' : ''}`}>
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
-                    <img src={defaultIcon} alt='defaultIcon' height={"60%"} />
+                    <img src={Ref_Earn_Box} alt='defaultIcon' height={"60%"} />
                 </div>
                 <div className='Ref_Earn_BoxTitle'>
                     <div className='Ref_Earn_BoxUp'>
@@ -59,7 +61,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                     </div>
                     <div className='Ref_Earn_BoxDown'>
                         <div className='Ref_Earn_BoxLeft'>
-                            <img src={defaultIcon} alt='defaultIcon' height={"50%"} />
+                            <img src={Ref_Earn_BoxLeft} alt='defaultIcon' height={"50%"} />
                         </div>
                         <div className='Ref_Earn_BoxRight'>
                             <p>Получить <span className="Ref_Earn_Purple">СЮРПРИЗ</span></p>
@@ -88,13 +90,12 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                         </div>
                     ))}
                 </div>
-
             </div>
 
             <div className="refthripleBTN">
                 <button className="refgo" onClick={handleShareLink}>
                     <p>Поделиться </p>
-                    <img src={defaultIcon} alt='defaultIcon' height={"110%"}/>
+                    <img src={inviteicon} alt='defaultIcon' height={"110%"}/>
                 </button>
                 <button className="refgo" id='refgoCopy' onClick={handleCopyLink}>
                     <img src={defaultIcon} alt='defaultIcon' height={"50%"}/>
