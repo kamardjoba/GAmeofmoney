@@ -10,15 +10,21 @@ const Shop = ({ coins, onClose,
     useEffect(() => {
         // Настройка кнопки "Назад" при монтировании компонента
         if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.BackButton.show();
+            if (!window.Telegram.WebApp.BackButton.isVisible) {
+                window.Telegram.WebApp.BackButton.show();
+            }
+            window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
             window.Telegram.WebApp.BackButton.onClick(() => {
                 onClose();
+                if (window.Telegram.WebApp.BackButton.isVisible) {
+                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+                }
             });
         }
 
         return () => {
             // Скрываем кнопку при размонтировании компонента
-            if (window.Telegram.WebApp) {
+            if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
                 window.Telegram.WebApp.BackButton.hide();
             }
         };
@@ -49,15 +55,15 @@ const Shop = ({ coins, onClose,
 
             <div className="section">
                 <div className='hz'>
-                    <p>Энергия</p>
+                    <p>Энергия</п>
                 </div>
                 <div className="section-menu">
-                    <p>{clickLimit}</p>
+                    <p>{clickLimit}</п>
                     <div className="inform">
-                        <p>Уровень улучшения: {upgradeLevelEnergy}</p>
+                        <п>Уровень улучшения: {upgradeLevelEnergy}</п>
                     </div>
                     <div className="inform">
-                        <p>Стоимость улучшения: {upgradeCostEnergy}</p>
+                        <п>Стоимость улучшения: {upgradeCostEnergy}</п>
                     </div>
                     <button onClick={onUpgradeEnergy} disabled={coins < upgradeCostEnergy}>
                         Улучшить
@@ -67,15 +73,15 @@ const Shop = ({ coins, onClose,
 
             <div className="section">
                 <div className='hz'>
-                    <p>Востановления енергиї</p>
+                    <п>Востановления енергиї</п>
                 </div>
                 <div className="section-menu">
-                    <p>{valEnergyTime} в секунду</p>
+                    <п>{valEnergyTime} в секунду</п>
                     <div className="inform">
-                        <p>Уровень улучшения: {upgradeEnergyTimeLevel}</p>
+                        <п>Уровень улучшения: {upgradeEnergyTimeLevel}</п>
                     </div>
                     <div className="inform">
-                        <p>Стоимость улучшения: {upgradeCostEnergyTime}</p>
+                        <п>Стоимость улучшения: {upgradeCostEnergyTime}</п>
                     </div>
                     <button onClick={onUpgradeEnergyTime} disabled={coins < upgradeCostEnergyTime}>
                         Улучшить

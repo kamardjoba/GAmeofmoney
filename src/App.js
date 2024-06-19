@@ -208,6 +208,34 @@ function App() {
     }
   }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
+  const handleOpenShop = useCallback(() => {
+    setIsShopOpen(true);
+
+    // Настройка кнопки "Назад" через Telegram API
+    if (window.Telegram.WebApp) {
+      if (!window.Telegram.WebApp.BackButton.isVisible) {
+        window.Telegram.WebApp.BackButton.show();
+      }
+      window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        setIsShopOpen(false);
+        if (window.Telegram.WebApp.BackButton.isVisible) {
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+        }
+      });
+    }
+  }, []);
+
+  const handleCloseShop = useCallback(async () => {
+    setIsShopOpen(false);
+    await saveProgress();
+
+    // Скрытие кнопки "Назад" при закрытии
+    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  }, [saveProgress]);
+
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
     setisInviteLogoVisible(true);
@@ -215,12 +243,17 @@ function App() {
 
     // Настройка кнопки "Назад" через Telegram API
     if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.BackButton.show();
+      if (!window.Telegram.WebApp.BackButton.isVisible) {
+        window.Telegram.WebApp.BackButton.show();
+      }
+      window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
       window.Telegram.WebApp.BackButton.onClick(() => {
         setIsRefOpen(false);
         setisInviteLogoVisible(false);
         setIsLogoVisible(true);
-        window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+        if (window.Telegram.WebApp.BackButton.isVisible) {
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+        }
       });
     }
   }, []);
@@ -234,34 +267,10 @@ function App() {
     await saveProgress();
 
     // Скрытие кнопки "Назад" при закрытии
-    if (window.Telegram.WebApp) {
+    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
       window.Telegram.WebApp.BackButton.hide();
     }
   }, [saveProgress]);
-
-  const handleOpenShop = useCallback(() => {
-    setIsShopOpen(true);
-
-    // Настройка кнопки "Назад" через Telegram API
-    if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.BackButton.show();
-      window.Telegram.WebApp.BackButton.onClick(() => {
-        setIsShopOpen(false);
-        window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
-      });
-    }
-  }, []);
-
-  const handleCloseShop = useCallback(async () => {
-    setIsShopOpen(false);
-    await saveProgress();
-
-    // Скрытие кнопки "Назад" при закрытии
-    if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.BackButton.hide();
-    }
-  }, [saveProgress]);
-
 
   const handleOpenEarn = useCallback(() => {
     setIsEarnOpen(true);
@@ -270,13 +279,17 @@ function App() {
 
     // Настройка кнопки "Назад" через Telegram API
     if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.BackButton.show();
+      if (!window.Telegram.WebApp.BackButton.isVisible) {
+        window.Telegram.WebApp.BackButton.show();
+      }
+      window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
       window.Telegram.WebApp.BackButton.onClick(() => {
-        // Возвращаемся на главный экран
         setIsEarnOpen(false);
         setisEarnLogoVisible(false);
         setIsLogoVisible(true);
-        window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+        if (window.Telegram.WebApp.BackButton.isVisible) {
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+        }
       });
     }
   }, []);
@@ -290,7 +303,7 @@ function App() {
     await saveProgress();
 
     // Скрытие кнопки "Назад" при закрытии
-    if (window.Telegram.WebApp) {
+    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
       window.Telegram.WebApp.BackButton.hide();
     }
   }, [saveProgress]);

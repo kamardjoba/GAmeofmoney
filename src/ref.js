@@ -32,7 +32,10 @@ const Ref = ({ onClose, userId, telegramLink }) => {
 
         // Настройка кнопки "Назад" при монтировании компонента
         if (window.Telegram.WebApp) {
-            window.Telegram.WebApp.BackButton.show();
+            if (!window.Telegram.WebApp.BackButton.isVisible) {
+                window.Telegram.WebApp.BackButton.show();
+            }
+            window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
             window.Telegram.WebApp.BackButton.onClick(() => {
                 handleCloseRefAnim(); // Закрываем экран и возвращаемся на главный
                 onClose();
@@ -41,7 +44,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
 
         return () => {
             // Скрываем кнопку при размонтировании компонента
-            if (window.Telegram.WebApp) {
+            if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
                 window.Telegram.WebApp.BackButton.hide();
             }
         };
