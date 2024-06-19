@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import axios from 'axios';
@@ -46,6 +45,7 @@ function App() {
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
 
+  // Функция для обновления фото профиля
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
@@ -59,12 +59,12 @@ function App() {
     }
   }, []);
 
+  // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
         const data = response.data;
-        data.referralCode = undefined;
         if (response.status === 200) {
           setUsername(data.username);
           setCoins(data.coins);
@@ -94,6 +94,15 @@ function App() {
     }
   }, [userId]);
 
+  // Устанавливаем цвет заголовочной строки на черный при загрузке приложения
+  useEffect(() => {
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
+    }
+  }, []);
+
+  // Загрузка данных при загрузке страницы
   useEffect(() => {
     const loadAndUpdate = async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -107,6 +116,7 @@ function App() {
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
   }, [loadProgress]);
 
+  // Сохранение прогресса пользователя
   const saveProgress = useCallback(async () => {
     if (userId) {
       try {
@@ -123,28 +133,7 @@ function App() {
     upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
     upgradeCostEnergyTime, valEnergyTime, time]);
 
-  useEffect(() => {
-    const loadAndUpdate = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userIdFromURL = urlParams.get('userId');
-      setUserId(userIdFromURL);
-
-      if (userIdFromURL) {
-        await updateProfilePhoto(userIdFromURL);
-        await loadProgress();
-      }
-      setLoading(false);
-    };
-    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-  }, [loadProgress, updateProfilePhoto]);
-
-  useEffect(() => {
-    // Установить цвет верхней панели в черный при загрузке приложения
-    if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
-    }
-  }, []);
-
+  // Автоматическое восстановление энергии
   useEffect(() => {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
@@ -161,10 +150,7 @@ function App() {
     };
   }, [clickLimit, time, valEnergyTime]);
 
-  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
-    await saveProgress();
-  }, [coins, energyNow, saveProgress]);
-
+  // Обработка нажатия на монету
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       setCoins(prevCoins => {
@@ -176,6 +162,12 @@ function App() {
     }
   }, [coinPerClick, energyNow, saveProgressData]);
 
+  // Обновление данных после изменения монет или энергии
+  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
+    await saveProgress();
+  }, [coins, energyNow, saveProgress]);
+
+  // Апгрейд стоимости клика
   const CoinPerClickUpgrade = useCallback(async () => {
     if (coins >= upgradeCost) {
       setCoins(prevCoins => {
@@ -189,6 +181,7 @@ function App() {
     }
   }, [coins, upgradeCost, saveProgressData]);
 
+  // Апгрейд энергии
   const EnergyUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergy) {
       setCoins(prevCoins => {
@@ -202,6 +195,7 @@ function App() {
     }
   }, [coins, upgradeCostEnergy, saveProgressData]);
 
+  // Апгрейд времени восстановления энергии
   const EnergyTimeUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergyTime) {
       setCoins(prevCoins => {
@@ -215,6 +209,7 @@ function App() {
     }
   }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
+  // Открытие магазина
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
 
@@ -233,6 +228,7 @@ function App() {
     }
   }, []);
 
+  // Закрытие магазина
   const handleCloseShop = useCallback(async () => {
     setIsShopOpen(false);
     await saveProgress();
@@ -243,6 +239,7 @@ function App() {
     }
   }, [saveProgress]);
 
+  // Открытие реферального раздела
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
     setisInviteLogoVisible(true);
@@ -265,6 +262,7 @@ function App() {
     }
   }, []);
 
+  // Закрытие реферального раздела
   const handleCloseRef = useCallback(async () => {
     setisInviteLogoVisible(false);
     setIsLogoVisible(true);
@@ -279,6 +277,7 @@ function App() {
     }
   }, [saveProgress]);
 
+  // Открытие раздела заработка
   const handleOpenEarn = useCallback(() => {
     setIsEarnOpen(true);
     setisEarnLogoVisible(true);
@@ -301,6 +300,7 @@ function App() {
     }
   }, []);
 
+  // Закрытие раздела заработка
   const handleCloseEarn = useCallback(async () => {
     setIsLogoVisible(true);
     setisEarnLogoVisible(false);
@@ -315,15 +315,18 @@ function App() {
     }
   }, [saveProgress]);
 
+  // Открытие мини-игры
   const handleOpenMiniGame = useCallback(() => {
     setIsMiniGameOpen(true);
   }, []);
 
+  // Закрытие мини-игры
   const handleCloseMiniGame = useCallback(async () => {
     await saveProgress();
     setIsMiniGameOpen(false);
   }, [saveProgress]);
 
+  // Проверка подписки
   const handleCheckSubscription = useCallback(async (userId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
