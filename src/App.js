@@ -208,19 +208,21 @@ function App() {
     }
   }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
-  const handleOpenShop = useCallback(() => {
-    setIsShopOpen(true);
-  }, []);
-
-  const handleCloseShop = useCallback(async () => {
-    await saveProgress();
-    setIsShopOpen(false);
-  }, [saveProgress]);
-
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
     setisInviteLogoVisible(true);
     setIsLogoVisible(false);
+
+    // Настройка кнопки "Назад" через Telegram API
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.BackButton.show();
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        setIsRefOpen(false);
+        setisInviteLogoVisible(false);
+        setIsLogoVisible(true);
+        window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+      });
+    }
   }, []);
 
   const handleCloseRef = useCallback(async () => {
@@ -230,7 +232,36 @@ function App() {
       setIsRefOpen(false);
     }, 190);
     await saveProgress();
+
+    // Скрытие кнопки "Назад" при закрытии
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
   }, [saveProgress]);
+
+  const handleOpenShop = useCallback(() => {
+    setIsShopOpen(true);
+
+    // Настройка кнопки "Назад" через Telegram API
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.BackButton.show();
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        setIsShopOpen(false);
+        window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+      });
+    }
+  }, []);
+
+  const handleCloseShop = useCallback(async () => {
+    setIsShopOpen(false);
+    await saveProgress();
+
+    // Скрытие кнопки "Назад" при закрытии
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  }, [saveProgress]);
+
 
   const handleOpenEarn = useCallback(() => {
     setIsEarnOpen(true);
