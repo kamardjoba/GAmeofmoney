@@ -8,7 +8,7 @@ import Task_3 from './IMG/TaskIcon/task_3.png';
 import Task_4 from './IMG/TaskIcon/task_4.png';
 import Task_5 from './IMG/TaskIcon/task_5.png';
 
-const REACT_APP_CHANNEL_NAME = "Your_Telegram_Channel_Name"; // Замените на ваше имя канала
+const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGOGgogogooo"; // Замените на ваше имя канала
 
 const Earn = ({ onClose, userId, onCheckSubscription }) => {
     const [message, setMessage] = useState('');
