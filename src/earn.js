@@ -1,25 +1,39 @@
-import React, { useState } from 'react';
-import './earn.css'
-
+// earn.js
+import React, { useState, useEffect } from 'react';
+import './earn.css';
 import gray_8nogIcon from './IMG/gray_8nog.png';
 import znakLogo from './IMG/Znak.png';
-
 import Task_1 from './IMG/TaskIcon/task_1.png';
 import Task_2 from './IMG/TaskIcon/task_2.png';
 import Task_3 from './IMG/TaskIcon/task_3.png';
 import Task_4 from './IMG/TaskIcon/task_4.png';
 import Task_5 from './IMG/TaskIcon/task_5.png';
+import {
+    setTelegramMainButton // Импортируем глобальную функцию
+} from './webapp-button'; // Укажите правильный путь к файлу
 
 const Earn = ({ onClose }) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
+
+    useEffect(() => {
+        // Настраиваем кнопку "Назад" при монтировании компонента
+        setTelegramMainButton('Назад', () => {
+            handleCloseEarnAnim(); // Закрываем экран и возвращаемся на главный
+            onClose();
+        });
+
+        return () => {
+            // Скрываем кнопку при размонтировании компонента
+            setTelegramMainButton(null);
+        };
+    }, [onClose]);
 
     const handleCloseEarnAnim = () => {
         setClosingEarnForAnim(true);
     };
 
     return (
-      <div className={`Earn_Window ${isClosingEarnForAnim ? 'closing' : ''}`}>
-
+        <div className={`Earn_Window ${isClosingEarnForAnim ? 'closing' : ''}`}>
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
                     <img src={gray_8nogIcon} alt='gray_8nogIcon' height={"80%"}/>
@@ -43,12 +57,11 @@ const Earn = ({ onClose }) => {
 
             <div className="ScrollBorder">
                 <div className="EarnSkrollMenu">
-
                     <div className="TaskBorder">
                         <div className="Task">
                             <div className='TaskText'>
-                            <p>LEVEL UP </p>
-                            <p>TO LEVEL 3</p>
+                                <p>LEVEL UP </p>
+                                <p>TO LEVEL 3</p>
                             </div>
                             <div className='TaskIMG'>
                                 <img src={Task_1} alt='Task_1' height={"90%"}/>
@@ -78,7 +91,7 @@ const Earn = ({ onClose }) => {
                             <p>TELEGRAM</p>
                             <p>CHANNEL</p>
                             <img src={Task_4} alt='Task_4' height={"35%"}/>
-                                <p id='littleEarn_p'>BitclifGame CHANNEL</p>
+                            <p id='littleEarn_p'>BitclifGame CHANNEL</p>
                         </div>
                     </div>
 
@@ -96,16 +109,12 @@ const Earn = ({ onClose }) => {
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM CHAT</p>
                             <img src={Task_4} alt='Task_4' height={"35%"}/>
-                                <p id='littleEarn_p'>BitclifGame CHAT</p>
+                            <p id='littleEarn_p'>BitclifGame CHAT</p>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
-            <button id='CloseDebug' onClick={(event) => {onClose(event); handleCloseEarnAnim(event); }}>X</button>
-
+            <button id='CloseDebug' onClick={(event) => { onClose(event); handleCloseEarnAnim(event); }}>X</button>
         </div>
     );
 };

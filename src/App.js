@@ -1,3 +1,4 @@
+// App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import axios from 'axios';
@@ -17,6 +18,10 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
+
+import {
+  setTelegramMainButton // Импортируем глобальную функцию
+} from './webapp-button'; // Укажите правильный путь к файлу
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -190,7 +195,7 @@ function App() {
       });
       setClickLimit(prevClickLimit => prevClickLimit * 2);
       setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
-      setUpgradeCostEnergy(prevUpgradeCostEnergy => Math.floor(prevUpgradeCostEnergy * 1.5));
+      setUpgradeCostEnergy(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
     }
   }, [coins, upgradeCostEnergy, saveProgressData]);
 
@@ -235,6 +240,14 @@ function App() {
     setIsEarnOpen(true);
     setisEarnLogoVisible(true);
     setIsLogoVisible(false);
+    // Изменяем текст кнопки и её действие
+    setTelegramMainButton('Назад', () => {
+      // Возвращаемся на главный экран
+      setIsEarnOpen(false);
+      setisEarnLogoVisible(false);
+      setIsLogoVisible(true);
+      setTelegramMainButton(null); // Скрываем кнопку
+    });
   }, []);
 
   const handleCloseEarn = useCallback(async () => {
