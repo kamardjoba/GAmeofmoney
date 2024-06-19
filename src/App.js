@@ -1,13 +1,6 @@
-// App.js
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import axios from 'axios';
-import Shop from './shop';
-import Coindiv from './coin';
-import Ref from './ref';
-import Earn from './earn';
-import MiniGame from './MiniGame';
-import ProgressBar from './ProgressBar';
 import Icon from './IMG/logo.png';
 import inviteIcon from './IMG/LowerIcon/Invite_Icon.png';
 import lootIcon from './IMG/LowerIcon/Loot_Icon.png';
@@ -18,9 +11,12 @@ import MainLogo from './IMG/mainLogo.png';
 import InviteLogo from './IMG/inviteLogo.png';
 import EarnLogo from './IMG/earnLogo.png';
 import defaultIcon from './IMG/ink.png';
-
-// Ensure Telegram WebApp is available
-const Telegram = window.Telegram;
+import ProgressBar from './ProgressBar';
+import Shop from './shop';
+import Coindiv from './coin';
+import Ref from './ref';
+import Earn from './earn';
+import MiniGame from './MiniGame';
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -44,10 +40,11 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
   const [referralCode, setReferralCode] = useState('');
-  const [currentScreen, setCurrentScreen] = useState('main');
+
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
+  const [isTelegramButtonVisible, setIsTelegramButtonVisible] = useState(true);
 
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
@@ -67,6 +64,7 @@ function App() {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
         const data = response.data;
+        data.referralCode = undefined;
         if (response.status === 200) {
           setUsername(data.username);
           setCoins(data.coins);
@@ -212,20 +210,17 @@ function App() {
 
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
-    setCurrentScreen('shop');
   }, []);
 
   const handleCloseShop = useCallback(async () => {
     await saveProgress();
     setIsShopOpen(false);
-    setCurrentScreen('main');
   }, [saveProgress]);
 
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
     setisInviteLogoVisible(true);
     setIsLogoVisible(false);
-    setCurrentScreen('ref');
   }, []);
 
   const handleCloseRef = useCallback(async () => {
@@ -233,7 +228,6 @@ function App() {
     setIsLogoVisible(true);
     setTimeout(() => {
       setIsRefOpen(false);
-      setCurrentScreen('main');
     }, 190);
     await saveProgress();
   }, [saveProgress]);
@@ -242,7 +236,6 @@ function App() {
     setIsEarnOpen(true);
     setisEarnLogoVisible(true);
     setIsLogoVisible(false);
-    setCurrentScreen('earn');
   }, []);
 
   const handleCloseEarn = useCallback(async () => {
@@ -250,21 +243,26 @@ function App() {
     setisEarnLogoVisible(false);
     setTimeout(() => {
       setIsEarnOpen(false);
-      setCurrentScreen('main');
     }, 190);
     await saveProgress();
   }, [saveProgress]);
 
   const handleOpenMiniGame = useCallback(() => {
     setIsMiniGameOpen(true);
-    setCurrentScreen('minigame');
   }, []);
 
   const handleCloseMiniGame = useCallback(async () => {
     await saveProgress();
     setIsMiniGameOpen(false);
-    setCurrentScreen('main');
   }, [saveProgress]);
+
+  const handleOpenTelegramButton = useCallback(() => {
+    setIsTelegramButtonVisible(true);
+  }, []);
+
+  const handleCloseTelegramButton = useCallback(() => {
+    setIsTelegramButtonVisible(false);
+  }, []);
 
   const handleCheckSubscription = useCallback(async (userId) => {
     try {
@@ -279,22 +277,6 @@ function App() {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
-
-  const updateHeaderButton = useCallback(() => {
-    if (currentScreen === 'main') {
-      Telegram.WebApp.MainButton.text = 'Закрыть';
-      Telegram.WebApp.MainButton.onClick(() => Telegram.WebApp.close());
-    } else {
-      Telegram.WebApp.MainButton.text = 'Назад';
-      Telegram.WebApp.MainButton.onClick(() => setCurrentScreen('main'));
-    }
-    Telegram.WebApp.MainButton.show();
-  }, [currentScreen]);
-
-  useEffect(() => {
-    Telegram.WebApp.ready();
-    updateHeaderButton();
-  }, [currentScreen, updateHeaderButton]); // Исправлено: добавлен updateHeaderButton в зависимости
 
   return (
       <div className="App">
@@ -387,6 +369,13 @@ function App() {
                   </div>
                 </div>
               </div>
+              {/* Добавьте кнопки для управления видимостью Telegram */}
+              {isTelegramButtonVisible && (
+                  <button onClick={handleCloseTelegramButton}>Скрыть Telegram</button>
+              )}
+              {!isTelegramButtonVisible && (
+                  <button onClick={handleOpenTelegramButton}>Показать Telegram</button>
+              )}
             </>
         )}
 
