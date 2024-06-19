@@ -94,17 +94,6 @@ function App() {
     }
   }, [userId]);
 
-  // Устанавливаем цвет заголовочной строки на черный при загрузке приложения
-  useEffect(() => {
-    if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready(() => {
-        const theme = window.Telegram.WebApp.colorScheme;
-        document.body.className = theme === 'dark' ? 'dark' : 'light';
-      });
-    }
-  }, []);
-
-
   // Загрузка данных при загрузке страницы
   useEffect(() => {
     const loadAndUpdate = async () => {
