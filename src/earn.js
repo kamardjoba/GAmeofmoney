@@ -3,13 +3,20 @@ import './earn.css';
 import gray_8nogIcon from './IMG/gray_8nog.png';
 import znakLogo from './IMG/Znak.png';
 
-const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGgogogooo";
+import Task_1 from './IMG/TaskIcon/task_1.png';
+import Task_2 from './IMG/TaskIcon/task_2.png';
+import Task_3 from './IMG/TaskIcon/task_3.png';
+import Task_4 from './IMG/TaskIcon/task_4.png';
+import Task_5 from './IMG/TaskIcon/task_5.png';
+
+const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGOGgogogooo";
 
 const Earn = ({ onClose, userId, onCheckSubscription }) => {
+    const [message, setMessage] = useState('');
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [isChecking, setIsChecking] = useState(false);
     const [hasCheckedSubscription, setHasCheckedSubscription] = useState(false);
-    const [message, setMessage] = useState('');
+    const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
 
     useEffect(() => {
         const checkSubscription = async () => {
@@ -47,8 +54,13 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
         }
     };
 
+    const handleCloseEarnAnim = () => {
+        setClosingEarnForAnim(true);
+    };
+
     return (
-        <div className={`Earn_Window ${isSubscribed ? 'subscribed' : ''}`}>
+        <div className={`Earn_Window ${isClosingEarnForAnim ? 'closing' : ''}`}>
+
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
                     <img src={gray_8nogIcon} alt='gray_8nogIcon' height={"80%"}/>
@@ -62,7 +74,7 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
                             <img src={znakLogo} alt='znakLogo' height={"50%"}/>
                         </div>
                         <div className='Ref_Earn_BoxRight'>
-                            <p>COMPLETE WEEKLY</p>
+                            <p>COMPLATE WEEKLY</p>
                             <p>TASKS AND <span className="Ref_Earn_Purple">EARN</span></p>
                             <p className="Ref_Earn_Purple" >MORE ITEMS</p>
                         </div>
@@ -130,6 +142,7 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
                     </div>
 
                 </div>
+
             </div>
 
             <div className="earn-content">
@@ -144,7 +157,8 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
                 <p>{message}</p>
             </div>
 
-            <button onClick={onClose}>X</button>
+            <button id='CloseDebug' onClick={(event) => {onClose(event); handleCloseEarnAnim(event); }}>X</button>
+
         </div>
     );
 };
