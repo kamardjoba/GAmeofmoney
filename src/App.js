@@ -139,6 +139,13 @@ function App() {
   }, [loadProgress, updateProfilePhoto]);
 
   useEffect(() => {
+    // Установить цвет верхней панели в черный при загрузке приложения
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
+    }
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setEnergyNow((prevEnergyNow) => {
         if (prevEnergyNow < clickLimit) {
