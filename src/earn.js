@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import './earn.css';
+import React, { useState } from 'react';
+import './earn.css'
+
 import gray_8nogIcon from './IMG/gray_8nog.png';
 import znakLogo from './IMG/Znak.png';
 
@@ -9,50 +10,8 @@ import Task_3 from './IMG/TaskIcon/task_3.png';
 import Task_4 from './IMG/TaskIcon/task_4.png';
 import Task_5 from './IMG/TaskIcon/task_5.png';
 
-const REACT_APP_CHANNEL_NAME = "GOGOGOGOGOGOGOGgogogooo";
-
-const Earn = ({ onClose, userId, onCheckSubscription }) => {
-    const [message, setMessage] = useState('');
-    const [isSubscribed, setIsSubscribed] = useState(false);
-    const [isChecking, setIsChecking] = useState(false);
-    const [hasCheckedSubscription, setHasCheckedSubscription] = useState(false);
+const Earn = ({ onClose }) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
-
-    useEffect(() => {
-        const checkSubscription = async () => {
-            setIsChecking(true);
-            try {
-                const result = await onCheckSubscription(userId);
-                setIsSubscribed(result.isSubscribed);
-                setHasCheckedSubscription(result.hasCheckedSubscription);
-                setMessage(result.message);
-            } catch (error) {
-                setMessage('Произошла ошибка при проверке подписки.');
-            } finally {
-                setIsChecking(false);
-            }
-        };
-
-        checkSubscription();
-    }, [userId, onCheckSubscription]);
-
-    const handleSubscriptionCheck = async () => {
-        if (hasCheckedSubscription) {
-            setMessage('Вы уже проверяли подписку и получили свои монеты.');
-            return;
-        }
-        setIsChecking(true);
-        try {
-            const result = await onCheckSubscription(userId);
-            setIsSubscribed(result.isSubscribed);
-            setHasCheckedSubscription(result.hasCheckedSubscription);
-            setMessage(result.message);
-        } catch (error) {
-            setMessage('Произошла ошибка при проверке подписки.');
-        } finally {
-            setIsChecking(false);
-        }
-    };
 
     const handleCloseEarnAnim = () => {
         setClosingEarnForAnim(true);
@@ -143,18 +102,6 @@ const Earn = ({ onClose, userId, onCheckSubscription }) => {
 
                 </div>
 
-            </div>
-
-            <div className="earn-content">
-                <p>Подпишитесь на наш Telegram канал и получите 5000 монет!</p>
-                <a href={`https://t.me/${REACT_APP_CHANNEL_NAME}`} target="_blank" rel="noopener noreferrer">Подписаться на канал</a>
-                <button
-                    onClick={handleSubscriptionCheck}
-                    disabled={isSubscribed || isChecking}
-                >
-                    Проверить Подписку {isSubscribed ? '✔️' : ''}
-                </button>
-                <p>{message}</p>
             </div>
 
             <button id='CloseDebug' onClick={(event) => {onClose(event); handleCloseEarnAnim(event); }}>X</button>
