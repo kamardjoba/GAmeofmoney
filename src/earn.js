@@ -12,13 +12,13 @@ import Task_5 from './IMG/TaskIcon/task_5.png';
 
 const Earn = ({ onClose }) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
-
+  
     const handleCloseEarnAnim = () => {
         setClosingEarnForAnim(true);
     };
-
+  
     return (
-        <div className={`Earn_Window ${isClosingEarnForAnim ? 'closing' : ''}`}>
+      <div className={`Earn_Window ${isClosingEarnForAnim ? 'closing' : ''}`}>
 
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
@@ -40,15 +40,15 @@ const Earn = ({ onClose }) => {
                     </div>
                 </div>
             </div>
-
+            
             <div className="ScrollBorder">
                 <div className="EarnSkrollMenu">
 
                     <div className="TaskBorder">
                         <div className="Task">
                             <div className='TaskText'>
-                                <p>LEVEL UP </p>
-                                <p>TO LEVEL 3</p>
+                            <p>LEVEL UP </p>
+                            <p>TO LEVEL 3</p>
                             </div>
                             <div className='TaskIMG'>
                                 <img src={Task_1} alt='Task_1' height={"90%"}/>
@@ -62,7 +62,7 @@ const Earn = ({ onClose }) => {
                             <p id='littleEarn_p'>Name | Bitclif</p>
                         </div>
                     </div>
-
+                    
                     <div className="TaskBorder">
                         <div className="Task">
                             <div className='TaskText'>
@@ -78,7 +78,7 @@ const Earn = ({ onClose }) => {
                             <p>TELEGRAM</p>
                             <p>CHANNEL</p>
                             <img src={Task_4} alt='Task_4' height={"35%"}/>
-                            <p id='littleEarn_p'>BitclifGame CHANNEL</p>
+                                <p id='littleEarn_p'>BitclifGame CHANNEL</p>
                         </div>
                     </div>
 
@@ -96,16 +96,16 @@ const Earn = ({ onClose }) => {
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM CHAT</p>
                             <img src={Task_4} alt='Task_4' height={"35%"}/>
-                            <p id='littleEarn_p'>BitclifGame CHAT</p>
+                                <p id='littleEarn_p'>BitclifGame CHAT</p>
                         </div>
                     </div>
 
                 </div>
-
+                
             </div>
-
+            
             <button id='CloseDebug' onClick={(event) => {onClose(event); handleCloseEarnAnim(event); }}>X</button>
-
+            
         </div>
     );
 };
