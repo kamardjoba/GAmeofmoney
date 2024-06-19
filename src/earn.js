@@ -8,23 +8,25 @@ import Task_2 from './IMG/TaskIcon/task_2.png';
 import Task_3 from './IMG/TaskIcon/task_3.png';
 import Task_4 from './IMG/TaskIcon/task_4.png';
 import Task_5 from './IMG/TaskIcon/task_5.png';
-import {
-    setTelegramMainButton // Импортируем глобальную функцию
-} from './webapp-button'; // Укажите правильный путь к файлу
 
 const Earn = ({ onClose }) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
 
     useEffect(() => {
-        // Настраиваем кнопку "Назад" при монтировании компонента
-        setTelegramMainButton('Назад', () => {
-            handleCloseEarnAnim(); // Закрываем экран и возвращаемся на главный
-            onClose();
-        });
+        // Настройка кнопки "Назад" при монтировании компонента
+        if (window.Telegram.WebApp) {
+            window.Telegram.WebApp.BackButton.show();
+            window.Telegram.WebApp.BackButton.onClick(() => {
+                handleCloseEarnAnim(); // Закрываем экран и возвращаемся на главный
+                onClose();
+            });
+        }
 
         return () => {
             // Скрываем кнопку при размонтировании компонента
-            setTelegramMainButton(null);
+            if (window.Telegram.WebApp) {
+                window.Telegram.WebApp.BackButton.hide();
+            }
         };
     }, [onClose]);
 
@@ -114,7 +116,6 @@ const Earn = ({ onClose }) => {
                     </div>
                 </div>
             </div>
-            <button id='CloseDebug' onClick={(event) => { onClose(event); handleCloseEarnAnim(event); }}>X</button>
         </div>
     );
 };

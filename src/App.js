@@ -19,10 +19,6 @@ import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
 
-import {
-  setTelegramMainButton // Импортируем глобальную функцию
-} from './webapp-button'; // Укажите правильный путь к файлу
-
 function App() {
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
@@ -240,14 +236,18 @@ function App() {
     setIsEarnOpen(true);
     setisEarnLogoVisible(true);
     setIsLogoVisible(false);
-    // Изменяем текст кнопки и её действие
-    setTelegramMainButton('Назад', () => {
-      // Возвращаемся на главный экран
-      setIsEarnOpen(false);
-      setisEarnLogoVisible(false);
-      setIsLogoVisible(true);
-      setTelegramMainButton(null); // Скрываем кнопку
-    });
+
+    // Настройка кнопки "Назад" через Telegram API
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.BackButton.show();
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        // Возвращаемся на главный экран
+        setIsEarnOpen(false);
+        setisEarnLogoVisible(false);
+        setIsLogoVisible(true);
+        window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку
+      });
+    }
   }, []);
 
   const handleCloseEarn = useCallback(async () => {
@@ -257,6 +257,11 @@ function App() {
       setIsEarnOpen(false);
     }, 190);
     await saveProgress();
+
+    // Скрытие кнопки "Назад" при закрытии
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
   }, [saveProgress]);
 
   const handleOpenMiniGame = useCallback(() => {
