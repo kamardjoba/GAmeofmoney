@@ -110,11 +110,13 @@ function App() {
       setUserId(userIdFromURL);
 
       if (userIdFromURL) {
+        await updateProfilePhoto(userIdFromURL);
         await loadProgress();
       }
+      setLoading(false);
     };
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-  }, [loadProgress]);
+  }, [loadProgress, updateProfilePhoto]);
 
   // Сохранение прогресса пользователя
   const saveProgress = useCallback(async () => {
@@ -150,6 +152,10 @@ function App() {
     };
   }, [clickLimit, time, valEnergyTime]);
 
+  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
+    await saveProgress();
+  }, [coins, energyNow, saveProgress]);
+
   // Обработка нажатия на монету
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
@@ -163,9 +169,7 @@ function App() {
   }, [coinPerClick, energyNow, saveProgressData]);
 
   // Обновление данных после изменения монет или энергии
-  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
-    await saveProgress();
-  }, [coins, energyNow, saveProgress]);
+
 
   // Апгрейд стоимости клика
   const CoinPerClickUpgrade = useCallback(async () => {
