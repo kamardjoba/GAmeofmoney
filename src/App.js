@@ -19,6 +19,9 @@ import InviteLogo from './IMG/inviteLogo.png';
 import EarnLogo from './IMG/earnLogo.png';
 import defaultIcon from './IMG/ink.png';
 
+// Ensure Telegram WebApp is available
+const Telegram = window.Telegram;
+
 function App() {
   const [coins, setCoins] = useState(0);
   const [upgradeCost, setUpgradeCost] = useState(10);
@@ -277,7 +280,7 @@ function App() {
     }
   }, []);
 
-  const updateHeaderButton = () => {
+  const updateHeaderButton = useCallback(() => {
     if (currentScreen === 'main') {
       Telegram.WebApp.MainButton.text = 'Закрыть';
       Telegram.WebApp.MainButton.onClick(() => Telegram.WebApp.close());
@@ -286,12 +289,12 @@ function App() {
       Telegram.WebApp.MainButton.onClick(() => setCurrentScreen('main'));
     }
     Telegram.WebApp.MainButton.show();
-  };
+  }, [currentScreen]);
 
   useEffect(() => {
     Telegram.WebApp.ready();
     updateHeaderButton();
-  }, [currentScreen]);
+  }, [currentScreen, updateHeaderButton]); // Исправлено: добавлен updateHeaderButton в зависимости
 
   return (
       <div className="App">
