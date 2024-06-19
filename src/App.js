@@ -97,8 +97,9 @@ function App() {
   // Устанавливаем цвет заголовочной строки на черный при загрузке приложения
   useEffect(() => {
     if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
+      window.Telegram.WebApp.ready(() => {
+        window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
+      });
     }
   }, []);
 
