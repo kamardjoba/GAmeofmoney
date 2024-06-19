@@ -401,6 +401,7 @@ function App() {
             )}
             <div className="referral-section">
                 <p>Ваш реферальный код: {referralCode}</p>
+                <p>Ваш реферальный код: </p>
             </div>
         </div>
     );
