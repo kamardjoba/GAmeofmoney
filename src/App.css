@@ -323,4 +323,5 @@ body {
 }
 .referral-section{
   visibility: hidden;
+  position: absolute;
 }
