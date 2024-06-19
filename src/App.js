@@ -44,7 +44,6 @@ function App() {
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
-  const [isTelegramButtonVisible, setIsTelegramButtonVisible] = useState(true);
 
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
@@ -64,7 +63,6 @@ function App() {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
         const data = response.data;
-        data.referralCode = undefined;
         if (response.status === 200) {
           setUsername(data.username);
           setCoins(data.coins);
@@ -247,6 +245,11 @@ function App() {
     await saveProgress();
   }, [saveProgress]);
 
+  const handleBackFromEarn = useCallback(() => {
+    setIsEarnOpen(false);
+    setIsLogoVisible(true);
+  }, []);
+
   const handleOpenMiniGame = useCallback(() => {
     setIsMiniGameOpen(true);
   }, []);
@@ -255,14 +258,6 @@ function App() {
     await saveProgress();
     setIsMiniGameOpen(false);
   }, [saveProgress]);
-
-  const handleOpenTelegramButton = useCallback(() => {
-    setIsTelegramButtonVisible(true);
-  }, []);
-
-  const handleCloseTelegramButton = useCallback(() => {
-    setIsTelegramButtonVisible(false);
-  }, []);
 
   const handleCheckSubscription = useCallback(async (userId) => {
     try {
@@ -283,9 +278,9 @@ function App() {
         {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
-                <img src={Icon} alt="Icon" height="55%"/>
+                <img src={Icon} alt="Icon" height="55%" />
                 <p>{username}</p>
-                <img src={profilePhotoUrl} alt="Avatar" height="70%"/>
+                <img src={profilePhotoUrl} alt="Avatar" height="70%" />
               </div>
               <div className="logo">
                 <img
@@ -312,7 +307,7 @@ function App() {
                   <div className="BorderMainInfo">
                     <div id="left_thriple" className="tripleBox">
                       <p>LVL.1</p>
-                      <p id="nonBold"><img src={Icon} alt="Ink"/> {coins}/300</p>
+                      <p id="nonBold"><img src={Icon} alt="Ink" /> {coins}/300</p>
                     </div>
                     <div className="tripleBox">
                       <p>EARN</p>
@@ -327,16 +322,16 @@ function App() {
                     </div>
                   </div>
                 </div>
-                <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow}/>
+                <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
                 <div className="Progress">
                   <div className="userStatus">
                     <p>Beginner &gt;</p>
                   </div>
-                  <ProgressBar current={energyNow} max={clickLimit}/>
+                  <ProgressBar current={energyNow} max={clickLimit} />
                   <div className="energy">
-                    <img src={Icon} alt="Ink" height="70%"/>
+                    <img src={Icon} alt="Ink" height="70%" />
                     <p id="odstup">{energyNow}/{clickLimit}</p>
-                    <img onClick={handleOpenEarn} id="kalendar" src={earnIcon} alt="Earn Icon" height="65%"/>
+                    <img onClick={handleOpenEarn} id="kalendar" src={earnIcon} alt="Earn Icon" height="65%" />
                     <p onClick={handleOpenEarn}>EARN</p>
                   </div>
                 </div>
@@ -344,38 +339,31 @@ function App() {
                   <div className="lowerDown">
                     <div className="BTN" onClick={handleOpenShop}>
                       <div className="BTNLOW">
-                        <img src={shopIcon} height="90%" alt="Shop Icon"/>
+                        <img src={shopIcon} height="90%" alt="Shop Icon" />
                       </div>
                       <p>SHOP</p>
                     </div>
                     <div className="BTN" onClick={handleOpenRef}>
                       <div className="BTNLOW">
-                        <img src={inviteIcon} height="115%" alt="Invite Icon"/>
+                        <img src={inviteIcon} height="115%" alt="Invite Icon" />
                       </div>
                       <p>INVITE</p>
                     </div>
                     <div className="BTN">
                       <div className="BTNLOW">
-                        <img src={lootIcon} height="90%" alt="Loot Icon"/>
+                        <img src={lootIcon} height="90%" alt="Loot Icon" />
                       </div>
                       <p>LOOT</p>
                     </div>
                     <div className="BTN" onClick={handleOpenMiniGame}>
                       <div className="BTNLOW">
-                        <img src={p2eIcon} height="90%" alt="P2E Icon"/>
+                        <img src={p2eIcon} height="90%" alt="P2E Icon" />
                       </div>
                       <p>P2E</p>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* Добавьте кнопки для управления видимостью Telegram */}
-              {isTelegramButtonVisible && (
-                  <button onClick={handleCloseTelegramButton}>Скрыть Telegram</button>
-              )}
-              {!isTelegramButtonVisible && (
-                  <button onClick={handleOpenTelegramButton}>Показать Telegram</button>
-              )}
             </>
         )}
 
@@ -408,13 +396,14 @@ function App() {
         {isEarnOpen && (
             <Earn
                 onClose={handleCloseEarn}
+                onBack={handleBackFromEarn} // Передаем функцию onBack
                 userId={userId}
                 onCheckSubscription={handleCheckSubscription}
             />
         )}
 
         {isMiniGameOpen && (
-            <MiniGame onClose={handleCloseMiniGame}/>
+            <MiniGame onClose={handleCloseMiniGame} />
         )}
         <div className="referral-section">
           <p>Ваш реферальный код: {referralCode}</p>
