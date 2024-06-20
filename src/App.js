@@ -94,6 +94,26 @@ function App() {
     }
   }, [userId]);
 
+  // Принудительное применение темной темы
+  const applyDarkTheme = useCallback(() => {
+    document.body.className = 'dark'; // Применяем темную тему к body
+    window.Telegram.WebApp.setHeaderColor('bg_color', '#000000'); // Устанавливаем черный цвет заголовочной строки
+  }, []);
+
+  useEffect(() => {
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready(() => {
+        // Принудительно устанавливаем темную тему
+        applyDarkTheme();
+
+        // Обработчик изменений темы - также принудительно устанавливаем темную тему
+        window.Telegram.WebApp.onEvent('themeChanged', () => {
+          applyDarkTheme();
+        });
+      });
+    }
+  }, [applyDarkTheme]);
+
   // Загрузка данных при загрузке страницы
   useEffect(() => {
     const loadAndUpdate = async () => {
@@ -159,9 +179,6 @@ function App() {
       setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
     }
   }, [coinPerClick, energyNow, saveProgressData]);
-
-  // Обновление данных после изменения монет или энергии
-
 
   // Апгрейд стоимости клика
   const CoinPerClickUpgrade = useCallback(async () => {
@@ -338,7 +355,7 @@ function App() {
   }, []);
 
   return (
-      <div className="App">
+      <div className="App dark">
         {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
