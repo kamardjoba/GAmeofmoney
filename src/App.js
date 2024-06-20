@@ -95,12 +95,22 @@ function App() {
   }, [userId]);
 
   // Принудительное применение темной темы
+// Принудительное применение темной темы
   const applyDarkTheme = useCallback(() => {
-    document.body.classList.add('dark'); // Применяем темную тему к body
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000'); // Устанавливаем черный цвет заголовочной строки
+    document.body.style.backgroundColor = '#000000';
+    document.body.style.color = '#ffffff';
+    document.body.className = 'dark';
+
+    // Устанавливаем черный цвет заголовочной строки и текста
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
+      window.Telegram.WebApp.setBackgroundColor('#000000');
+      window.Telegram.WebApp.setHeaderColor('secondary_bg_color', '#000000');
+      window.Telegram.WebApp.MainButton.color = '#000000';
+      window.Telegram.WebApp.MainButton.textColor = '#ffffff';
     }
   }, []);
+
 
 
   useEffect(() => {
