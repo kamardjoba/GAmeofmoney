@@ -45,31 +45,7 @@ function App() {
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
 
-  // Принудительное применение темной темы
-  const applyDarkTheme = useCallback(() => {
-    document.body.style.backgroundColor = '#000000';
-    document.body.style.color = '#ffffff';
-    document.body.className = 'dark';
 
-    if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.setHeaderColor('#000000'); // Устанавливаем черный цвет заголовочной строки
-      window.Telegram.WebApp.setHeaderColor('secondary_bg_color', '#000000'); // Черный цвет для нижней панели
-      window.Telegram.WebApp.MainButton.color = '#000000'; // Цвет основной кнопки
-      window.Telegram.WebApp.MainButton.textColor = '#ffffff'; // Цвет текста основной кнопки
-    }
-  }, []);
-
-  useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready(() => {
-        applyDarkTheme();
-
-        window.Telegram.WebApp.onEvent('themeChanged', () => {
-          applyDarkTheme();
-        });
-      });
-    }
-  }, [applyDarkTheme]);
 
   // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
