@@ -72,35 +72,6 @@ function App() {
     }
   }, [applyDarkTheme]);
 
-  useEffect(() => {
-    const loadAndUpdate = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userIdFromURL = urlParams.get('userId');
-      setUserId(userIdFromURL);
-
-      if (userIdFromURL) {
-        await updateProfilePhoto(userIdFromURL);
-        await loadProgress();
-      }
-      setLoading(false);
-    };
-    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-  }, [loadProgress, updateProfilePhoto]);
-
-  // Функция для обновления фото профиля
-  const updateProfilePhoto = useCallback(async (telegramId) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
-      if (response.data.success) {
-        setProfilePhotoUrl(response.data.profilePhotoUrl || defaultIcon);
-      } else {
-        console.error('Error updating profile photo:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error updating profile photo:', error);
-    }
-  }, []);
-
   // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
     if (userId) {
@@ -136,13 +107,34 @@ function App() {
     }
   }, [userId]);
 
+  // Функция для обновления фото профиля
+  const updateProfilePhoto = useCallback(async (telegramId) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
+      if (response.data.success) {
+        setProfilePhotoUrl(response.data.profilePhotoUrl || defaultIcon);
+      } else {
+        console.error('Error updating profile photo:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error updating profile photo:', error);
+    }
+  }, []);
 
+  useEffect(() => {
+    const loadAndUpdate = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdFromURL = urlParams.get('userId');
+      setUserId(userIdFromURL);
 
-
-
-
-
-
+      if (userIdFromURL) {
+        await updateProfilePhoto(userIdFromURL);
+        await loadProgress();
+      }
+      setLoading(false);
+    };
+    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
+  }, [loadProgress, updateProfilePhoto]);
 
   // Сохранение прогресса пользователя
   const saveProgress = useCallback(async () => {
