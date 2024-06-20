@@ -342,7 +342,7 @@ function App() {
               <div className="info">
                 <img src={Icon} alt="Icon" height="55%"/>
                 <p>{username}</p>
-                <img src={profilePhotoUrl} alt="Avatar" height="70%"/>
+                <img src={profilePhotoUrl} alt="Avatar" height={"70%"}/>
               </div>
               <div className="logo">
                 <img
