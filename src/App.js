@@ -53,7 +53,7 @@ function App() {
 
     if (window.Telegram.WebApp) {
       window.Telegram.WebApp.setHeaderColor('#000000'); // Устанавливаем черный цвет заголовочной строки
-      window.Telegram.WebApp.setBackgroundColor('#000000'); // Устанавливаем черный цвет фона
+      // Устанавливаем черный цвет фона
       window.Telegram.WebApp.setHeaderColor('secondary_bg_color', '#000000'); // Черный цвет для нижней панели
       window.Telegram.WebApp.MainButton.color = '#000000'; // Цвет основной кнопки
       window.Telegram.WebApp.MainButton.textColor = '#ffffff'; // Цвет текста основной кнопки
