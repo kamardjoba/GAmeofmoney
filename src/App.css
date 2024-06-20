@@ -11,15 +11,6 @@ body {
   position: fixed;
 }
 
-body.dark {
-  background-color: #000000;
-  color: #ffffff;
-}
-
-.App.dark .main {
-  background-color: #1c1c1c;
-  color: #fff;
-}
 
 .App {
   margin: 0;
