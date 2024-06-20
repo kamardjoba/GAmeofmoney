@@ -96,14 +96,16 @@ function App() {
 
   // Принудительное применение темной темы
   const applyDarkTheme = useCallback(() => {
-    document.body.className = 'dark'; // Применяем темную тему к body
-    window.Telegram.WebApp.setHeaderColor('bg_color', '#000000'); // Устанавливаем черный цвет заголовочной строки
+    document.body.classList.add('dark'); // Применяем темную тему к body
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000'); // Устанавливаем черный цвет заголовочной строки
+    }
   }, []);
 
+
   useEffect(() => {
-    if (window.Telegram.WebApp) {
+    if (window.Telegram && window.Telegram.WebApp) {
       window.Telegram.WebApp.ready(() => {
-        // Принудительно устанавливаем темную тему
         applyDarkTheme();
 
         // Обработчик изменений темы - также принудительно устанавливаем темную тему
