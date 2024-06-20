@@ -145,35 +145,56 @@ function App() {
     };
   }, [clickLimit, time, valEnergyTime]);
 
-  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
-    await saveProgress();
-  }, [coins, energyNow, saveProgress]);
+  const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
+        userId, coins: newCoins, energyNow: newEnergyNow,
+        upgradeCost, upgradeLevel, coinPerClick,
+        upgradeCostEnergy, upgradeLevelEnergy, clickLimit,
+        upgradeCostEnergyTime, valEnergyTime, time
+      });
+    } catch (error) {
+      console.error('Error saving progress:', error);
+    }
+  }, [userId, upgradeCost, upgradeLevel, coinPerClick,
+    upgradeCostEnergy, upgradeLevelEnergy, clickLimit,
+    upgradeCostEnergyTime, valEnergyTime, time]);
+
 
   // Обработка нажатия на монету
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
-      setCoins(prevCoins => {
-        const newCoins = prevCoins + coinPerClick;
-        saveProgressData(newCoins, energyNow - coinPerClick);
-        return newCoins;
-      });
-      setEnergyNow(prevEnergyNow => prevEnergyNow - coinPerClick);
+      const newCoins = coins + coinPerClick;
+      const newEnergyNow = energyNow - coinPerClick;
+
+      // Обновляем состояние монет и энергии
+      setCoins(newCoins);
+      setEnergyNow(newEnergyNow);
+
+      // Сохраняем прогресс с новым значением монет
+      await saveProgressData(newCoins, newEnergyNow);
     }
-  }, [coinPerClick, energyNow, saveProgressData]);
+  }, [coins, energyNow, coinPerClick, saveProgressData]);
+
 
   // Апгрейд стоимости клика
   const CoinPerClickUpgrade = useCallback(async () => {
     if (coins >= upgradeCost) {
-      setCoins(prevCoins => {
-        const newCoins = prevCoins - upgradeCost;
-        saveProgressData(newCoins);
-        return newCoins;
-      });
-      setCoinPerClick(prevCoinPerClick => prevCoinPerClick + 1);
-      setUpgradeLevel(prevUpgradeLevel => prevUpgradeLevel + 1);
-      setUpgradeCost(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
+      const newCoins = coins - upgradeCost;
+      const newCoinPerClick = coinPerClick + 1;
+      const newUpgradeLevel = upgradeLevel + 1;
+      const newUpgradeCost = Math.floor(upgradeCost * 1.5);
+
+      setCoins(newCoins);
+      setCoinPerClick(newCoinPerClick);
+      setUpgradeLevel(newUpgradeLevel);
+      setUpgradeCost(newUpgradeCost);
+
+      // Сохраняем прогресс с новыми значениями
+      await saveProgressData(newCoins, energyNow);
     }
-  }, [coins, upgradeCost, saveProgressData]);
+  }, [coins, upgradeCost, coinPerClick, upgradeLevel, energyNow, saveProgressData]);
+
 
   // Апгрейд энергии
   const EnergyUpgrade = useCallback(async () => {
