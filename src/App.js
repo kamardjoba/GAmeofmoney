@@ -111,52 +111,6 @@ function App() {
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
   }, [loadProgress, updateProfilePhoto]);
 
-  const handleToggleSection = useCallback((sectionName) => {
-    const isOpen = {
-      shop: isShopOpen,
-      ref: isRefOpen,
-      earn: isEarnOpen,
-      miniGame: isMiniGameOpen,
-    }[sectionName];
-
-    const setOpen = {
-      shop: setIsShopOpen,
-      ref: setIsRefOpen,
-      earn: setIsEarnOpen,
-      miniGame: setIsMiniGameOpen,
-    }[sectionName];
-
-    if (!isOpen) {
-      setOpen(true);
-      if (sectionName === 'ref') {
-        setisInviteLogoVisible(true);
-        setIsLogoVisible(false);
-      } else if (sectionName === 'earn') {
-        setisEarnLogoVisible(true);
-        setIsLogoVisible(false);
-      }
-    } else {
-      setOpen(false);
-      if (sectionName === 'ref') {
-        setisInviteLogoVisible(false);
-        setIsLogoVisible(true);
-      } else if (sectionName === 'earn') {
-        setisEarnLogoVisible(false);
-        setIsLogoVisible(true);
-      }
-    }
-
-    if (window.Telegram.WebApp) {
-      if (!isOpen) {
-        window.Telegram.WebApp.BackButton.show();
-        window.Telegram.WebApp.BackButton.offClick();
-        window.Telegram.WebApp.BackButton.onClick(() => handleToggleSection(sectionName));
-      } else {
-        window.Telegram.WebApp.BackButton.hide();
-      }
-    }
-  }, [isShopOpen, isRefOpen, isEarnOpen, isMiniGameOpen]);
-
   // Сохранение прогресса пользователя
   const saveProgress = useCallback(async () => {
     if (userId) {
@@ -402,13 +356,6 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isShopOpen || isRefOpen || isEarnOpen) {
-      window.Telegram.WebApp.BackButton.show();
-    } else {
-      window.Telegram.WebApp.BackButton.hide();
-    }
-  }, [isShopOpen, isRefOpen, isEarnOpen]);
 
 
   return (
