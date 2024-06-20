@@ -340,7 +340,7 @@ function App() {
         {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
-                <img src={Icon} alt="Icon" height="55%"/>
+                <img src={Icon} alt="Icon" height={"55%"}/>
                 <p>{username}</p>
                 <img src={profilePhotoUrl} alt="Avatar" height={"70%"}/>
               </div>
