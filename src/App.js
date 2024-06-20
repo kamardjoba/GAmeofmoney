@@ -360,7 +360,7 @@ function App() {
   }, []);
 
   return (
-      <div className="App ">
+      <div className="body">
         {loading ? <div>Loading...</div> : (
             <>
               <div className="info">
