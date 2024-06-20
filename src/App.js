@@ -111,6 +111,52 @@ function App() {
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
   }, [loadProgress, updateProfilePhoto]);
 
+  const handleToggleSection = useCallback((sectionName) => {
+    const isOpen = {
+      shop: isShopOpen,
+      ref: isRefOpen,
+      earn: isEarnOpen,
+      miniGame: isMiniGameOpen,
+    }[sectionName];
+
+    const setOpen = {
+      shop: setIsShopOpen,
+      ref: setIsRefOpen,
+      earn: setIsEarnOpen,
+      miniGame: setIsMiniGameOpen,
+    }[sectionName];
+
+    if (!isOpen) {
+      setOpen(true);
+      if (sectionName === 'ref') {
+        setisInviteLogoVisible(true);
+        setIsLogoVisible(false);
+      } else if (sectionName === 'earn') {
+        setisEarnLogoVisible(true);
+        setIsLogoVisible(false);
+      }
+    } else {
+      setOpen(false);
+      if (sectionName === 'ref') {
+        setisInviteLogoVisible(false);
+        setIsLogoVisible(true);
+      } else if (sectionName === 'earn') {
+        setisEarnLogoVisible(false);
+        setIsLogoVisible(true);
+      }
+    }
+
+    if (window.Telegram.WebApp) {
+      if (!isOpen) {
+        window.Telegram.WebApp.BackButton.show();
+        window.Telegram.WebApp.BackButton.offClick();
+        window.Telegram.WebApp.BackButton.onClick(() => handleToggleSection(sectionName));
+      } else {
+        window.Telegram.WebApp.BackButton.hide();
+      }
+    }
+  }, [isShopOpen, isRefOpen, isEarnOpen, isMiniGameOpen]);
+
   // Сохранение прогресса пользователя
   const saveProgress = useCallback(async () => {
     if (userId) {
@@ -224,28 +270,35 @@ function App() {
     }
   }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
-// Открытие магазина
+  // Открытие магазина
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
-    if (window.Telegram.WebApp && !window.Telegram.WebApp.BackButton.isVisible) {
-      window.Telegram.WebApp.BackButton.show();
-      window.Telegram.WebApp.BackButton.offClick();
+
+    // Настройка кнопки "Назад" через Telegram API
+    if (window.Telegram.WebApp) {
+      if (!window.Telegram.WebApp.BackButton.isVisible) {
+        window.Telegram.WebApp.BackButton.show();
+      }
+      window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
       window.Telegram.WebApp.BackButton.onClick(() => {
         setIsShopOpen(false);
-        window.Telegram.WebApp.BackButton.hide();
+        if (window.Telegram.WebApp.BackButton.isVisible) {
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
+        }
       });
     }
   }, []);
 
-// Закрытие магазина
+  // Закрытие магазина
   const handleCloseShop = useCallback(async () => {
     setIsShopOpen(false);
     await saveProgress();
+
+    // Скрытие кнопки "Назад" при закрытии
     if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
       window.Telegram.WebApp.BackButton.hide();
     }
   }, [saveProgress]);
-
 
   // Открытие реферального раздела
   const handleOpenRef = useCallback(() => {
@@ -348,6 +401,15 @@ function App() {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
+
+  useEffect(() => {
+    if (isShopOpen || isRefOpen || isEarnOpen) {
+      window.Telegram.WebApp.BackButton.show();
+    } else {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  }, [isShopOpen, isRefOpen, isEarnOpen]);
+
 
   return (
       <div className="App">
