@@ -44,36 +44,10 @@ function App() {
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
-  const [isBackButtonVisible, setIsBackButtonVisible] = useState(false);
 
-  const applyDarkTheme = useCallback(() => {
-    document.body.style.background = 'linear-gradient(#000000, #434343 20%)';
-    document.body.style.color = '#ffffff';
-    document.body.className = 'dark';
 
-    if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.setHeaderColor('#000000');
-      window.Telegram.WebApp.MainButton.color = '#000000';
-      window.Telegram.WebApp.MainButton.textColor = '#ffffff';
-    }
-  }, []);
 
-  const showBackButton = useCallback((onClick) => {
-    if (!isBackButtonVisible) {
-      window.Telegram.WebApp.BackButton.show();
-      setIsBackButtonVisible(true);
-    }
-    window.Telegram.WebApp.BackButton.offClick();
-    window.Telegram.WebApp.BackButton.onClick(onClick);
-  }, [isBackButtonVisible]);
-
-  const hideBackButton = useCallback(() => {
-    if (isBackButtonVisible) {
-      window.Telegram.WebApp.BackButton.hide();
-      setIsBackButtonVisible(false);
-    }
-  }, [isBackButtonVisible]);
-
+  // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
     if (userId) {
       try {
@@ -108,6 +82,20 @@ function App() {
     }
   }, [userId]);
 
+  // Функция для обновления фото профиля
+  const updateProfilePhoto = useCallback(async (telegramId) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
+      if (response.data.success) {
+        setProfilePhotoUrl(response.data.profilePhotoUrl || defaultIcon);
+      } else {
+        console.error('Error updating profile photo:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error updating profile photo:', error);
+    }
+  }, []);
+
   useEffect(() => {
     const loadAndUpdate = async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -115,13 +103,15 @@ function App() {
       setUserId(userIdFromURL);
 
       if (userIdFromURL) {
+        await updateProfilePhoto(userIdFromURL);
         await loadProgress();
       }
       setLoading(false);
     };
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-  }, [loadProgress]);
+  }, [loadProgress, updateProfilePhoto]);
 
+  // Сохранение прогресса пользователя
   const saveProgress = useCallback(async () => {
     if (userId) {
       try {
@@ -138,22 +128,56 @@ function App() {
     upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
     upgradeCostEnergyTime, valEnergyTime, time]);
 
-  const saveProgressData = useCallback(async (newCoins = coins, newEnergyNow = energyNow) => {
-    await saveProgress();
-  }, [coins, energyNow, saveProgress]);
+  // Автоматическое восстановление энергии
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEnergyNow((prevEnergyNow) => {
+        if (prevEnergyNow < clickLimit) {
+          return prevEnergyNow + valEnergyTime;
+        } else {
+          return prevEnergyNow;
+        }
+      });
+    }, time);
 
+    return () => {
+      clearInterval(interval);
+    };
+  }, [clickLimit, time, valEnergyTime]);
+
+  const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
+        userId, coins: newCoins, energyNow: newEnergyNow,
+        upgradeCost, upgradeLevel, coinPerClick,
+        upgradeCostEnergy, upgradeLevelEnergy, clickLimit,
+        upgradeCostEnergyTime, valEnergyTime, time
+      });
+    } catch (error) {
+      console.error('Error saving progress:', error);
+    }
+  }, [userId, upgradeCost, upgradeLevel, coinPerClick,
+    upgradeCostEnergy, upgradeLevelEnergy, clickLimit,
+    upgradeCostEnergyTime, valEnergyTime, time]);
+
+
+  // Обработка нажатия на монету
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       const newCoins = coins + coinPerClick;
       const newEnergyNow = energyNow - coinPerClick;
 
+      // Обновляем состояние монет и энергии
       setCoins(newCoins);
       setEnergyNow(newEnergyNow);
 
+      // Сохраняем прогресс с новым значением монет
       await saveProgressData(newCoins, newEnergyNow);
     }
   }, [coins, energyNow, coinPerClick, saveProgressData]);
 
+
+  // Апгрейд стоимости клика
   const CoinPerClickUpgrade = useCallback(async () => {
     if (coins >= upgradeCost) {
       const newCoins = coins - upgradeCost;
@@ -166,82 +190,87 @@ function App() {
       setUpgradeLevel(newUpgradeLevel);
       setUpgradeCost(newUpgradeCost);
 
+      // Сохраняем прогресс с новыми значениями
       await saveProgressData(newCoins, energyNow);
     }
   }, [coins, upgradeCost, coinPerClick, upgradeLevel, energyNow, saveProgressData]);
 
+
+  // Апгрейд энергии
   const EnergyUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergy) {
-      const newCoins = coins - upgradeCostEnergy;
-      setCoins(newCoins);
-      setClickLimit(clickLimit * 2);
-      setUpgradeLevelEnergy(upgradeLevelEnergy + 1);
-      setUpgradeCostEnergy(Math.floor(upgradeCostEnergy * 1.5));
-
-      await saveProgressData(newCoins, energyNow);
+      setCoins(prevCoins => {
+        const newCoins = prevCoins - upgradeCostEnergy;
+        saveProgressData(newCoins);
+        return newCoins;
+      });
+      setClickLimit(prevClickLimit => prevClickLimit * 2);
+      setUpgradeLevelEnergy(prevUpgradeLevelEnergy => prevUpgradeLevelEnergy + 1);
+      setUpgradeCostEnergy(prevUpgradeCost => Math.floor(prevUpgradeCost * 1.5));
     }
-  }, [coins, upgradeCostEnergy, clickLimit, upgradeLevelEnergy, energyNow, saveProgressData]);
+  }, [coins, upgradeCostEnergy, saveProgressData]);
 
+  // Апгрейд времени восстановления энергии
   const EnergyTimeUpgrade = useCallback(async () => {
     if (coins >= upgradeCostEnergyTime) {
-      const newCoins = coins - upgradeCostEnergyTime;
-      setCoins(newCoins);
-      setValEnergyTime(valEnergyTime * 2);
-      setTime(time / 2);
-      setUpgradeCostEnergyTime(Math.floor(upgradeCostEnergyTime * 1.5));
-
-      await saveProgressData(newCoins, energyNow);
+      setCoins(prevCoins => {
+        const newCoins = prevCoins - upgradeCostEnergyTime;
+        saveProgressData(newCoins);
+        return newCoins;
+      });
+      setValEnergyTime(prevValEnergyTime => prevValEnergyTime * 2);
+      setTime(prevTime => prevTime / 2);
+      setUpgradeCostEnergyTime(prevUpgradeCostEnergyTime => Math.floor(prevUpgradeCostEnergyTime * 1.5));
     }
-  }, [coins, upgradeCostEnergyTime, valEnergyTime, time, energyNow, saveProgressData]);
+  }, [coins, upgradeCostEnergyTime, saveProgressData]);
 
+// Открытие магазина
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
-    showBackButton(() => {
-      setIsShopOpen(false);
-      hideBackButton();
-    });
-  }, [showBackButton, hideBackButton]);
+    if (window.Telegram.WebApp && !window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.show();
+      window.Telegram.WebApp.BackButton.offClick();
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        setIsShopOpen(false);
+        window.Telegram.WebApp.BackButton.hide();
+      });
+    }
+  }, []);
 
+// Закрытие магазина
+  const handleCloseShop = useCallback(async () => {
+    setIsShopOpen(false);
+    await saveProgress();
+    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  }, [saveProgress]);
+
+
+  // Открытие реферального раздела
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
     setisInviteLogoVisible(true);
     setIsLogoVisible(false);
 
-    showBackButton(() => {
-      setIsRefOpen(false);
-      setisInviteLogoVisible(false);
-      setIsLogoVisible(true);
-      hideBackButton();
-    });
-  }, [showBackButton, hideBackButton]);
+    // Настройка кнопки "Назад" через Telegram API
+    if (window.Telegram.WebApp) {
+      if (!window.Telegram.WebApp.BackButton.isVisible) {
+        window.Telegram.WebApp.BackButton.show();
+      }
+      window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        setIsRefOpen(false);
+        setisInviteLogoVisible(false);
+        setIsLogoVisible(true);
+        if (window.Telegram.WebApp.BackButton.isVisible) {
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
+        }
+      });
+    }
+  }, []);
 
-  const handleOpenEarn = useCallback(() => {
-    setIsEarnOpen(true);
-    setisEarnLogoVisible(true);
-    setIsLogoVisible(false);
-
-    showBackButton(() => {
-      setIsEarnOpen(false);
-      setisEarnLogoVisible(false);
-      setIsLogoVisible(true);
-      hideBackButton();
-    });
-  }, [showBackButton, hideBackButton]);
-
-  const handleOpenMiniGame = useCallback(() => {
-    setIsMiniGameOpen(true);
-    showBackButton(() => {
-      setIsMiniGameOpen(false);
-      hideBackButton();
-    });
-  }, [showBackButton, hideBackButton]);
-
-  const handleCloseShop = useCallback(async () => {
-    setIsShopOpen(false);
-    await saveProgress();
-    hideBackButton();
-  }, [saveProgress, hideBackButton]);
-
+  // Закрытие реферального раздела
   const handleCloseRef = useCallback(async () => {
     setisInviteLogoVisible(false);
     setIsLogoVisible(true);
@@ -249,9 +278,37 @@ function App() {
       setIsRefOpen(false);
     }, 190);
     await saveProgress();
-    hideBackButton();
-  }, [saveProgress, hideBackButton]);
 
+    // Скрытие кнопки "Назад" при закрытии
+    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  }, [saveProgress]);
+
+  // Открытие раздела заработка
+  const handleOpenEarn = useCallback(() => {
+    setIsEarnOpen(true);
+    setisEarnLogoVisible(true);
+    setIsLogoVisible(false);
+
+    // Настройка кнопки "Назад" через Telegram API
+    if (window.Telegram.WebApp) {
+      if (!window.Telegram.WebApp.BackButton.isVisible) {
+        window.Telegram.WebApp.BackButton.show();
+      }
+      window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
+      window.Telegram.WebApp.BackButton.onClick(() => {
+        setIsEarnOpen(false);
+        setisEarnLogoVisible(false);
+        setIsLogoVisible(true);
+        if (window.Telegram.WebApp.BackButton.isVisible) {
+          window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
+        }
+      });
+    }
+  }, []);
+
+  // Закрытие раздела заработка
   const handleCloseEarn = useCallback(async () => {
     setIsLogoVisible(true);
     setisEarnLogoVisible(false);
@@ -259,26 +316,38 @@ function App() {
       setIsEarnOpen(false);
     }, 190);
     await saveProgress();
-    hideBackButton();
-  }, [saveProgress, hideBackButton]);
 
+    // Скрытие кнопки "Назад" при закрытии
+    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  }, [saveProgress]);
+
+  // Открытие мини-игры
+  const handleOpenMiniGame = useCallback(() => {
+    setIsMiniGameOpen(true);
+  }, []);
+
+  // Закрытие мини-игры
   const handleCloseMiniGame = useCallback(async () => {
     await saveProgress();
     setIsMiniGameOpen(false);
-    hideBackButton();
-  }, [saveProgress, hideBackButton]);
+  }, [saveProgress]);
 
-  useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready(() => {
-        applyDarkTheme();
-
-        window.Telegram.WebApp.onEvent('themeChanged', () => {
-          applyDarkTheme();
-        });
-      });
+  // Проверка подписки
+  const handleCheckSubscription = useCallback(async (userId) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
+      const data = response.data;
+      if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
+        setCoins(prevCoins => prevCoins + 5000);
+      }
+      return data;
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      return { success: false, message: 'Ошибка при проверке подписки.' };
     }
-  }, [applyDarkTheme]);
+  }, []);
 
   return (
       <div className="App">
