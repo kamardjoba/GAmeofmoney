@@ -45,6 +45,48 @@ function App() {
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
 
+  // Принудительное применение темной темы
+  const applyDarkTheme = useCallback(() => {
+    document.body.style.backgroundColor = '#000000';
+    document.body.style.color = '#ffffff';
+    document.body.className = 'dark';
+
+    if (window.Telegram.WebApp) {
+      window.Telegram.WebApp.setHeaderColor('#000000'); // Устанавливаем черный цвет заголовочной строки
+      window.Telegram.WebApp.setBackgroundColor('#000000'); // Устанавливаем черный цвет фона
+      window.Telegram.WebApp.setHeaderColor('secondary_bg_color', '#000000'); // Черный цвет для нижней панели
+      window.Telegram.WebApp.MainButton.color = '#000000'; // Цвет основной кнопки
+      window.Telegram.WebApp.MainButton.textColor = '#ffffff'; // Цвет текста основной кнопки
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready(() => {
+        applyDarkTheme();
+
+        window.Telegram.WebApp.onEvent('themeChanged', () => {
+          applyDarkTheme();
+        });
+      });
+    }
+  }, [applyDarkTheme]);
+
+  useEffect(() => {
+    const loadAndUpdate = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdFromURL = urlParams.get('userId');
+      setUserId(userIdFromURL);
+
+      if (userIdFromURL) {
+        await updateProfilePhoto(userIdFromURL);
+        await loadProgress();
+      }
+      setLoading(false);
+    };
+    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
+  }, [loadProgress, updateProfilePhoto]);
+
   // Функция для обновления фото профиля
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
@@ -94,53 +136,13 @@ function App() {
     }
   }, [userId]);
 
-  // Принудительное применение темной темы
-// Принудительное применение темной темы
-  const applyDarkTheme = useCallback(() => {
-    document.body.style.backgroundColor = '#000000';
-    document.body.style.color = '#ffffff';
-    document.body.className = 'dark';
-
-    // Устанавливаем черный цвет заголовочной строки и текста
-    if (window.Telegram.WebApp) {
-      window.Telegram.WebApp.setHeaderColor('bg_color', '#000000');
-      window.Telegram.WebApp.setBackgroundColor('#000000');
-      window.Telegram.WebApp.setHeaderColor('secondary_bg_color', '#000000');
-      window.Telegram.WebApp.MainButton.color = '#000000';
-      window.Telegram.WebApp.MainButton.textColor = '#ffffff';
-    }
-  }, []);
 
 
 
-  useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready(() => {
-        applyDarkTheme();
 
-        // Обработчик изменений темы - также принудительно устанавливаем темную тему
-        window.Telegram.WebApp.onEvent('themeChanged', () => {
-          applyDarkTheme();
-        });
-      });
-    }
-  }, [applyDarkTheme]);
 
-  // Загрузка данных при загрузке страницы
-  useEffect(() => {
-    const loadAndUpdate = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userIdFromURL = urlParams.get('userId');
-      setUserId(userIdFromURL);
 
-      if (userIdFromURL) {
-        await updateProfilePhoto(userIdFromURL);
-        await loadProgress();
-      }
-      setLoading(false);
-    };
-    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-  }, [loadProgress, updateProfilePhoto]);
+
 
   // Сохранение прогресса пользователя
   const saveProgress = useCallback(async () => {
