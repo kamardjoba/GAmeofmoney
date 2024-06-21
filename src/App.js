@@ -80,6 +80,21 @@ function App() {
     }
   }, []);
 
+
+
+// Установи обработчик
+  const handleBackButtonSetup = useCallback((onClick) => {
+    if (window.Telegram.WebApp) {
+      const backButton = window.Telegram.WebApp.BackButton;
+      backButton.show();
+      backButton.offClick(); // Сбрасываем предыдущие обработчики
+      backButton.onClick(onClick); // Устанавливаем новый
+    }
+  }, []);
+
+
+
+
   // Функция для обновления фото профиля
   const updateProfilePhoto = useCallback(async (telegramId) => {
     try {
@@ -98,23 +113,16 @@ function App() {
     const loadAndUpdate = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const userIdFromURL = urlParams.get('userId');
+      setUserId(userIdFromURL);
+
       if (userIdFromURL) {
         await updateProfilePhoto(userIdFromURL);
         await loadProgress();
       }
+      setLoading(false);
     };
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
   }, [loadProgress, updateProfilePhoto]);
-
-  const handleBackButtonSetup = useCallback((onClick) => {
-    if (window.Telegram.WebApp) {
-      const backButton = window.Telegram.WebApp.BackButton;
-      backButton.show();
-      backButton.offClick(); // Сбрасываем предыдущие обработчики
-      backButton.onClick(onClick); // Устанавливаем новый
-    }
-  }, []);
-
 
   // Автоматическое восстановление энергии
   useEffect(() => {
@@ -255,7 +263,19 @@ function App() {
   }, []);
 
   // Проверка подписки
-
+  const handleCheckSubscription = useCallback(async (userId) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
+      const data = response.data;
+      if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
+        setCoins(prevCoins => prevCoins + 5000);
+      }
+      return data;
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      return { success: false, message: 'Ошибка при проверке подписки.' };
+    }
+  }, []);
 
   return (
       <div className="App">
@@ -377,7 +397,14 @@ function App() {
             />
         )}
 
-        {isEarnOpen && <Earn onClose={() => setIsEarnOpen(false)} />}
+        {isEarnOpen && (
+            <Earn
+                onClose={() => setIsEarnOpen(false)}
+                userId={userId}
+                onCheckSubscription={handleCheckSubscription}
+
+            />
+        )}
 
         {isMiniGameOpen && <MiniGame onClose={() =>
             setIsMiniGameOpen(false)}
