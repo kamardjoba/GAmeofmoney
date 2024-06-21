@@ -41,9 +41,10 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
   const [referralCode, setReferralCode] = useState('');
 
+
   const [isLogoVisible, setIsLogoVisible] = useState(true);
-  const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
-  const [isEarnLogoVisible, setisEarnLogoVisible] = useState(false);
+  const [isInviteLogoVisible, setIsInviteLogoVisible] = useState(false);
+  const [isEarnLogoVisible, setIsEarnLogoVisible] = useState(false);
 
 
 
@@ -121,21 +122,21 @@ function App() {
   }, [loadProgress, updateProfilePhoto]);
 
   // Сохранение прогресса пользователя
-  const saveProgress = useCallback(async () => {
-    if (userId) {
-      try {
-        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          userId, coins, upgradeCost, upgradeLevel, coinPerClick,
-          upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
-          upgradeCostEnergyTime, valEnergyTime, time
-        });
-      } catch (error) {
-        console.error('Error saving progress:', error);
-      }
-    }
-  }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick,
-    upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
-    upgradeCostEnergyTime, valEnergyTime, time]);
+  // const saveProgress = useCallback(async () => {
+  // if (userId) {
+  // try {
+  // await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
+  // userId, coins, upgradeCost, upgradeLevel, coinPerClick,
+  // upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
+  // upgradeCostEnergyTime, valEnergyTime, time
+  // });
+  // } catch (error) {
+  // console.error('Error saving progress:', error);
+  // }
+  // }
+  // }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick,
+  // upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
+  // upgradeCostEnergyTime, valEnergyTime, time]);
 
   // Автоматическое восстановление энергии
   useEffect(() => {
@@ -245,15 +246,7 @@ function App() {
   }, [handleBackButtonSetup]);
 
   // Закрытие магазина
-  const handleCloseShop = useCallback(async () => {
-    setIsShopOpen(false);
-    await saveProgress();
 
-    // Скрытие кнопки "Назад" при закрытии
-    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
-      window.Telegram.WebApp.BackButton.hide();
-    }
-  }, [saveProgress]);
 
   // Открытие реферального раздела
   const handleOpenRef = useCallback(() => {
@@ -271,19 +264,7 @@ function App() {
   }, [handleBackButtonSetup]);
 
   // Закрытие реферального раздела
-  const handleCloseRef = useCallback(async () => {
-    setisInviteLogoVisible(false);
-    setIsLogoVisible(true);
-    setTimeout(() => {
-      setIsRefOpen(false);
-    }, 190);
-    await saveProgress();
 
-    // Скрытие кнопки "Назад" при закрытии
-    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
-      window.Telegram.WebApp.BackButton.hide();
-    }
-  }, [saveProgress]);
 
   // Открытие раздела заработка
   const handleOpenEarn = useCallback(() => {
@@ -305,25 +286,10 @@ function App() {
   }, []);
 
   // Закрытие раздела заработка
-  const handleCloseEarn = useCallback(async () => {
-    setIsLogoVisible(true);
-    setisEarnLogoVisible(false);
-    setTimeout(() => {
-      setIsEarnOpen(false);
-    }, 190);
-    await saveProgress();
 
-    // Скрытие кнопки "Назад" при закрытии
-    if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
-      window.Telegram.WebApp.BackButton.hide();
-    }
-  }, [saveProgress]);
 
   // Закрытие мини-игры
-  const handleCloseMiniGame = useCallback(async () => {
-    await saveProgress();
-    setIsMiniGameOpen(false);
-  }, [saveProgress]);
+
 
   // Проверка подписки
   const handleCheckSubscription = useCallback(async (userId) => {
