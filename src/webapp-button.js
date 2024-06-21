@@ -2,7 +2,6 @@ export function setTelegramMainButton(text, onClickHandler) {
     if (window.Telegram.WebApp) {
         const mainButton = window.Telegram.WebApp.MainButton;
 
-        // Логирование для дебага
         console.log('Setting main button:', text);
 
         if (text) {
@@ -13,7 +12,7 @@ export function setTelegramMainButton(text, onClickHandler) {
         }
 
         if (onClickHandler) {
-            mainButton.offClick(); // Убираем старые обработчики
+            mainButton.offClick();
             mainButton.onClick(onClickHandler);
         } else {
             mainButton.offClick();

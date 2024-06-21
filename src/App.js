@@ -17,6 +17,7 @@ import Coindiv from './coin';
 import Ref from './ref';
 import Earn from './earn';
 import MiniGame from './MiniGame';
+import { setTelegramMainButton } from './webapp-button';
 
 function App() {
   const [coins, setCoins] = useState(0);
@@ -78,14 +79,17 @@ function App() {
     }
   }, []);
 
-  const handleBackButtonSetup = useCallback((onClick) => {
-    if (window.Telegram.WebApp) {
-      const backButton = window.Telegram.WebApp.BackButton;
-      backButton.show();
-      backButton.offClick(); // Сбрасываем предыдущие обработчики
-      backButton.onClick(onClick); // Устанавливаем новый
-    }
+  const handleBackButtonSetup = useCallback((text, onClick) => {
+    setTelegramMainButton(text, onClick);
   }, []);
+
+  useEffect(() => {
+    handleBackButtonSetup('Назад', () => {
+      // Действие при нажатии кнопки Назад
+      console.log('Назад clicked');
+      // Закрываем текущий раздел или выполняем действие
+    });
+  }, [handleBackButtonSetup]);
 
   // Функция для обновления фото профиля
   const updateProfilePhoto = useCallback(async (telegramId) => {
