@@ -45,7 +45,7 @@ function App() {
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setIsInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setIsEarnLogoVisible] = useState(false);
-  const [isBackButtonVisible, setIsBackButtonVisible] = useState(false);
+
 
   // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
@@ -87,31 +87,11 @@ function App() {
     if (window.Telegram.WebApp) {
       const backButton = window.Telegram.WebApp.BackButton;
       backButton.show();
-      backButton.onClick(onClick);
-      setIsBackButtonVisible(true);
-
-      return () => {
-        backButton.offClick(onClick);
-        backButton.hide();
-        setIsBackButtonVisible(false);
-      };
+      backButton.offClick(); // Сбрасываем предыдущие обработчики
+      backButton.onClick(onClick); // Устанавливаем новый
     }
   }, []);
 
-
-  useEffect(() => {
-    if (isBackButtonVisible) {
-      const cleanup = handleBackButtonSetup(() => {
-        // Закрыть текущий раздел
-        setIsShopOpen(false);
-        setIsRefOpen(false);
-        setIsEarnOpen(false);
-        setIsMiniGameOpen(false);
-      });
-
-      return () => cleanup();
-    }
-  }, [isBackButtonVisible, handleBackButtonSetup]);
 
 
 
@@ -282,20 +262,7 @@ function App() {
     setIsMiniGameOpen(true);
   }, []);
 
-  // Проверка подписки
-  const handleCheckSubscription = useCallback(async (userId) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
-      const data = response.data;
-      if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
-        setCoins(prevCoins => prevCoins + 5000);
-      }
-      return data;
-    } catch (error) {
-      console.error('Error checking subscription:', error);
-      return { success: false, message: 'Ошибка при проверке подписки.' };
-    }
-  }, []);
+
 
   return (
       <div className="App">
@@ -417,14 +384,7 @@ function App() {
             />
         )}
 
-        {isEarnOpen && (
-            <Earn
-                onClose={() => setIsEarnOpen(false)}
-                userId={userId}
-                onCheckSubscription={handleCheckSubscription}
-
-            />
-        )}
+        {isEarnOpen && <Earn onClose={() => setIsEarnOpen(false)} />}
 
         {isMiniGameOpen && <MiniGame onClose={() =>
             setIsMiniGameOpen(false)}
