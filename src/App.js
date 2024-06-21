@@ -83,8 +83,7 @@ function App() {
     if (window.Telegram.WebApp) {
       const backButton = window.Telegram.WebApp.BackButton;
       backButton.show();
-      backButton.offClick(); // Сбрасываем предыдущие обработчики
-      backButton.onClick(onClick); // Устанавливаем новый
+
     }
   }, []);
 
