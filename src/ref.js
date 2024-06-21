@@ -30,27 +30,6 @@ const Ref = ({ onClose, userId, telegramLink }) => {
             fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
         }
 
-        // Настройка кнопки "Назад" при монтировании компонента
-        if (window.Telegram.WebApp) {
-            if (!window.Telegram.WebApp.BackButton.isVisible) {
-                window.Telegram.WebApp.BackButton.show();
-            }
-            window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
-            window.Telegram.WebApp.BackButton.onClick(() => {
-                handleCloseRefAnim(); // Закрываем экран и возвращаемся на главный
-                onClose();
-                if (window.Telegram.WebApp.BackButton.isVisible) {
-                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
-                }
-            });
-        }
-
-        return () => {
-            // Скрываем кнопку при размонтировании компонента
-            if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
-                window.Telegram.WebApp.BackButton.hide();
-            }
-        };
     }, [userId, onClose]);
 
     const handleCopyLink = () => {
@@ -76,7 +55,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
         <div className={`Ref_Window ${isClosingRefForAnim ? 'closing' : ''}`}>
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
-                    <img src={Ref_Earn_Box} alt='defaultIcon' height={"60%"} />
+                    <img src={Ref_Earn_Box} alt='defaultIcon' height={"60%"}/>
                 </div>
                 <div className='Ref_Earn_BoxTitle'>
                     <div className='Ref_Earn_BoxUp'>
@@ -84,7 +63,7 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                     </div>
                     <div className='Ref_Earn_BoxDown'>
                         <div className='Ref_Earn_BoxLeft'>
-                            <img src={Ref_Earn_BoxLeft} alt='defaultIcon' height={"50%"} />
+                            <img src={Ref_Earn_BoxLeft} alt='defaultIcon' height={"50%"}/>
                         </div>
                         <div className='Ref_Earn_BoxRight'>
                             <p>Получить <span className="Ref_Earn_Purple">СЮРПРИЗ</span></p>
@@ -125,6 +104,11 @@ const Ref = ({ onClose, userId, telegramLink }) => {
                     <p>Скопировать</p>
                 </button>
             </div>
+            <button id='CloseDebug' onClick={(event) => {
+                onClose(event);
+                handleCloseRefAnim(event);
+            }}>X
+            </button>
         </div>
     );
 };

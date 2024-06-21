@@ -1,5 +1,5 @@
 // shop.js
-import React, { useEffect } from 'react';
+import React  from 'react';
 import './shop.css';
 
 const Shop = ({ coins, onClose,
@@ -7,28 +7,7 @@ const Shop = ({ coins, onClose,
                   onUpgradeEnergy, clickLimit, upgradeLevelEnergy, upgradeCostEnergy,
                   onUpgradeEnergyTime, valEnergyTime, upgradeEnergyTimeLevel, upgradeCostEnergyTime  }) => {
 
-    useEffect(() => {
-        // Настройка кнопки "Назад" при монтировании компонента
-        if (window.Telegram.WebApp) {
-            if (!window.Telegram.WebApp.BackButton.isVisible) {
-                window.Telegram.WebApp.BackButton.show();
-            }
-            window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
-            window.Telegram.WebApp.BackButton.onClick(() => {
-                onClose();
-                if (window.Telegram.WebApp.BackButton.isVisible) {
-                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
-                }
-            });
-        }
 
-        return () => {
-            // Скрываем кнопку при размонтировании компонента
-            if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
-                window.Telegram.WebApp.BackButton.hide();
-            }
-        };
-    }, [onClose]);
 
     return (
         <div className="shop">
@@ -91,6 +70,7 @@ const Shop = ({ coins, onClose,
             <div className="zagolovok">
                 <button onClick={onClose} className="close-button">Закрыть</button>
             </div>
+            <button onClick={onClose} className="close-button">Close</button>
         </div>
     );
 };
