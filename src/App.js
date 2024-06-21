@@ -41,12 +41,9 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(defaultIcon);
   const [referralCode, setReferralCode] = useState('');
 
-
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setIsInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setIsEarnLogoVisible] = useState(false);
-
-
 
   // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
@@ -119,23 +116,6 @@ function App() {
     loadAndUpdate().catch(error => console.error('Error loading progress:', error));
   }, [loadProgress, updateProfilePhoto]);
 
-  // Сохранение прогресса пользователя
-  // const saveProgress = useCallback(async () => {
-  // if (userId) {
-  // try {
-  // await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-  // userId, coins, upgradeCost, upgradeLevel, coinPerClick,
-  // upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
-  // upgradeCostEnergyTime, valEnergyTime, time
-  // });
-  // } catch (error) {
-  // console.error('Error saving progress:', error);
-  // }
-  // }
-  // }, [userId, coins, upgradeCost, upgradeLevel, coinPerClick,
-  // upgradeCostEnergy, upgradeLevelEnergy, clickLimit, energyNow,
-  // upgradeCostEnergyTime, valEnergyTime, time]);
-
   // Автоматическое восстановление энергии
   useEffect(() => {
     const interval = setInterval(() => {
@@ -168,7 +148,6 @@ function App() {
     upgradeCostEnergy, upgradeLevelEnergy, clickLimit,
     upgradeCostEnergyTime, valEnergyTime, time]);
 
-
   // Обработка нажатия на монету
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
@@ -183,7 +162,6 @@ function App() {
       await saveProgressData(newCoins, newEnergyNow);
     }
   }, [coins, energyNow, coinPerClick, saveProgressData]);
-
 
   // Апгрейд стоимости клика
   const CoinPerClickUpgrade = useCallback(async () => {
@@ -202,7 +180,6 @@ function App() {
       await saveProgressData(newCoins, energyNow);
     }
   }, [coins, upgradeCost, coinPerClick, upgradeLevel, energyNow, saveProgressData]);
-
 
   // Апгрейд энергии
   const EnergyUpgrade = useCallback(async () => {
@@ -243,9 +220,6 @@ function App() {
     });
   }, [handleBackButtonSetup]);
 
-  // Закрытие магазина
-
-
   // Открытие реферального раздела
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
@@ -260,9 +234,6 @@ function App() {
       }
     });
   }, [handleBackButtonSetup]);
-
-  // Закрытие реферального раздела
-
 
   // Открытие раздела заработка
   const handleOpenEarn = useCallback(() => {
@@ -283,12 +254,6 @@ function App() {
     setIsMiniGameOpen(true);
   }, []);
 
-  // Закрытие раздела заработка
-
-
-  // Закрытие мини-игры
-
-
   // Проверка подписки
   const handleCheckSubscription = useCallback(async (userId) => {
     try {
@@ -303,8 +268,6 @@ function App() {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
-
-
 
   return (
       <div className="App">
@@ -426,7 +389,14 @@ function App() {
             />
         )}
 
-        {isEarnOpen && <Earn onClose={() => setIsEarnOpen(false)} />}
+        {isEarnOpen && (
+            <Earn
+                onClose={() => setIsEarnOpen(false)}
+                userId={userId}
+                onCheckSubscription={handleCheckSubscription}
+
+            />
+        )}
 
         {isMiniGameOpen && <MiniGame onClose={() =>
             setIsMiniGameOpen(false)}
