@@ -426,14 +426,7 @@ function App() {
             />
         )}
 
-        {isEarnOpen && (
-            <Earn
-                onClose={() => setIsEarnOpen(false)}
-                userId={userId}
-                onCheckSubscription={handleCheckSubscription}
-
-            />
-        )}
+        {isEarnOpen && <Earn onClose={() => setIsEarnOpen(false)} />}
 
         {isMiniGameOpen && <MiniGame onClose={() =>
             setIsMiniGameOpen(false)}
