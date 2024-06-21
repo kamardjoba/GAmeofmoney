@@ -50,9 +50,11 @@ function App() {
 
   // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
-    if (userId) {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userIdFromURL = urlParams.get('userId');
+      if (userIdFromURL) {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId: userIdFromURL } });
         const data = response.data;
         if (response.status === 200) {
           setUsername(data.username);
@@ -73,15 +75,11 @@ function App() {
         } else {
           console.error('Error fetching user data:', data.error);
         }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      } finally {
-        setLoading(false);
       }
-    } else {
-      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
     }
-  }, [userId]);
+  }, []);
 
   const handleBackButtonSetup = useCallback((onClick) => {
     if (window.Telegram.WebApp) {
