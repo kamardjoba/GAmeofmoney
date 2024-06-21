@@ -1,5 +1,5 @@
 // earn.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './earn.css';
 import gray_8nogIcon from './IMG/gray_8nog.png';
 import znakLogo from './IMG/Znak.png';
