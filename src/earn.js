@@ -12,29 +12,7 @@ import Task_5 from './IMG/TaskIcon/task_5.png';
 const Earn = ({ onClose }) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
 
-    useEffect(() => {
-        // Настройка кнопки "Назад" при монтировании компонента
-        if (window.Telegram.WebApp) {
-            if (!window.Telegram.WebApp.BackButton.isVisible) {
-                window.Telegram.WebApp.BackButton.show();
-            }
-            window.Telegram.WebApp.BackButton.offClick(); // Убираем старые обработчики
-            window.Telegram.WebApp.BackButton.onClick(() => {
-                handleCloseEarnAnim(); // Закрываем экран и возвращаемся на главный
-                onClose();
-                if (window.Telegram.WebApp.BackButton.isVisible) {
-                    window.Telegram.WebApp.BackButton.hide(); // Скрываем кнопку только при закрытии
-                }
-            });
-        }
 
-        return () => {
-            // Скрываем кнопку при размонтировании компонента
-            if (window.Telegram.WebApp && window.Telegram.WebApp.BackButton.isVisible) {
-                window.Telegram.WebApp.BackButton.hide();
-            }
-        };
-    }, [onClose]);
 
     const handleCloseEarnAnim = () => {
         setClosingEarnForAnim(true);
@@ -57,7 +35,7 @@ const Earn = ({ onClose }) => {
                         <div className='Ref_Earn_BoxRight'>
                             <p>COMPLATE WEEKLY</p>
                             <p>TASKS AND <span className="Ref_Earn_Purple">EARN</span></p>
-                            <p className="Ref_Earn_Purple" >MORE ITEMS</p>
+                            <p className="Ref_Earn_Purple">MORE ITEMS</p>
                         </div>
                     </div>
                 </div>
@@ -110,7 +88,7 @@ const Earn = ({ onClose }) => {
                                 <p>IN X</p>
                             </div>
                             <div className='TaskIMG'>
-                                <img id="x"src={Task_5} alt='Task_5' height={"90%"}/>
+                                <img id="x" src={Task_5} alt='Task_5' height={"90%"}/>
                             </div>
                         </div>
                         <div id="BigTask" className="Task">
@@ -122,6 +100,13 @@ const Earn = ({ onClose }) => {
                     </div>
                 </div>
             </div>
+
+            <button id='CloseDebug' onClick={(event) => {
+                onClose(event);
+                handleCloseEarnAnim(event);
+            }}>X
+            </button>
+
         </div>
     );
 };
