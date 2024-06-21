@@ -45,6 +45,7 @@ function App() {
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setIsInviteLogoVisible] = useState(false);
   const [isEarnLogoVisible, setIsEarnLogoVisible] = useState(false);
+  const [isBackButtonVisible, setIsBackButtonVisible] = useState(false);
 
   // Функция для загрузки прогресса пользователя
   const loadProgress = useCallback(async () => {
@@ -79,13 +80,39 @@ function App() {
     }
   }, []);
 
+
+
+// Установи обработчик
   const handleBackButtonSetup = useCallback((onClick) => {
     if (window.Telegram.WebApp) {
       const backButton = window.Telegram.WebApp.BackButton;
       backButton.show();
+      backButton.onClick(onClick);
+      setIsBackButtonVisible(true);
 
+      return () => {
+        backButton.offClick(onClick);
+        backButton.hide();
+        setIsBackButtonVisible(false);
+      };
     }
   }, []);
+
+
+  useEffect(() => {
+    if (isBackButtonVisible) {
+      const cleanup = handleBackButtonSetup(() => {
+        // Закрыть текущий раздел
+        setIsShopOpen(false);
+        setIsRefOpen(false);
+        setIsEarnOpen(false);
+        setIsMiniGameOpen(false);
+      });
+
+      return () => cleanup();
+    }
+  }, [isBackButtonVisible, handleBackButtonSetup]);
+
 
 
   // Функция для обновления фото профиля
