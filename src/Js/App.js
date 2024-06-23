@@ -431,7 +431,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
 
         {isEarnOpen && (
           <Earn
-            onClose={() => handleCloseEarn}
+            onClose={handleCloseEarn}
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
           />
@@ -439,7 +439,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
 
         {isLootOpen && (
           <Loot
-            onClose={() => handleCloseLoot}
+            onClose={handleCloseLoot}
             handleCheckboxChange={handleCheckboxChange}
           />
         )}
