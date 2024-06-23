@@ -339,3 +339,8 @@ body {
 button{
   border: none;
 }
+
+.referral-section{
+  visibility: hidden;
+  position: absolute;
+}
