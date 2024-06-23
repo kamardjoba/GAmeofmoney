@@ -1,0 +1,86 @@
+.Task_Border{
+    width: 100%;
+    height: 50%;
+    position: fixed;
+    flex-direction: column;
+    border-radius: 3vh 3vh 0 0;
+    box-shadow: 0 -2px 0 #f6ff82,
+              0 0 4px black;
+    background: rgba(21, 21, 21, 95%);
+    backdrop-filter: blur(2px);
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+    transform-style: preserve-3d;
+}
+
+.Task_Border img{
+    height: 40%;
+    margin: 0;
+}
+
+.Task_Border h1{
+    font: 3.6vh Muller;
+    margin: 0;
+}
+
+.Task_Border p{
+    font: 2.3vh MullerLight;
+    margin: 0;
+}
+
+.Task_Border button{
+    width: 70%;
+    height: 11%;
+    border-radius: 1.5vh;
+    color: white;
+    background: #2D2D2D;
+    box-shadow: 0 0 0 0.1vh #838282;
+    font: 2.4vh MullerLight;
+    padding-top: 0.7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#ButtomIMG{
+    height: 90%;
+    margin-bottom: 0.7vh;
+    margin-right: 0.7vh;
+}
+
+#TaskIcon{
+    height: 5vh;
+    margin-right: 1vh;
+    margin-bottom: 0.6vh;
+}
+
+.NameChannelDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 5%;
+}
+
+.BackButtom{
+    position: absolute;
+    top: 2vh;
+    right: 2vh;
+    height: 15%;
+    display: flex;
+    align-items: start;
+    justify-content: end;
+}
+
+.Task_Border {
+    animation: slide-up 0.2s ease-out;
+}
+  
+.Task_Border.closing {
+    animation: slide-down 0.2s ease-in;
+}

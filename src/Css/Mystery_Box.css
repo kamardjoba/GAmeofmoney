@@ -1,0 +1,39 @@
+.Mystery{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1001;
+}
+
+.MysteryBox{
+    width: 90%;
+    height: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border-radius: 2vh;
+    backdrop-filter: blur(5px);
+    background: rgba(0,0,0,20%);
+    box-shadow:inset 0 0 0 0.4vh #696969,
+                    2px 2px 3px rgba(0,0,0,50%);
+}
+
+.MysteryBox img{
+    filter: drop-shadow(5px 10px 10px black);
+    height: 60%;
+}
+
+.MysteryBox button{
+    background: #f6ff82;
+    height: 12%;
+    width: 40%;
+    border-radius: 3vh;
+    box-shadow: 0 0 0 0.6vh #5B5D38;
+    font: 4vh MullerMedium;
+    font-weight: bold;
+    padding-top: 0.7vh;
+}

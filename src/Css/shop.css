@@ -1,0 +1,12 @@
+#ShopWindow {
+    justify-content: space-between;
+}
+
+.ShopMenu {
+    height: 72%;
+    width: 90%;
+    margin-bottom: 3vh;
+    border-radius: 2vh;
+    box-shadow:inset 0 0 0 0.1vh #454545;
+    background:#2D2D2D;
+}
