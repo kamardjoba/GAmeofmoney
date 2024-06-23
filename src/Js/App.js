@@ -311,7 +311,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
             <div className="BorderMainInfo">
               <div id="left_thriple" className="tripleBox">
                 <p>LVL.1</p>
-                <p id="nonBold"> <img src={ink} alt='ink'/> {clicks}/500</p>
+                <p id="nonBold"> <img src={ink} alt='ink'/> {clicks}/555</p>
               </div>
               <div className="tripleBox">
                 <p>EARN</p>
