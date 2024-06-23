@@ -217,7 +217,6 @@ const handleCheckSubscription = useCallback(async (userId) => {
    }
   };
 
-
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
     setisInviteLogoVisible(true);
@@ -233,6 +232,16 @@ const handleCheckSubscription = useCallback(async (userId) => {
       }
     });
   }, [handleBackButtonSetup]);
+
+  const handleCloseRef = () => {
+    setisInviteLogoVisible(false);
+    setIsLogoVisible(true);
+    handleOpenAppAnim();
+    setTimeout(() => { setIsRefOpen(false); }, 150);
+    if (window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  };
 
   const handleOpenEarn = useCallback(() => {
     setIsEarnOpen(true);
@@ -250,7 +259,16 @@ const handleCheckSubscription = useCallback(async (userId) => {
     });
   }, [handleBackButtonSetup]);
 
- 
+  const handleCloseEarn = () => {
+    setIsLogoVisible(true);
+    setisEarnLogoVisible(false);
+    handleOpenAppAnim();
+    setTimeout(() => { setIsEarnOpen(false); }, 150);
+      if (window.Telegram.WebApp.BackButton.isVisible) {
+       window.Telegram.WebApp.BackButton.hide();
+    }
+  };
+
   const handleOpenLoot = useCallback(() => {
     setisLootLogoVisible(true);
     setIsLogoVisible(false);
@@ -258,9 +276,9 @@ const handleCheckSubscription = useCallback(async (userId) => {
     handleCloseAppAnim();
     handleBackButtonSetup(() => {
       setisLootLogoVisible(false);
+      setisCraftLogoVisible(false);
       setIsLogoVisible(true);
       handleOpenAppAnim();
-      setisCraftLogoVisible(false);
       setTimeout(() => { setisLootOpen(false); }, 150);
         if (window.Telegram.WebApp.BackButton.isVisible) {
          window.Telegram.WebApp.BackButton.hide();
@@ -268,6 +286,17 @@ const handleCheckSubscription = useCallback(async (userId) => {
     });
   }, [handleBackButtonSetup]);
 
+  const handleCloseLoot = () => {
+    setisLootLogoVisible(false);
+    setisCraftLogoVisible(false);
+    setIsLogoVisible(true);
+    handleOpenAppAnim();
+    setTimeout(() => { setisLootOpen(false); }, 150);
+      if (window.Telegram.WebApp.BackButton.isVisible) {
+       window.Telegram.WebApp.BackButton.hide();
+    }
+  };
+  
   const handleCheckboxChange = (event) => {
     const LogoVisible = !event.target.checked;
     setisLootLogoVisible(LogoVisible);
@@ -393,7 +422,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
 
         {isRefOpen && (
           <Ref
-            onClose={() => setIsRefOpen(false)}
+            onClose={handleCloseRef}
             userId={userId}
             telegramLink={telegramLink}
             openBox={handleOpenBox}
@@ -402,7 +431,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
 
         {isEarnOpen && (
           <Earn
-            onClose={() => setIsEarnOpen(false)}
+            onClose={() => handleCloseEarn}
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
           />
@@ -410,7 +439,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
 
         {isLootOpen && (
           <Loot
-            onClose={() => setisLootOpen(false)}
+            onClose={() => handleCloseLoot}
             handleCheckboxChange={handleCheckboxChange}
           />
         )}
