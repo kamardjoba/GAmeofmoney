@@ -212,6 +212,9 @@ const handleCheckSubscription = useCallback(async (userId) => {
     setIsLogoVisible(true);
     handleOpenAppAnim();
     setTimeout(() => { setIsShopOpen(false); }, 150);
+    if (window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+   }
   };
 
 
