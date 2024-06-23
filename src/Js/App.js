@@ -8,13 +8,13 @@ import ink from '../IMG/ink.png';
 import earnIcon from '../IMG/earn.png';
 
 
-import ProgressBar from './ProgressBar';
-import Shop from './shop';
-import Coindiv from './coin';
-import Ref from './ref';
-import Earn from './earn';
-import MysteryBox from './Mystery_Box';
-import Loot from './loot'
+import ProgressBar  from './ProgressBar';
+import Shop         from './shop';
+import Coindiv      from './coin';
+import Ref          from './ref';
+import Earn         from './earn';
+import MysteryBox   from './Mystery_Box';
+import Loot         from './loot'
 
 import MainLogo   from '../IMG/All_Logo/mainLogo.png';
 import InviteLogo from '../IMG/All_Logo/inviteLogo.png';
