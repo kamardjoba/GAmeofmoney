@@ -1,9 +1,8 @@
-/* ref.css */
-* {
+*{
     user-select: none;
 }
 
-.Ref_Window {
+.Ref_Earn_Shop_Window {
     width: 100%;
     height: 78%;
     position: fixed;
@@ -14,65 +13,67 @@
     bottom: 0;
     color: white;
     background: #151515;
+    z-index: 1000;
 }
 
-.Ref_Earn_BoxBorder {
+.Ref_Earn_BoxBorder{
     width: 90%;
     height: 18%;
     border-radius: 2vh;
-    box-shadow: inset 0 0 0 0.1vh #454545,
-    2px 2px 3px rgba(0,0,0,50%);
-    background: #2D2D2D;
+    box-shadow:inset 0 0 0 0.1vh #454545,
+                    2px 2px 3px rgba(0,0,0,50%);
+    background:#2D2D2D;
     position: relative;
     display: flex;
     flex-direction: row;
     top: 2vh;
 }
 
-.Ref_Earn_Box {
+.Ref_Earn_Box{
     width: 28%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 2vh;
-    box-shadow: inset 0 0 0 0.1vh #454545,
-    0 0 3px 0 #151515;
+    box-shadow:inset 0 0 0 0.1vh #454545,
+                    0 0 3px 0 #151515;
 }
 
-.Ref_Earn_Box img {
+.Ref_Earn_Box img{
     filter: drop-shadow(2px 2px 3px rgba(0,0,0,50%));
 }
 
-.Ref_Earn_BoxTitle {
+.Ref_Earn_BoxTitle{
     width: 72%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.Ref_Earn_BoxUp {
+.Ref_Earn_BoxUp{
     width: 100%;
     height: 35%;
     display: flex;
     align-items: end;
     justify-content: center;
+    
 }
 
-.Ref_Earn_BoxUp p {
+.Ref_Earn_BoxUp p{
     margin: 0;
     font-size: 2vh;
     font-family: MullerMedium;
 }
 
-.Ref_Earn_BoxDown {
+.Ref_Earn_BoxDown{
     width: 100%;
     height: 65%;
     display: flex;
     flex-direction: row;
 }
 
-.Ref_Earn_BoxLeft {
+.Ref_Earn_BoxLeft{
     width: 18%;
     height: 100%;
     display: flex;
@@ -80,7 +81,7 @@
     justify-content: center;
 }
 
-.Ref_Earn_BoxRight {
+.Ref_Earn_BoxRight{
     width: 82%;
     height: 100%;
     display: flex;
@@ -88,20 +89,18 @@
     justify-content: center;
 }
 
-.Ref_Earn_BoxRight p {
+.Ref_Earn_BoxRight p{
     margin: 0;
     font-size: 2vh;
     font-family: Muller;
 }
 
-.Ref_Earn_Purple {
-    color: #CF2395;
-}
+.Ref_Earn_Purple{color: #CF2395;}
 
-.refFrandsBorder {
+.refFrandsBorder{
     border-radius: 2vh;
-    box-shadow: inset 0 0 0 0.1vh #454545;
-    background: #2D2D2D;
+    box-shadow:inset 0 0 0 0.1vh #454545;
+    background:#2D2D2D;
     height: 65%;
     width: 90%;
     display: flex;
@@ -110,7 +109,7 @@
     margin-top: 3.5vh;
 }
 
-.refFrendsInfo {
+.refFrendsInfo{
     height: 14%;
     width: 80%;
     display: flex;
@@ -118,13 +117,13 @@
     align-items: center;
 }
 
-.refFrendsInfo p {
+.refFrendsInfo p{
     margin: 0;
     font-size: 2vh;
     font-family: MullerMedium;
 }
 
-.refFrendsMenu {
+.refFrendsMenu{
     height: 86%;
     width: 100%;
     display: flex;
@@ -134,20 +133,20 @@
     box-sizing: border-box;
 }
 
-.refFrends {
+.refFrends{
     height: 16%;
     width: 90%;
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin-bottom: 1.8vh;
+    margin-bottom: 1.8vh; 
 }
 
-.refFrends img {
+.refFrends img{
     filter: drop-shadow(2px 2px 2px rgba(0,0,0,30%));
 }
 
-.refFrendsIcon {
+.refFrendsIcon{
     height: 100%;
     width: 22%;
     display: flex;
@@ -155,7 +154,7 @@
     justify-content: center;
 }
 
-.refFrendsName {
+.refFrendsName{
     height: 100%;
     width: 78%;
     display: flex;
@@ -164,41 +163,28 @@
     justify-content: center;
 }
 
-.refFrendsName p {
+.refFrendsName p{
     margin: 0;
     font-family: Muller;
     font-size: 2vh;
 }
 
-#Friends_rank {
-    font-size: 1.5vh;
-}
+#Friends_rank{font-size: 1.5vh;}
 
-#Beginner_rank {
-    color: #F2FA82;
-}
+#Beginner_rank{color: #F2FA82;}
 
-#Advanced_rank {
-    color: #F08B15;
-}
+#Advanced_rank{color: #F08B15;}
 
-#Intermediate_rank {
-    color: #FFB803;
-}
+#Intermediate_rank{color: #FFB803;}
 
-#Expert_rank {
-    color: #E32121;
-}
+#Expert_rank{color: #E32121;}
 
-#Master_rank {
-    color: #A513FF;
-}
+#Master_rank{color: #A513FF;}
 
-#Grandmaster_rank {
-    color: #CD7F32;
-}
+#Grandmaster_rank{color: #CD7F32;}
 
-.refthripleBTN {
+
+.refthripleBTN{
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -206,15 +192,15 @@
     flex-direction: row;
     height: 12%;
     width: 90%;
-    bottom: 0;
+    bottom: 0;  
 }
 
 .refgo {
     width: 77%;
     height: 80%;
     border-radius: 1.5vh;
-    box-shadow: inset 0 0 0 0.5vh #2D2D2D;
-    background: linear-gradient(#181818, #6d6d6d);
+    box-shadow:inset 0 0 0 0.5vh #2D2D2D;
+    background: linear-gradient(#181818, #6d6d6d); 
     color: white;
     display: flex;
     align-items: center;
@@ -222,11 +208,11 @@
     font: 3.5vh MullerMedium;
 }
 
-.refgo img {
+.refgo img{
     filter: drop-shadow(2px 2px 3px rgba(0,0,0,50%));
 }
 
-.refgo p {
+.refgo p{
     margin-top: 4.5vh;
     margin-right: 1vh;
 }
@@ -236,15 +222,7 @@
     flex-direction: column;
 }
 
-#refgoCopy p {
+#refgoCopy p{
     margin: 0;
     font: 2vh MullerMedium;
-}
-
-.Ref_Window {
-    animation: slide-up 0.2s ease-out;
-}
-
-.Ref_Window.closing {
-    animation: slide-down 0.2s ease-in;
 }

@@ -1,5 +1,5 @@
 .Podsos
-{
+{ 
     height: 48%;
     width: 100%;
     display: flex;
@@ -25,7 +25,7 @@
 .click-value p{
     z-index: 1;
     margin-top: 2.5vh;
-
+    
 }
 #inktap{
     position: absolute;

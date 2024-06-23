@@ -1,5 +1,5 @@
 import React from 'react';
-import './ProgressBar.css';
+import '../Css/ProgressBar.css';
 
 const ProgressBar = ({ current, max }) => {
     const percentage = (current / max) * 100;
@@ -7,7 +7,7 @@ const ProgressBar = ({ current, max }) => {
     return (
         <div className="progress-bar">
             <div className="progress-bar__background"></div>
-            <div className="progress-bar__fill" style={{ width: `${percentage}%` }}></div>
+            <div className="progress-bar__fill" style={{ width: `${100 -percentage}%` }}></div>          
         </div>
     );
 };

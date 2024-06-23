@@ -1,0 +1,60 @@
+#LootWindow{
+  font: 10vh Muller;
+  justify-content: space-between;
+}
+
+#LootWindow p{
+  margin: 0;
+}
+
+.checkbox {
+    width: 90vw;
+    height: 8vh;
+    background:#2D2D2D;
+    border-radius: 3vh;
+    position: relative;
+    overflow: hidden;
+    margin-top: 2vh;
+  }
+  
+  #checkbox_toggle {
+    display: none;
+  }
+  
+  .checkbox .toggle {
+    width: 45vw;
+    height: 7vh;
+    position: absolute;
+    border-radius: 2.5vh;
+    left: 0.5vh;
+    background: linear-gradient(40deg, #fbff09,#FF8C00 70%);
+    transition: 0.4s;
+    box-shadow: 0px 0px 3px rgb(255, 145, 0), 0px 0px 5px rgb(255, 174, 0);
+  }
+  
+  .checkbox .slide {
+    width: 90vw;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .checkbox .slide .text {
+    margin-top: 0.4vh;
+    font: 4vh MullerMedium;
+    font-weight: 700;
+    z-index: 100;
+  }
+  
+  .check:checked + .checkbox .slide .toggle {
+    transform: translateX(43vw);
+  }
+  
+  .check:checked + .checkbox .slide #CraftTxt{
+    color: #000;
+  }
+
+  .check:not(:checked) + .checkbox .slide #LootTxt{
+    color: #000;
+  }

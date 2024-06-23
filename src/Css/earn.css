@@ -1,15 +1,5 @@
-.Earn_Window {
-    width: 100%;
-    height: 78%;
-    position: fixed;
-    display: flex;
-    align-items: center;
+#EarnWindow {
     justify-content: space-between;
-    flex-direction: column;
-    border-radius: 3vh 3vh 0 0;
-    bottom: 0;
-    color: white;
-    background: #151515;
 }
 
 .ScrollBorder{
@@ -94,14 +84,4 @@
 
 #BigTask #littleEarn_p{
     font: 1.5vh MullerLight !important;
-}
-
-
-
-.Earn_Window {
-    animation: slide-up 0.2s ease-out;
-}
-  
-.Earn_Window.closing {
-    animation: slide-down 0.2s ease-in;
 }
