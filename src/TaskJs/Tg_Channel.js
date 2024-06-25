@@ -24,7 +24,7 @@ const TgChannelBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame CHANNEL</p>
             </div>
-            <button> <img src={Tg} alt='Tg' id='ButtomIMG'onClick={Tg_Channel_Open_chek}/>SUBSCRIBE</button>
+            <button onClick={Tg_Channel_Open_chek}> <img src={Tg} alt='Tg' id='ButtomIMG'/>SUBSCRIBE</button>
             <img src={Epic} alt='Epic_item'/>
         </div>
     );
