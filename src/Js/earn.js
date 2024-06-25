@@ -31,7 +31,7 @@ const Earn = ({ onClose }) => {
     const X_Open = () => {set_X_Chat(true)};
     const X_Close = () => {setTimeout(() => {set_X_Chat(false);}, 190);};
 
-    const TG_CHANNEL_LINK = "https://t.me/YOUR_TELEGRAM_CHANNEL"; // Замените на вашу ссылку
+    //const TG_CHANNEL_LINK = "https://t.me/YOUR_TELEGRAM_CHANNEL"; // Замените на вашу ссылку
 
 
     
