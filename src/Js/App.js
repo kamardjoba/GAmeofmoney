@@ -70,6 +70,7 @@ function App() {
         setTelegramLink(data.telegramLink);
         setEnergyNow(data.energyNow);
         setProfilePhotoUrl(data.profilePhotoUrl || avatar);
+        setcoins(data.coins);
       } else {
         console.error('Error fetching user data:', data.error);
       }
