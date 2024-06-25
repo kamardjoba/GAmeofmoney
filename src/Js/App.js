@@ -142,13 +142,10 @@ const handleCheckSubscription = useCallback(async (userId) => {
 }, []);
 
 
-
-
-  
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
       try {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          userId, coins: newCoins, energyNow: newEnergyNow, coinPerClick,
+          userId, clicks: newCoins, energyNow: newEnergyNow, coinPerClick,
           clickLimit, time
         });
       } catch (error) {
