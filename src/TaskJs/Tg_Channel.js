@@ -8,7 +8,7 @@ import Icon from '../IMG/TaskIcon/task_2.png';
 
 const TgChannelBord = ({onClose}) => {
 
-    const TG_CHANNEL_LINK = "https://t.me/YOUR_TELEGRAM_CHANNEL"; 
+    const TG_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; 
 
 
     
