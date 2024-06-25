@@ -8,6 +8,11 @@ import Icon from '../IMG/TaskIcon/task_2.png';
 
 const TgChannelBord = ({onClose}) => {
 
+    const TG_CHANNEL_LINK = "https://t.me/YOUR_TELEGRAM_CHANNEL"; 
+
+
+    
+    const Tg_Channel_Open_chek = () => { window.location.href = TG_CHANNEL_LINK; };
     const [isClosingForAnim, setClosingForAnim] = useState(false);
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
@@ -19,7 +24,7 @@ const TgChannelBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame CHANNEL</p>
             </div>
-            <button> <img src={Tg} alt='Tg' id='ButtomIMG'/>SUBSCRIBE</button>
+            <button> <img src={Tg} alt='Tg' id='ButtomIMG'onClick={Tg_Channel_Open_chek}/>SUBSCRIBE</button>
             <img src={Epic} alt='Epic_item'/>
         </div>
     );
