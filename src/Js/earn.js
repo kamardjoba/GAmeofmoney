@@ -20,7 +20,8 @@ const Earn = ({ onClose }) => {
     const handleCloseEarnAnim = () => {setClosingEarnForAnim(true);};
 
     const [Tg_Channel_Const, Set_Tg_Channel] = useState(false);
-    const Tg_Channel_Open = () => {Set_Tg_Channel(true)};
+    const Tg_Channel_Open = () => { window.location.href = TG_CHANNEL_LINK; };
+  
     const Tg_Channel_Close = () => {setTimeout(() => {Set_Tg_Channel(false);}, 190);};
 
     const [Tg_Chat_Const, Set_Tg_Chat] = useState(false);
@@ -30,6 +31,12 @@ const Earn = ({ onClose }) => {
     const [X_Const, set_X_Chat] = useState(false);
     const X_Open = () => {set_X_Chat(true)};
     const X_Close = () => {setTimeout(() => {set_X_Chat(false);}, 190);};
+
+    const TG_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; // Замените на вашу ссылку
+
+
+    
+    
   
     return (
 
