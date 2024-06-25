@@ -49,8 +49,6 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
         window.open(telegramUrl, '_blank');
     };
 
-
-
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingRefForAnim ? 'closing' : ''}`}>
             <div className="Ref_Earn_BoxBorder">

@@ -2,19 +2,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../Css/App.css';
 import axios from 'axios';
 
-import avatar from '../IMG/Avatars/avatar.png';
-import ink from '../IMG/ink.png';
-
+import avatar   from '../IMG/Avatars/avatar.png';
+import ink      from '../IMG/ink.png';
 import earnIcon from '../IMG/earn.png';
 
-
 import ProgressBar from './ProgressBar';
-import Shop from './shop';
-import Coindiv from './coin';
-import Ref from './ref';
-import Earn from './earn';
-import MysteryBox from './Mystery_Box';
-import Loot from './loot'
+import Shop        from './shop';
+import Coindiv     from './coin';
+import Ref         from './ref';
+import Earn        from './earn';
+import MysteryBox  from './Mystery_Box';
+import Loot        from './loot'
 
 import MainLogo   from '../IMG/All_Logo/mainLogo.png';
 import InviteLogo from '../IMG/All_Logo/inviteLogo.png';
@@ -197,7 +195,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
     handleCloseAppAnim();
     handleBackButtonSetup(() => {
       setisShopLogoVisible(false);
-     setIsLogoVisible(true);
+      setIsLogoVisible(true);
       handleOpenAppAnim();
       setTimeout(() => { setIsShopOpen(false); }, 150);
         if (window.Telegram.WebApp.BackButton.isVisible) {
@@ -205,6 +203,16 @@ const handleCheckSubscription = useCallback(async (userId) => {
       }
     });
   }, [handleBackButtonSetup]);
+
+  const handleCloseShop = () => {
+    setisShopLogoVisible(false);
+    setIsLogoVisible(true);
+    handleOpenAppAnim();
+    setTimeout(() => { setIsShopOpen(false); }, 150);
+    if (window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+   }
+  };
 
   const handleOpenRef = useCallback(() => {
     setIsRefOpen(true);
@@ -222,6 +230,16 @@ const handleCheckSubscription = useCallback(async (userId) => {
     });
   }, [handleBackButtonSetup]);
 
+  const handleCloseRef = () => {
+    setisInviteLogoVisible(false);
+    setIsLogoVisible(true);
+    handleOpenAppAnim();
+    setTimeout(() => { setIsRefOpen(false); }, 150);
+    if (window.Telegram.WebApp.BackButton.isVisible) {
+      window.Telegram.WebApp.BackButton.hide();
+    }
+  };
+
   const handleOpenEarn = useCallback(() => {
     setIsEarnOpen(true);
     setisEarnLogoVisible(true);
@@ -238,24 +256,44 @@ const handleCheckSubscription = useCallback(async (userId) => {
     });
   }, [handleBackButtonSetup]);
 
- 
+  const handleCloseEarn = () => {
+    setIsLogoVisible(true);
+    setisEarnLogoVisible(false);
+    handleOpenAppAnim();
+    setTimeout(() => { setIsEarnOpen(false); }, 150);
+      if (window.Telegram.WebApp.BackButton.isVisible) {
+       window.Telegram.WebApp.BackButton.hide();
+    }
+  };
+
   const handleOpenLoot = useCallback(() => {
     setisLootLogoVisible(true);
     setIsLogoVisible(false);
     setisLootOpen(true);
     handleCloseAppAnim();
     handleBackButtonSetup(() => {
-    setisLootLogoVisible(false);
-    setIsLogoVisible(true);
-    handleOpenAppAnim();
-    setisCraftLogoVisible(false);
-    setTimeout(() => { setisLootOpen(false); }, 150);
+      setisLootLogoVisible(false);
+      setisCraftLogoVisible(false);
+      setIsLogoVisible(true);
+      handleOpenAppAnim();
+      setTimeout(() => { setisLootOpen(false); }, 150);
         if (window.Telegram.WebApp.BackButton.isVisible) {
          window.Telegram.WebApp.BackButton.hide();
       }
     });
   }, [handleBackButtonSetup]);
 
+  const handleCloseLoot = () => {
+    setisLootLogoVisible(false);
+    setisCraftLogoVisible(false);
+    setIsLogoVisible(true);
+    handleOpenAppAnim();
+    setTimeout(() => { setisLootOpen(false); }, 150);
+      if (window.Telegram.WebApp.BackButton.isVisible) {
+       window.Telegram.WebApp.BackButton.hide();
+    }
+  };
+  
   const handleCheckboxChange = (event) => {
     const LogoVisible = !event.target.checked;
     setisLootLogoVisible(LogoVisible);
@@ -308,7 +346,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
             <div className="BorderMainInfo">
               <div id="left_thriple" className="tripleBox">
                 <p>LVL.1</p>
-                <p id="nonBold"> <img src={ink} alt='ink'/> {clicks}/300</p>
+                <p id="nonBold"> <img src={ink} alt='ink'/> {clicks}/555</p>
               </div>
               <div className="tripleBox">
                 <p>EARN</p>
@@ -368,38 +406,38 @@ const handleCheckSubscription = useCallback(async (userId) => {
         </div>
 
         {isBoxOpen && (
-            <MysteryBox
-              onClose={handleCloseBox}
-            />
+          <MysteryBox
+            onClose={handleCloseBox}
+          />
         )}
 
         {isShopOpen && (
           <Shop        
-          onClose={() => setIsShopOpen(false)}
+            onClose={handleCloseShop}
           />
         )}
 
         {isRefOpen && (
           <Ref
-          onClose={() => setIsRefOpen(false)}
-          userId={userId}
-          telegramLink={telegramLink}
-          openBox={handleOpenBox}
+            onClose={handleCloseRef}
+            userId={userId}
+            telegramLink={telegramLink}
+            openBox={handleOpenBox}
           />
         )}
 
         {isEarnOpen && (
           <Earn
-          onClose={() => setIsEarnOpen(false)}
-          userId={userId}
-          onCheckSubscription={handleCheckSubscription}
+            onClose={handleCloseEarn}
+            userId={userId}
+            onCheckSubscription={handleCheckSubscription}
           />
         )}
 
         {isLootOpen && (
           <Loot
-              onClose={() => setisLootOpen(false)}
-              handleCheckboxChange={handleCheckboxChange}
+            onClose={handleCloseLoot}
+            handleCheckboxChange={handleCheckboxChange}
           />
         )}
          <div className="referral-section">
