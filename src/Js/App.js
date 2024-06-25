@@ -28,7 +28,7 @@ import shopIcon   from '../IMG/LowerIcon/Shop_Icon.png';
 
 function App() {
 
-  const [clicks, setClicks] = useState(0);
+  const [coins, setcoins] = useState(0);
   const [energyNow, setEnergyNow] = useState(100);
 
   const coinPerClick = 1;
@@ -130,7 +130,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
     const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
     const data = response.data;
     if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
-      setClicks(prevCoins => prevCoins + 5000);
+      setcoins(prevCoins => prevCoins + 5000);
     }
     return data;
   } catch (error) {
@@ -143,7 +143,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
       try {
         await axios.post(`${process.env.REACT_APP_BACKEND_URL}/save-progress`, {
-          userId, clicks: newCoins, energyNow: newEnergyNow, coinPerClick,
+          userId, coins: newCoins, energyNow: newEnergyNow, coinPerClick,
           clickLimit, time
         });
       } catch (error) {
@@ -154,17 +154,17 @@ const handleCheckSubscription = useCallback(async (userId) => {
 
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
-      const newCoins = clicks + coinPerClick;
+      const newCoins = coins + coinPerClick;
       const newEnergyNow = energyNow - coinPerClick;
 
       // Обновляем состояние монет и энергии
-      setClicks(newCoins);
+      setcoins(newCoins);
       setEnergyNow(newEnergyNow);
 
       // Сохраняем прогресс с новым значением монет
       await saveProgressData(newCoins, newEnergyNow);
     }
-  }, [clicks, energyNow, coinPerClick, saveProgressData]);
+  }, [coins, energyNow, coinPerClick, saveProgressData]);
 
   //Востановления енергиї
   useEffect(() => {
@@ -346,7 +346,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
             <div className="BorderMainInfo">
               <div id="left_thriple" className="tripleBox">
                 <p>LVL.1</p>
-                <p id="nonBold"> <img src={ink} alt='ink'/> {clicks}/555</p>
+                <p id="nonBold"> <img src={ink} alt='ink'/> {coins}/555</p>
               </div>
               <div className="tripleBox">
                 <p>EARN</p>
