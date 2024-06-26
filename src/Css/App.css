@@ -251,7 +251,7 @@ body {
 
 #right_thriple{margin-right: 0.8vh;}
 
-#pngavatar{margin-right: 4vw; margin-top: 1.6vh; margin-left: 2vw;}
+#pngavatar{margin-right: 4vw; margin-top: 1.6vh; margin-left: 2vw;  height: 70%; border-radius: 50%;}
 
 #CloseDebug{
   background: red;

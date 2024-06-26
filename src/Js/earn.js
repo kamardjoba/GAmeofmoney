@@ -10,11 +10,12 @@ import Task_3 from '../IMG/TaskIcon/task_3.png';
 import Task_4 from '../IMG/TaskIcon/task_4.png';
 import Task_5 from '../IMG/TaskIcon/task_5.png';
 
+import TgChannelCmBord from '../TaskJs/Tg_Channel_Claim';
 import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 
-const Earn = ({ onClose }) => {
+const Earn = ({ onClose, isVisibleClaim, setVisibleClaim }) => {
     
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => {setClosingEarnForAnim(true);};
@@ -22,6 +23,10 @@ const Earn = ({ onClose }) => {
     const [Tg_Channel_Const, Set_Tg_Channel] = useState(false);
     const Tg_Channel_Open = () => {Set_Tg_Channel(true)};
     const Tg_Channel_Close = () => {setTimeout(() => {Set_Tg_Channel(false);}, 190);};
+
+    const [Tg_Channel_Complated_Const, Set_Tg_Channel_Complated] = useState(false);
+    const Tg_Channel_ComplatedOpen = () => {Set_Tg_Channel_Complated(true)};
+    const Tg_Channel_ComplatedClose = () => {setTimeout(() => {Set_Tg_Channel_Complated(false);}, 190);};
 
     const [Tg_Chat_Const, Set_Tg_Chat] = useState(false);
     const Tg_Chat_Open = () => {Set_Tg_Chat(true)};
@@ -32,18 +37,21 @@ const Earn = ({ onClose }) => {
     const X_Close = () => {setTimeout(() => {set_X_Chat(false);}, 190);};
 
     //const TG_CHANNEL_LINK = "https://t.me/YOUR_TELEGRAM_CHANNEL"; // Замените на вашу ссылку
-
-
-    
     //const Tg_Channel_Open = () => { window.location.href = TG_CHANNEL_LINK; };
   
     return (
 
       <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
 
-            {Tg_Channel_Const && (
+            {Tg_Channel_Const && isVisibleClaim && (
                 <TgChannelBord
                     onClose={Tg_Channel_Close}
+                />
+            )}
+
+            {Tg_Channel_Complated_Const && !isVisibleClaim&& (
+                <TgChannelCmBord
+                    onClose={Tg_Channel_ComplatedClose}
                 />
             )}
 
@@ -93,7 +101,7 @@ const Earn = ({ onClose }) => {
                                 <img src={Task_1} alt='Task_1' height={"90%"}/>
                             </div>
                         </div>
-                        <div id="BigTask" className="Task">
+                        <div id="BigTask" className="Task" >
                             <p>CHANGE AVATAR</p>
                             <p>ADD "BITCLIF" TO</p>
                             <p>NICKNAME</p>
@@ -112,7 +120,7 @@ const Earn = ({ onClose }) => {
                                 <img src={Task_3} alt='Task_3' height={"120%"}/>
                             </div>
                         </div>
-                        <div id="BigTask" className="Task" onClick={Tg_Channel_Open}>
+                        <div id="BigTask" className="Task" onClick={(event) => {Tg_Channel_ComplatedOpen(event); Tg_Channel_Open(event); }}>
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM</p>
                             <p>CHANNEL</p>

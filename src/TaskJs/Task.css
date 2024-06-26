@@ -84,3 +84,26 @@
 .Task_Border.closing {
     animation: slide-down 0.2s ease-in;
 }
+
+.forClaim{
+    width: 90%;
+    height: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#ClaimIMG{ height: 100%;}
+
+#ClaimBTN{
+    width: 40%;
+    height: 25%;
+    border-radius: 3vh;
+    color: black;
+    background: #F08B15;
+    font: 3.5vh Muller;
+    font-weight: bold;
+    box-shadow: 0 0 0 0.6vh #87551A;
+}
+
