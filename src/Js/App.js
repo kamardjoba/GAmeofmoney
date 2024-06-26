@@ -56,7 +56,8 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
 
-  const[isVisibleClaim, setVisibleClaim] = useState(true);
+  const[isVisibleClaim, setVisibleClaim] = useState(false);
+  const[isVisibleChanel, setVisibleChanel] = useState(true);
   
  // Функция для загрузки прогресса пользователя
  const loadProgress = useCallback(async () => {
@@ -134,7 +135,8 @@ const handleCheckSubscription = useCallback(async (userId) => {
     const data = response.data;
     if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
       setcoins(prevCoins => prevCoins + 5000);
-      setVisibleClaim(false);
+      setVisibleClaim(true);
+      setVisibleChanel(false);
     }
     return data;
   } catch (error) {
@@ -303,7 +305,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
     setisLootLogoVisible(LogoVisible);
     setisCraftLogoVisible(!LogoVisible); 
   };
-  
+
   return (
       <div className="App">
         <div className = "info">
@@ -437,7 +439,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
             onCheckSubscription={handleCheckSubscription}
 
             isVisibleClaim={isVisibleClaim}
-            setVisibleClaim={setVisibleClaim}
+            isVisibleChanel={isVisibleChanel}
           />
         )}
 

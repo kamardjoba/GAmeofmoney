@@ -15,7 +15,7 @@ import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 
-const Earn = ({ onClose, isVisibleClaim, setVisibleClaim }) => {
+const Earn = ({ onClose, isVisibleClaim, isVisibleChanel }) => {
     
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => {setClosingEarnForAnim(true);};
@@ -43,13 +43,13 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim }) => {
 
       <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
 
-            {Tg_Channel_Const && isVisibleClaim && (
+            {Tg_Channel_Const && isVisibleChanel && (
                 <TgChannelBord
                     onClose={Tg_Channel_Close}
                 />
             )}
 
-            {Tg_Channel_Complated_Const && !isVisibleClaim&& (
+            {Tg_Channel_Complated_Const && isVisibleClaim&& (
                 <TgChannelCmBord
                     onClose={Tg_Channel_ComplatedClose}
                 />
