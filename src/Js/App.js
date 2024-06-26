@@ -134,7 +134,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
     const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
     const data = response.data;
     if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
-      setcoins(coins + 5000);
+      setcoins(prevCoins => prevCoins + 5000);
       setVisibleClaim(true);
       setVisibleChanel(false);
     }
