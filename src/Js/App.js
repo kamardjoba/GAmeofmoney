@@ -438,7 +438,6 @@ const handleCheckSubscription = useCallback(async (userId) => {
             onClose={handleCloseEarn}
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
-
             isVisibleClaim={isVisibleClaim}
             setVisibleClaim={setVisibleClaim}
             isVisibleComplated={isVisibleComplated}

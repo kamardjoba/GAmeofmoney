@@ -16,7 +16,7 @@ import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 
-const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVisibleComplated, setisVisibleComplated}) => {
+const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVisibleComplated, setisVisibleComplated, onCheckSubscription}) => {
     
     
 
