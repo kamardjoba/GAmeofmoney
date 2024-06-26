@@ -56,8 +56,8 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
 
-  const[isVisibleChanel, setVisibleChanel] = useState(false);
-  const[isVisibleClaim, setVisibleClaim] = useState(true);
+  const[isVisibleChanel, setVisibleChanel] = useState(true);
+  const[isVisibleClaim, setVisibleClaim] = useState(false);
   const[isVisibleComplated, setisVisibleComplated] = useState(false)
   
  // Функция для загрузки прогресса пользователя
