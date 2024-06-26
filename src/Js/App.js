@@ -55,6 +55,10 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
+
+  const[isVisibleChanel, setVisibleChanel] = useState(true);
+  const[isVisibleClaim, setVisibleClaim] = useState(false);
+  const[isVisibleComplated, setisVisibleComplated] = useState(false)
   
  // Функция для загрузки прогресса пользователя
  const loadProgress = useCallback(async () => {
@@ -132,6 +136,8 @@ const handleCheckSubscription = useCallback(async (userId) => {
     const data = response.data;
     if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
       setcoins(prevCoins => prevCoins + 5000);
+      setVisibleClaim(true);
+      setVisibleChanel(false);
     }
     return data;
   } catch (error) {
@@ -306,7 +312,7 @@ const handleCheckSubscription = useCallback(async (userId) => {
         <div className = "info">
           <img src={Logo} alt="Logo" height={"55%"}/>
           <p> {username} </p>
-          <img id="pngavatar"src={profilePhotoUrl} alt="Bifclif" height={"70%"}/>
+          <img id="pngavatar"src={profilePhotoUrl} alt="Bifclif"/>
         </div>
         <div className="logo">
 
@@ -432,6 +438,12 @@ const handleCheckSubscription = useCallback(async (userId) => {
             onClose={handleCloseEarn}
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
+
+            isVisibleClaim={isVisibleClaim}
+            setVisibleClaim={setVisibleClaim}
+            isVisibleComplated={isVisibleComplated}
+            setisVisibleComplated={setisVisibleComplated}
+            isVisibleChanel={isVisibleChanel}
           />
         )}
 
