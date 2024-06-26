@@ -6,8 +6,9 @@ import Tg from '../IMG/TaskIcon/task_4.png';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.png';
 
-const TgChannelCmBord = ({onClose}) => {
+const TgChannelClaimBord = ({onClose, setisVisibleComplated,setVisibleClaim}) => {
 
+    
     const TG_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; 
 
     const Tg_Channel_Open_chek = () => { window.location.href = TG_CHANNEL_LINK; };
@@ -25,10 +26,10 @@ const TgChannelCmBord = ({onClose}) => {
             <button onClick={Tg_Channel_Open_chek}> <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Epic_Claim} alt='Epic_Claim_item' id='ClaimIMG'/>
-                <button id="ClaimBTN">CLAIM</button>
+                <button id="ClaimBTN" onClick={(event) => {setVisibleClaim(false); setisVisibleComplated(true); }}>CLAIM</button>
             </div>
         </div>
     );
 };
 
-export default TgChannelCmBord;
+export default TgChannelClaimBord;

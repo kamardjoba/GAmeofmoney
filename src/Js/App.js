@@ -56,8 +56,9 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
 
-  const[isVisibleClaim, setVisibleClaim] = useState(false);
-  const[isVisibleChanel, setVisibleChanel] = useState(true);
+  const[isVisibleChanel, setVisibleChanel] = useState(false);
+  const[isVisibleClaim, setVisibleClaim] = useState(true);
+  const[isVisibleComplated, setisVisibleComplated] = useState(false)
   
  // Функция для загрузки прогресса пользователя
  const loadProgress = useCallback(async () => {
@@ -439,6 +440,9 @@ const handleCheckSubscription = useCallback(async (userId) => {
             onCheckSubscription={handleCheckSubscription}
 
             isVisibleClaim={isVisibleClaim}
+            setVisibleClaim={setVisibleClaim}
+            isVisibleComplated={isVisibleComplated}
+            setisVisibleComplated={setisVisibleComplated}
             isVisibleChanel={isVisibleChanel}
           />
         )}
