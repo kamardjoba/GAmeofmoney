@@ -125,7 +125,7 @@
 }
 
 .refFrendsMenu{
-    height: 86%;
+    height: 80%;
     width: 100%;
     display: flex;
     align-items: center;
@@ -153,6 +153,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
 }
 
 .refFrendsName{
@@ -188,42 +189,52 @@
 .refthripleBTN{
     position: absolute;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     flex-direction: row;
-    height: 12%;
-    width: 90%;
+    height: 17%;
+    width: 100%;
     bottom: 0;  
+    background: #151515;
+    box-shadow: 0 -2px 0 #f6ff82;
+    border-radius: 3vh 3vh 0 0;
 }
 
 .refgo {
-    width: 77%;
-    height: 80%;
+    width: 44vw;
+    height: 7.4vh;
     border-radius: 1.5vh;
-    box-shadow:inset 0 0 0 0.5vh #2D2D2D;
-    background: linear-gradient(#181818, #6d6d6d); 
+    box-shadow: 0 0 0 0.5vh #2D2D2D;
+    background: #202020; 
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font: 3.5vh MullerMedium;
+    font: 3.2vh MullerMedium;
 }
 
 .refgo img{
-    filter: drop-shadow(2px 2px 3px rgba(0,0,0,50%));
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,10%));
 }
 
 .refgo p{
-    margin-top: 4.5vh;
-    margin-right: 1vh;
+    margin-top: 4.2vh;
+    margin-right: 0.5vh;
 }
 
 #refgoCopy {
-    width: 20%;
+    width: 20vw;
     flex-direction: column;
+    margin-right: 1vh;
 }
 
 #refgoCopy p{
     margin: 0;
     font: 2vh MullerMedium;
+}
+
+#refgoEx{
+    width: 20vw;
+    margin-left: 1vh;
+    padding-top: 0.4vh;
 }

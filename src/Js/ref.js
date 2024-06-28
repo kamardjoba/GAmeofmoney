@@ -6,6 +6,7 @@ import s from '../IMG/s.png'
 import ink from '../IMG/ink.png';
 import inviteIcon from '../IMG/LowerIcon/Invite_Icon.png';
 import avatar from '../IMG/Avatars/avatar.png';
+import UIcon from '../IMG/Union.png';
 
 const Ref = ({onClose, openBox,userId, telegramLink}) => {
     const handleCloseRefAnim = () => {setClosingRefForAnim(true);};    
@@ -93,6 +94,9 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
                 </div>
             </div>
             <div className="refthripleBTN">
+                <button className="refgo" id='refgoEx' onClick={(event) => {onClose(event); handleCloseRefAnim(event); }}>
+                    <img src={UIcon} alt='UIcon' height={"70%"}/>
+                </button>
                 <button className="refgo" onClick={handleShareLink}>
                     <p>INVITE </p>
                     <img src={inviteIcon} alt='inviteIcon' height={"110%"}/>
@@ -102,7 +106,6 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
                     <p>COPY</p>
                 </button>
             </div>
-            <button id='CloseDebug' onClick={(event) => {onClose(event); handleCloseRefAnim(event); }}>X</button>
         </div>
     );
 };
