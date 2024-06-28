@@ -91,13 +91,19 @@ useEffect(() => {
     setUserId(userIdFromURL);
 
     if (userIdFromURL) {
-      
       await loadProgress();
     }
     setLoading(false);
+
+    const isSubscribed = localStorage.getItem('isSubscribed');
+    if (isSubscribed === 'true') {
+      setVisibleClaim(true);
+      setVisibleChanel(false);
+    }
   };
   loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-}, [loadProgress,  setLoading]);
+}, [loadProgress, setLoading]);
+
 
 
   useEffect(() => {
@@ -116,22 +122,25 @@ useEffect(() => {
     }
   }, []);
 
-// Проверка подписки
-const handleCheckSubscription = useCallback(async (userId) => {
-  try {
-    const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
-    const data = response.data;
-    if (response.status === 200 && data.isSubscribed && !data.hasCheckedSubscription) {
-      setcoins(prevCoins => prevCoins + 5000);
-      setVisibleClaim(true);
-      setVisibleChanel(false);
+  const handleCheckSubscription = useCallback(async (userId) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
+      const data = response.data;
+      if (response.status === 200 && data.isSubscribed) {
+        if (!data.hasCheckedSubscription) {
+          setcoins(prevCoins => prevCoins + 5000);
+        }
+        setVisibleClaim(true);
+        setVisibleChanel(false);
+        localStorage.setItem('isSubscribed', 'true');
+      }
+      return data;
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      return { success: false, message: 'Ошибка при проверке подписки.' };
     }
-    return data;
-  } catch (error) {
-    console.error('Error checking subscription:', error);
-    return { success: false, message: 'Ошибка при проверке подписки.' };
-  }
-}, []);
+  }, []);
+  
 
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
