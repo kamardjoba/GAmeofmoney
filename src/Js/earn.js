@@ -37,9 +37,10 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
             const isSubscribed = localStorage.getItem('isSubscribed');
             if (isSubscribed !== 'true') {
                 await onCheckSubscription(userId);
-            } else {
                 setVisibleClaim(true);
                 setVisibleChanel(false);
+            } else {
+                
             }
         };
         checkSubscriptionOnMount();
