@@ -100,6 +100,11 @@ useEffect(() => {
       setVisibleClaim(true);
       setVisibleChanel(false);
     }
+    else{
+      setVisibleChanel(true);
+      setVisibleClaim(false);
+      setisVisibleComplated(false);
+    }
   };
   loadAndUpdate().catch(error => console.error('Error loading progress:', error));
 }, [loadProgress, setLoading]);
@@ -133,6 +138,11 @@ useEffect(() => {
         localStorage.setItem('isSubscribed', 'true');
         setVisibleChanel(false);
         setVisibleClaim(true);
+      }
+      else{
+        setVisibleChanel(true);
+        setVisibleClaim(false);
+        setisVisibleComplated(false);
       }
       return data;
     } catch (error) {
