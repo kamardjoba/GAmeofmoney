@@ -82,7 +82,7 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
                     {referrals.map((referral, index) => (
                         <div key={index} className='refFrends'>
                             <div className='refFrendsIcon'>
-                                <img src={referral.profilePhotoUrl || avatar} alt="Avatar" height={"75%"} id='FreandsAvatarInvite'/>
+                                <img src={referral.profilePhotoUrl || avatar} alt="Avatar" height={"75%"}/>
                             </div>
                             <div className='refFrendsName'>
                                 <p>{referral.username || `user${referral.telegramId}`}</p>
