@@ -130,10 +130,9 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
           setVisibleChanel(false);
-          //setVisibleClaim(true);
+          setVisibleClaim(true);
         }
         localStorage.setItem('isSubscribed', 'true');
-          setVisibleChanel(false);
       }
       return data;
     } catch (error) {
