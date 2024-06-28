@@ -84,6 +84,21 @@ function App() {
   }
 }, []);
 
+useEffect(() => {
+  const loadAndUpdate = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('userId');
+    setUserId(userIdFromURL);
+
+    if (userIdFromURL) {
+      
+      await loadProgress();
+    }
+    setLoading(false);
+  };
+  loadAndUpdate().catch(error => console.error('Error loading progress:', error));
+}, [loadProgress,  setLoading]);
+
 
   useEffect(() => {
     if (window.Telegram.WebApp) {
