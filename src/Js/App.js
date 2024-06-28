@@ -129,7 +129,7 @@ useEffect(() => {
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
-          setVisibleChanel(false);
+          //setVisibleChanel(false);
           //setVisibleClaim(true);
         }
         localStorage.setItem('isSubscribed', 'true');
