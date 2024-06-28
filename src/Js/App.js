@@ -84,34 +84,6 @@ function App() {
   }
 }, []);
 
-  // Функция для обновления фото профиля
-  const updateProfilePhoto = useCallback(async (telegramId) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photo`, { telegramId });
-      if (response.data.success) {
-        setProfilePhotoUrl(response.data.profilePhotoUrl || avatar);
-      } else {
-        console.error('Error updating profile photo:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error updating profile photo:', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    const loadAndUpdate = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const userIdFromURL = urlParams.get('userId');
-      setUserId(userIdFromURL);
-
-      if (userIdFromURL) {
-        await updateProfilePhoto(userIdFromURL);
-        await loadProgress();
-      }
-      setLoading(false);
-    };
-    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
-  }, [loadProgress, updateProfilePhoto, setLoading]);
 
   useEffect(() => {
     if (window.Telegram.WebApp) {
