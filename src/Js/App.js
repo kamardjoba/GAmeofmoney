@@ -133,7 +133,7 @@ useEffect(() => {
           //setVisibleClaim(true);
         }
         localStorage.setItem('isSubscribed', 'true');
-        
+          setVisibleChanel(false);
       }
       return data;
     } catch (error) {
