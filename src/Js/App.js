@@ -69,7 +69,7 @@ function App() {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId: userIdFromURL } });
       const data = response.data;
       if (response.status === 200) {
-        setUsername(data.username);
+        setUsername(data.first_name);
         setReferralCode(data.referralCode);
         setTelegramLink(data.telegramLink);
         setEnergyNow(data.energyNow);
