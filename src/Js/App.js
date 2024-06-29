@@ -135,7 +135,7 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
         }
-       // localStorage.setItem('isSubscribed', 'true');
+       localStorage.setItem('isSubscribed', 'true');
         setVisibleChanel(false);
         setVisibleClaim(true);
       }
