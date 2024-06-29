@@ -51,7 +51,7 @@ function App() {
 
   const [username, setUsername] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
-  const [ setLoading] = useState(true);
+  const [setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
@@ -135,7 +135,7 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
         }
-        localStorage.setItem('isSubscribed', 'true');
+       // localStorage.setItem('isSubscribed', 'true');
         setVisibleChanel(false);
         setVisibleClaim(true);
       }
