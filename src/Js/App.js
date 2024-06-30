@@ -51,7 +51,7 @@ function App() {
 
   const [username, setUsername] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
-  const [ setLoading] = useState(true);
+  const [setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
@@ -69,7 +69,7 @@ function App() {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId: userIdFromURL } });
       const data = response.data;
       if (response.status === 200) {
-        setUsername(data.username);
+        setUsername(data.first_name);
         setReferralCode(data.referralCode);
         setTelegramLink(data.telegramLink);
         setEnergyNow(data.energyNow);
@@ -135,7 +135,7 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
         }
-        localStorage.setItem('isSubscribed', 'true');
+       localStorage.setItem('isSubscribed', 'true');
         setVisibleChanel(false);
         setVisibleClaim(true);
       }
