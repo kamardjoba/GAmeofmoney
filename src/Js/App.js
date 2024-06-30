@@ -329,7 +329,7 @@ useEffect(() => {
 
           <img  src={InviteLogo}
                 alt="InviteLogo"
-                height={"85%"}
+                height={"92%"}
                 className={isInviteLogoVisible ? 'fade-in' : 'fade-out'}/>
 
           <img  src={EarnLogo} 
@@ -339,7 +339,7 @@ useEffect(() => {
 
           <img  src={ShopLogo}
                 alt="ShopLogo"
-                height={"85%"}
+                height={"92%"}
                 className={isShopLogoVisible ? 'fade-in' : 'fade-out'}/>
 
           <img  src={LootLogo}
