@@ -34,14 +34,13 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
 
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
-            const isSubscribed = localStorage.getItem('isSubscribed');
-            if (isSubscribed !== 'true') {
-                await onCheckSubscription(userId);
-                setVisibleClaim(false);
-                setVisibleChanel(false);
-            } else {
+            const data = await onCheckSubscription(userId);
+            if (data.isSubscribed) {
                 setVisibleClaim(true);
                 setVisibleChanel(false);
+            } else {
+                setVisibleClaim(false);
+                setVisibleChanel(true);
             }
         };
         checkSubscriptionOnMount();
