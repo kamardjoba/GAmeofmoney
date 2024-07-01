@@ -95,16 +95,7 @@ useEffect(() => {
     }
     setLoading(false);
 
-    const isSubscribed = localStorage.getItem('isSubscribed');
-    if (isSubscribed === 'true') {
-      setVisibleClaim(true);
-      setVisibleChanel(false);
-    }
-    else{
-      setVisibleChanel(true);
-      setVisibleClaim(false);
-      setisVisibleComplated(false);
-    }
+    
   };
   loadAndUpdate().catch(error => console.error('Error loading progress:', error));
 }, [loadProgress, setLoading]);
@@ -135,9 +126,7 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
         }
-       localStorage.setItem('isSubscribed', 'true');
-        setVisibleChanel(false);
-        setVisibleClaim(true);
+       
       }
       else{
         setVisibleChanel(true);
