@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react'; //, useEffect
 import '../Css/earn.css';
 import gray_8nogIcon from '../IMG/gray_8nog.png';
 import znakLogo from '../IMG/Znak.png';
@@ -32,19 +32,19 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
     const X_Open = () => { set_X_Chat(true) };
     const X_Close = () => { setTimeout(() => { set_X_Chat(false); }, 190); };
 
-    useEffect(() => {
-        const checkSubscriptionOnMount = async () => {
-            const data = await onCheckSubscription(userId);
-            if (data.isSubscribed) {
-                setVisibleClaim(true);
-                setVisibleChanel(false);
-            } else {
-                setVisibleClaim(false);
-                setVisibleChanel(true);
-            }
-        };
-        checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, setVisibleClaim, setVisibleChanel]);
+    // useEffect(() => {
+    //     const checkSubscriptionOnMount = async () => {
+    //         const data = await onCheckSubscription(userId);
+    //         if (data.isSubscribed) {
+    //             setVisibleClaim(true);
+    //             setVisibleChanel(false);
+    //         } else {
+    //             setVisibleClaim(false);
+    //             setVisibleChanel(true);
+    //         }
+    //     };
+    //     checkSubscriptionOnMount();
+    // }, [onCheckSubscription, userId, setVisibleClaim, setVisibleChanel]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
