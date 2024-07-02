@@ -31,7 +31,7 @@ function LoadingScreen() {
   return (
     <div className="loading-screen">
       <img src={Loading} alt="Loading" />
-      <p>Loading...</p>
+      
     </div>
   );
 }
