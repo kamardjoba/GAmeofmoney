@@ -44,9 +44,6 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
                 setVisibleClaim(true);
                 setVisibleChanel(false)
             } 
-            if (setisVisibleComplated === true) {
-                setVisibleClaim(false);
-            }
         };
         checkSubscriptionOnMount();
     }, [onCheckSubscription, userId, setVisibleClaim, setVisibleChanel , setisVisibleComplated]);
@@ -120,7 +117,7 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
                                 <img src={Task_3} alt='Task_3' height={"120%"} />
                             </div>
                         </div>
-                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Channel_Claim_Open(event); Tg_Channel_Open(event); Tg_Channel_Complated_Open(event); checkSubscriptionOnMount(); }}>
+                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Channel_Claim_Open(event); Tg_Channel_Open(event); Tg_Channel_Complated_Open(event);}}>
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM</p>
                             <p>CHANNEL</p>
