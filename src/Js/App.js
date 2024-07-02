@@ -60,9 +60,14 @@ function App() {
     localStorage.setItem('VisibleChanel', 'true');
   }, []);
   
+  useEffect(() => {
+    localStorage.setItem('VisibleClaim', 'true');
+  }, []);
+
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
-  const[isVisibleClaim, setVisibleClaim] = useState(null);
+  const isVisibleClaim = localStorage.getItem('VisibleClaim') === 'false';
+
   const[isVisibleComplated, setisVisibleComplated] = useState(null)
   
  // Функция для загрузки прогресса пользователя
@@ -431,7 +436,6 @@ useEffect(() => {
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
             isVisibleClaim={isVisibleClaim}
-            setVisibleClaim={setVisibleClaim}
             isVisibleComplated={isVisibleComplated}
             setisVisibleComplated={setisVisibleComplated}
             isVisibleChanel={isVisibleChanel}
