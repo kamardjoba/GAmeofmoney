@@ -56,7 +56,10 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
 
-  const[isVisibleChanel, setVisibleChanel] = useState(true);
+  //const[isVisibleChanel, setVisibleChanel] = useState(true);
+  localStorage.VisibleChanel = true;
+  isVisibleChanel = localStorage.getItem('VisibleChanel');
+
   const[isVisibleClaim, setVisibleClaim] = useState(null);
   const[isVisibleComplated, setisVisibleComplated] = useState(null)
   
@@ -126,9 +129,9 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
           setVisibleClaim(true);
-          setVisibleChanel(false);
+          localStorage.setItem('VisibleChanel', false)
         }else {
-          setVisibleChanel(true);
+          localStorage.setItem('VisibleChanel', true)
           setVisibleClaim(false);
           setisVisibleComplated(false);
       }
@@ -438,8 +441,7 @@ useEffect(() => {
             setVisibleClaim={setVisibleClaim}
             isVisibleComplated={isVisibleComplated}
             setisVisibleComplated={setisVisibleComplated}
-            isVisibleChanel={isVisibleChanel}
-            setVisibleChanel={setVisibleChanel}
+            
           />
         )}
 
