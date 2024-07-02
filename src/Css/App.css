@@ -353,6 +353,7 @@ button{
   height: 100%;
   background-color: #fff;
   display: flex;
+  margin: 0;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -360,8 +361,8 @@ button{
 }
 
 .loading-screen img {
-  width: 100px; /* или любой другой размер */
-  height: 100px;
+  width: 100vw; /* или любой другой размер */
+  height: 100vh;
 }
 
 .loading-screen p {
