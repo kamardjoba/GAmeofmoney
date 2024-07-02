@@ -60,9 +60,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem('VisibleChanel', true);
   }, []);
+
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
-  const[isVisibleClaim, setVisibleClaim] = useState(null);
+  useEffect(() => {
+    localStorage.setItem('VisibleClaim', false);
+  }, []);
+  
+  const isVisibleClaim = localStorage.getItem('VisibleClaim') === 'false';
+
+
   const[isVisibleComplated, setisVisibleComplated] = useState(null)
   
  // Функция для загрузки прогресса пользователя
@@ -130,11 +137,11 @@ useEffect(() => {
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
-          setVisibleClaim(true);
+          localStorage.setItem('VisibleClaim', true);
           localStorage.setItem('VisibleChanel', false);
         }else {
           localStorage.setItem('VisibleChanel', true);
-          setVisibleClaim(false);
+          localStorage.setItem('VisibleClaim', false);
           setisVisibleComplated(false);
       }
         return data;
@@ -440,7 +447,6 @@ useEffect(() => {
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
             isVisibleClaim={isVisibleClaim}
-            setVisibleClaim={setVisibleClaim}
             isVisibleComplated={isVisibleComplated}
             setisVisibleComplated={setisVisibleComplated}
             isVisibleChanel={isVisibleChanel}
