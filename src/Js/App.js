@@ -433,6 +433,7 @@ useEffect(() => {
             isVisibleComplated={isVisibleComplated}
             setisVisibleComplated={setisVisibleComplated}
             isVisibleChanel={isVisibleChanel}
+            setVisibleChanel={setVisibleChanel}
           />
         )}
 
