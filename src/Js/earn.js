@@ -44,7 +44,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, se
                 setVisibleClaim(true);
                 localStorage.setItem('VisibleChanel', 'false')
             } else {
-                localStorage.setItem('VisibleChanel', 'true'); // Store as a string
+                localStorage.setItem('VisibleChanel', 'true'); 
             }
 
         };
