@@ -57,8 +57,8 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
 
   const[isVisibleChanel, setVisibleChanel] = useState(true);
-  const[isVisibleClaim, setVisibleClaim] = useState(false);
-  const[isVisibleComplated, setisVisibleComplated] = useState(false)
+  const[isVisibleClaim, setVisibleClaim] = useState(null);
+  const[isVisibleComplated, setisVisibleComplated] = useState(null)
   
  // Функция для загрузки прогресса пользователя
  const loadProgress = useCallback(async () => {
@@ -125,6 +125,7 @@ useEffect(() => {
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
+          setVisibleClaim(true);
         }else {
           setVisibleChanel(true);
           setVisibleClaim(false);
