@@ -57,10 +57,10 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('VisibleChanel', true);
+    localStorage.setItem('VisibleChanel', 'true');
   }, []);
   
-  const isVisibleChanel = localStorage.getItem('VisibleChanel') === true;
+  const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
   const[isVisibleClaim, setVisibleClaim] = useState(null);
   const[isVisibleComplated, setisVisibleComplated] = useState(null)
@@ -131,9 +131,9 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
           setVisibleClaim(true);
-          localStorage.setItem('VisibleChanel', false)
+          localStorage.setItem('VisibleChanel', 'false')
         }else {
-          localStorage.setItem('VisibleChanel', true)
+          localStorage.setItem('VisibleChanel', 'true')
           setVisibleClaim(false);
           setisVisibleComplated(false);
       }
