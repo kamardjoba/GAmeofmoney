@@ -39,13 +39,13 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
                 setVisibleClaim(true);
                 setVisibleChanel(false)
             } 
-            if (setisVisibleComplated == true) {
+            if (setisVisibleComplated === true) {
                 setVisibleClaim(false);
             }
         };
         checkSubscriptionOnMount();
     }, [onCheckSubscription, userId, setVisibleClaim, setVisibleChanel , setisVisibleComplated]);
-    
+
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
             {Tg_Channel_Const && isVisibleChanel && (
