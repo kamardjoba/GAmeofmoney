@@ -41,11 +41,11 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleComplated, setisVisibleComplat
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);
             if (data.isSubscribed) {
-                localStorage.setItem('VisibleClaim', 'true');
+                //localStorage.setItem('VisibleClaim', 'true');
                 localStorage.setItem('VisibleChanel', 'false');
             } else {
                 localStorage.setItem('VisibleChanel', 'true'); 
-                localStorage.setItem('VisibleClaim', 'false');
+                //localStorage.setItem('VisibleClaim', 'false');
             }
 
         };
