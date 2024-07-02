@@ -13,7 +13,7 @@ import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 
-const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVisibleComplated, setVisibleChanel, setisVisibleComplated, onCheckSubscription, userId }) => {
+const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVisibleComplated, setisVisibleComplated, onCheckSubscription, userId }) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -42,11 +42,11 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
             const data = await onCheckSubscription(userId);
             if (data.isSubscribed) {
                 setVisibleClaim(true);
-                setVisibleChanel(false)
+                localStorage.setItem('VisibleChanel' , true);
             } 
         };
         checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, setVisibleClaim, setVisibleChanel , setisVisibleComplated]);
+    }, [onCheckSubscription, userId, setVisibleClaim , setisVisibleComplated]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
