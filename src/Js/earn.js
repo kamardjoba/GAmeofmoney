@@ -37,6 +37,7 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
             const data = await onCheckSubscription(userId);
             if (data.isSubscribed) {
                 setVisibleClaim(true);
+                setVisibleChanel(false)
             } 
         };
         checkSubscriptionOnMount();
