@@ -55,21 +55,14 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
-  
 
   useEffect(() => {
     localStorage.setItem('VisibleChanel', true);
   }, []);
-
-  const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
-
-  useEffect(() => {
-    localStorage.setItem('VisibleClaim', false);
-  }, []);
   
-  const isVisibleClaim = localStorage.getItem('VisibleClaim') === 'false';
+  const isVisibleChanel = localStorage.getItem('VisibleChanel') === true;
 
-
+  const[isVisibleClaim, setVisibleClaim] = useState(null);
   const[isVisibleComplated, setisVisibleComplated] = useState(null)
   
  // Функция для загрузки прогресса пользователя
@@ -137,11 +130,11 @@ useEffect(() => {
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
-          localStorage.setItem('VisibleClaim', true);
-          localStorage.setItem('VisibleChanel', false);
+          setVisibleClaim(true);
+          localStorage.setItem('VisibleChanel', false)
         }else {
-          localStorage.setItem('VisibleChanel', true);
-          localStorage.setItem('VisibleClaim', false);
+          localStorage.setItem('VisibleChanel', true)
+          setVisibleClaim(false);
           setisVisibleComplated(false);
       }
         return data;
@@ -447,6 +440,7 @@ useEffect(() => {
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
             isVisibleClaim={isVisibleClaim}
+            setVisibleClaim={setVisibleClaim}
             isVisibleComplated={isVisibleComplated}
             setisVisibleComplated={setisVisibleComplated}
             isVisibleChanel={isVisibleChanel}
