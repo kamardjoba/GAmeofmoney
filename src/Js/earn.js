@@ -13,7 +13,7 @@ import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 
-const Earn = ({ onClose, isVisibleClaim, isVisibleComplated, setisVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
+const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, setisVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -41,16 +41,15 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleComplated, setisVisibleComplat
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);
             if (data.isSubscribed) {
-                //localStorage.setItem('VisibleClaim', 'true');
-                localStorage.setItem('VisibleChanel', 'false');
+                setVisibleClaim(true);
+                localStorage.setItem('VisibleChanel', 'false')
             } else {
                 localStorage.setItem('VisibleChanel', 'true'); 
-                //localStorage.setItem('VisibleClaim', 'false');
             }
 
         };
         checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, isVisibleChanel, isVisibleClaim]);
+    }, [onCheckSubscription, userId, isVisibleChanel, setVisibleClaim]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
@@ -60,7 +59,7 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleComplated, setisVisibleComplat
             {Tg_Channel_Claim_Const && isVisibleClaim && (
                 <TgChannelClaimBord onClose={Tg_Channel_Claim_Close}
                     setisVisibleComplated={setisVisibleComplated}
-                    />
+                    setVisibleClaim={setVisibleClaim} />
             )}
             {Tg_Channel_Complated_Const && isVisibleComplated && (
                 <TgChannelComplated onClose={Tg_Channel_Complated_Close} />
