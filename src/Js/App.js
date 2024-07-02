@@ -126,6 +126,7 @@ useEffect(() => {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
           setVisibleClaim(true);
+          setVisibleChanel(false);
         }else {
           setVisibleChanel(true);
           setVisibleClaim(false);

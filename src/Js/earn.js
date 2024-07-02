@@ -16,18 +16,23 @@ import XBord from '../TaskJs/X_Channel';
 const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVisibleComplated, setVisibleChanel, setisVisibleComplated, onCheckSubscription, userId }) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
+
     const [Tg_Channel_Const, Set_Tg_Channel] = useState(false);
     const Tg_Channel_Open = () => { Set_Tg_Channel(true) };
     const Tg_Channel_Close = () => { setTimeout(() => { Set_Tg_Channel(false); }, 190); };
+
     const [Tg_Channel_Complated_Const, Set_Tg_Channel_Complated] = useState(false);
     const Tg_Channel_Complated_Open = () => { Set_Tg_Channel_Complated(true) };
     const Tg_Channel_Complated_Close = () => { setTimeout(() => { Set_Tg_Channel_Complated(false); }, 190); };
+
     const [Tg_Channel_Claim_Const, Set_Tg_Channel_Claim] = useState(false);
     const Tg_Channel_Claim_Open = () => { Set_Tg_Channel_Claim(true) };
     const Tg_Channel_Claim_Close = () => { setTimeout(() => { Set_Tg_Channel_Claim(false); }, 190); };
+    
     const [Tg_Chat_Const, Set_Tg_Chat] = useState(false);
     const Tg_Chat_Open = () => { Set_Tg_Chat(true) };
     const Tg_Chat_Close = () => { setTimeout(() => { Set_Tg_Chat(false); }, 190); };
+
     const [X_Const, set_X_Chat] = useState(false);
     const X_Open = () => { set_X_Chat(true) };
     const X_Close = () => { setTimeout(() => { set_X_Chat(false); }, 190); };
@@ -115,7 +120,7 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
                                 <img src={Task_3} alt='Task_3' height={"120%"} />
                             </div>
                         </div>
-                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Channel_Claim_Open(event); Tg_Channel_Open(event); Tg_Channel_Complated_Open(event); }}>
+                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Channel_Claim_Open(event); Tg_Channel_Open(event); Tg_Channel_Complated_Open(event); checkSubscriptionOnMount(); }}>
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM</p>
                             <p>CHANNEL</p>
