@@ -13,7 +13,7 @@ import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 
-const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVisibleComplated, setVisibleChanel, setisVisibleComplated, onCheckSubscription, userId }) => {
+const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVisibleComplated,  setisVisibleComplated, onCheckSubscription,  }) => {//userId setVisibleChanel,
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -37,16 +37,16 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
     const X_Open = () => { set_X_Chat(true) };
     const X_Close = () => { setTimeout(() => { set_X_Chat(false); }, 190); };
 
-    useEffect(() => {
-        const checkSubscriptionOnMount = async () => {
-            const data = await onCheckSubscription(userId);
-            if (data.isSubscribed) {
-                setVisibleClaim(true);
-                setVisibleChanel(false);
-            } 
-        };
-        checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, setVisibleClaim, setVisibleChanel]);
+    // useEffect(() => {
+    //     const checkSubscriptionOnMount = async () => {
+    //         const data = await onCheckSubscription(userId);
+    //         if (data.isSubscribed) {
+    //             setVisibleClaim(true);
+    //             setVisibleChanel(false);
+    //         } 
+    //     };
+    //     checkSubscriptionOnMount();
+    // }, [onCheckSubscription, userId, setVisibleClaim, setVisibleChanel]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
