@@ -117,7 +117,7 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
                                 <img src={Task_3} alt='Task_3' height={"120%"} />
                             </div>
                         </div>
-                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Channel_Claim_Open(event); Tg_Channel_Open(event); Tg_Channel_Complated_Open(event);}}>
+                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Channel_Claim_Open(event); Tg_Channel_Open(event); Tg_Channel_Complated_Open(event); onCheckSubscription(event);}}>
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM</p>
                             <p>CHANNEL</p>
@@ -144,7 +144,7 @@ const Earn = ({ onClose, isVisibleClaim, isVisibleChanel, setVisibleClaim, isVis
                     </div>
                 </div>
             </div>
-            <button id='CloseDebug' onClick={(event) => { onClose(event); handleCloseEarnAnim(event); onCheckSubscription(event); }}>X</button>
+            <button id='CloseDebug' onClick={(event) => { onClose(event); handleCloseEarnAnim(event);}}>X</button>
         </div>
     );
 };
