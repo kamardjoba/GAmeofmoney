@@ -45,11 +45,11 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, se
                 localStorage.setItem('VisibleChanel', 'false')
             } else {
                 localStorage.setItem('VisibleChanel', 'true'); // Store as a string
-              }
+            }
 
         };
         checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, isVisibleChanel]);
+    }, [onCheckSubscription, userId, isVisibleChanel, isVisibleClaim]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
