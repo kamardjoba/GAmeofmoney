@@ -57,6 +57,7 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
 
   const isVisibleChanel = localStorage.getItem('VisibleChanel');
+  localStorage.setItem('VisibleChanel' , false);
 
 
   const[isVisibleClaim, setVisibleClaim] = useState(null);
