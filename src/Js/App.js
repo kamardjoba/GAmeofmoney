@@ -125,7 +125,11 @@ useEffect(() => {
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
-        }
+        }else {
+          setVisibleChanel(true);
+          setVisibleClaim(false);
+          setisVisibleComplated(false);
+      }
         return data;
       }
     } catch (error) {
