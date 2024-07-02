@@ -144,9 +144,6 @@ useEffect(() => {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
-  
-  
-
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
       try {
