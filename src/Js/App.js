@@ -61,12 +61,12 @@ function App() {
   }, []);
   
   useEffect(() => {
-    localStorage.setItem('VisibleClaim', 'true');
+    localStorage.setItem('VisibleClaim', 'false');
   }, []);
 
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
-  const isVisibleClaim = localStorage.getItem('VisibleClaim') === 'false';
+  const isVisibleClaim = localStorage.getItem('VisibleClaim') === 'true';
 
   const[isVisibleComplated, setisVisibleComplated] = useState(null)
   
