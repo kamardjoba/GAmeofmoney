@@ -50,7 +50,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, se
            
         };
         checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, setVisibleClaim]);
+    }, [onCheckSubscription, userId, setVisibleClaim, isVisibleChanel]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
