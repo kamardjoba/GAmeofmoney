@@ -317,7 +317,7 @@ useEffect(() => {
         {isLoading ? (
         <LoadingScreen />
       ) : (
-        <div>
+        <div className="App">
         <div className = "info">
           <img src={Logo} alt="Logo" height={"55%"}/>
           <p> {username} </p>
