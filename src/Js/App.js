@@ -65,7 +65,7 @@ function App() {
   }
   
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
-  
+
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
 
   const[isVisibleClaim, setVisibleClaim] = useState(null);
@@ -138,10 +138,7 @@ useEffect(() => {
       const data = response.data;
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
-          setcoins(prevCoins => prevCoins + 5000);   
-          localStorage.setItem('VisibleChanel', 'false'); 
-        } else {
-          localStorage.setItem('VisibleChanel', 'true');
+          setcoins(prevCoins => prevCoins + 5000);  
         }
         return data;
       }
