@@ -12,6 +12,7 @@ import TgChannelComplated from '../TaskJs/Tg_Channel_Complated';
 import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
+import XClaimBord from '../TaskJs/Tg_Channel_Claim';
 
 const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
@@ -37,6 +38,10 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
     const X_Open = () => { set_X_Chat(true) };
     const X_Close = () => { setTimeout(() => { set_X_Chat(false); }, 190); };
 
+    const [X_Const_Claim, Set_X_Const_Claim] = useState(false);
+    const X_Const_Claim_Open = () => { Set_X_Const_Claim(true) };
+    const X_Const_ClaimClose = () => { setTimeout(() => { Set_X_Const_Claim(false); }, 190); };
+
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);
@@ -46,7 +51,6 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                 }
                 localStorage.setItem('VisibleChanel', 'false');            
             } 
-
         };
         checkSubscriptionOnMount();
     }, [onCheckSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
@@ -68,6 +72,9 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             )}
             {X_Const && (
                 <XBord onClose={X_Close} />
+            )}
+            {X_Const_Claim && (
+                <XClaimBord onClose={X_Const_ClaimClose} />
             )}
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
@@ -128,7 +135,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                         </div>
                     </div>
                     <div className="TaskBorder">
-                        <div className="Task" onClick={X_Open}>
+                        <div className="Task" onClick={(event) => { X_Open(event); X_Const_Claim_Open(event);}}>
                             <div className='TaskText'>
                                 <p>FOLLOW US</p>
                                 <p>IN X</p>
