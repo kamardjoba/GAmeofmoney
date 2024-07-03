@@ -44,16 +44,8 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                 if(isVisibleComplated !== true){
                     setVisibleClaim(true);
                 }
-                localStorage.setItem('VisibleChanel', 'false'); 
-                // if(isVisibleChanel === true) {
-                //     localStorage.setItem('VisibleComplated', 'false');
-                // }
-                // if(isVisibleChanel === true) {
-                //     setVisibleClaim(false);
-                // }             
-            } else{
-                localStorage.setItem('VisibleChanel', 'true'); 
-            }
+                localStorage.setItem('VisibleChanel', 'false');            
+            } 
 
         };
         checkSubscriptionOnMount();
