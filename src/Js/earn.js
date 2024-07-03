@@ -41,7 +41,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, se
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);
             if (data.isSubscribed) {
-                if(isVisibleComplated != true){
+                if(isVisibleComplated !== true){
                     setVisibleClaim(true);
                 }       
                 localStorage.setItem('VisibleChanel', 'false')
