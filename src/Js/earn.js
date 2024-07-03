@@ -52,7 +52,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                 //     setVisibleClaim(false);
                 // }             
             } else{
-                localStorage.setItem('VisibleChanel', 'false'); 
+                localStorage.setItem('VisibleChanel', 'true'); 
             }
 
         };
