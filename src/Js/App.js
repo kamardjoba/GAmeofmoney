@@ -162,7 +162,7 @@ useEffect(() => {
       }
     } catch (error) {
       console.error('Error checking chat subscription:', error);
-      return { success: false, message: 'Ошибка при проверке подписки.' };
+      return { success: false, message: 'Error checking subscription.' };
     }
   }, []);
 

@@ -14,7 +14,7 @@ import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
 
-const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
+const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, onCheckChatSubscription, userId, isVisibleChanel}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -47,17 +47,29 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
 
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
-            const data = await onCheckSubscription(userId);
-            if (data.isSubscribed) {
-                if(isVisibleComplated !== true){
-                    setVisibleClaim(true);
-                }
-                localStorage.setItem('VisibleChanel', 'false');            
-            } 
+          const data = await onCheckSubscription(userId);
+          if (data.isSubscribed) {
+            if(isVisibleComplated !== true){
+              setVisibleClaim(true);
+            }
+            localStorage.setItem('VisibleChanel', 'false');            
+          } 
         };
+    
+        const checkChatSubscriptionOnMount = async () => {
+          const data = await onCheckChatSubscription(userId);
+          if (data.isSubscribed) {
+            if(isVisibleComplated !== true){
+              setVisibleClaim(true);
+            }
+            localStorage.setItem('VisibleChanel', 'false');            
+          } 
+        };
+    
         checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
-
+        checkChatSubscriptionOnMount();
+      }, [onCheckSubscription, onCheckChatSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
+    
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
 
