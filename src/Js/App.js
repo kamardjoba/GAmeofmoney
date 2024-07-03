@@ -57,11 +57,6 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    localStorage.setItem('VisibleChanel', 'true'); // Store as a string
-  }, []);
-  
   
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
