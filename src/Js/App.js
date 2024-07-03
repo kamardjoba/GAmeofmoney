@@ -189,6 +189,33 @@ useEffect(() => {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
+  const checkSubscriptionOnReturn = useCallback(async () => {
+    if (userId) {
+      const data = await handleCheckSubscription(userId);
+      if (data.isSubscribed) {
+        if (!isVisibleComplated) {
+          setVisibleClaim(true);
+        }
+        localStorage.setItem('VisibleChanel', 'false');
+      }
+    }
+  }, [userId, handleCheckSubscription, isVisibleComplated]);
+  
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkSubscriptionOnReturn();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [checkSubscriptionOnReturn]);
+
+  
   function LoadingScreen() {
     return (
       <div className="loading-screen">
