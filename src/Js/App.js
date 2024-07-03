@@ -58,10 +58,14 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   
-  const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
+
+  if (!localStorage.getItem('VisibleChanel')) {
+    localStorage.setItem('VisibleChanel', 'true');
+  }
   
-
+  const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
+  
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
 
   const[isVisibleClaim, setVisibleClaim] = useState(null);
