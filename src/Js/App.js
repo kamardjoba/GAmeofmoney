@@ -57,8 +57,6 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-
-
   
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
@@ -136,7 +134,10 @@ useEffect(() => {
       const data = response.data;
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
-          setcoins(prevCoins => prevCoins + 5000);    
+          setcoins(prevCoins => prevCoins + 5000);   
+          localStorage.setItem('VisibleChanel', 'false'); 
+        } else {
+          localStorage.setItem('VisibleChanel', 'true');
         }
         return data;
       }
