@@ -137,6 +137,9 @@ useEffect(() => {
       if (response.status === 200 && data.isSubscribed) {
         if (!data.hasCheckedSubscription) {
           setcoins(prevCoins => prevCoins + 5000);
+          localStorage.setItem('VisibleChanel', 'false'); 
+        } else {
+          localStorage.setItem('VisibleChanel', 'true'); 
         }
         return data;
       }
