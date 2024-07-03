@@ -44,7 +44,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                 if(isVisibleComplated !== true){
                     setVisibleClaim(true);
                 }
-                if(isVisibleChanel == true){
+                if(isVisibleChanel === true){
                     setVisibleClaim(false);
                 }     
                 localStorage.setItem('VisibleChanel', 'false')
