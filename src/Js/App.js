@@ -395,7 +395,7 @@ useEffect(() => {
           <div className = "lower">
 
             <div className="lowerDown">
-                <div className='BTN' onClick={(event) => {handleOpenShop(event), localStorage.clear(); }}>
+                <div className='BTN' onClick={(event) => {handleOpenShop, localStorage.clear(); }}>
                   <div className="BTNLOW">
                     <img src={shopIcon} height={"90%"} alt='shopIcon'/>       
                   </div>
