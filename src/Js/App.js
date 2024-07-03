@@ -58,9 +58,7 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    localStorage.setItem('VisibleChanel', 'true');
-  }, []);
+
   
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
