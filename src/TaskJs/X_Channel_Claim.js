@@ -9,9 +9,9 @@ import Icon from '../IMG/TaskIcon/task_2.png';
 const XClaimBord = ({onClose}) => {
 
     
-    const TG_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; 
+    const X_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; 
 
-    const Tg_Chat_Open_chek = () => { window.location.href = TG_CHANNEL_LINK; };
+    const X_Chat_Open_chek = () => { window.location.href = X_CHANNEL_LINK; };
     const [isClosingForAnim, setClosingForAnim] = useState(false);
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
@@ -23,7 +23,7 @@ const XClaimBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame CHANNEL</p>
             </div>
-            <button onClick={Tg_Chat_Open_chek}> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
+            <button onClick={X_Chat_Open_chek}> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Basic_Claim} alt='Basic_Claim_item' id='ClaimIMG'/>
                 <button id="ClaimBTN">CLAIM</button>
