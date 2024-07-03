@@ -12,7 +12,7 @@ import TgChannelComplated from '../TaskJs/Tg_Channel_Complated';
 import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
-import XClaimBord from '../TaskJs/Tg_Channel_Claim';
+import XClaimBord from '../TaskJs/X_Channel_Claim';
 
 const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
@@ -57,6 +57,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
+
             {Tg_Channel_Const && isVisibleChanel && (
                 <TgChannelBord onClose={Tg_Channel_Close} />
             )}
@@ -76,6 +77,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             {X_Const_Claim && (
                 <XClaimBord onClose={X_Const_ClaimClose} />
             )}
+
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
                     <img src={gray_8nogIcon} alt='gray_8nogIcon' height={"80%"} />
