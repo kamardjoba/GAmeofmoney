@@ -13,7 +13,7 @@ import TgChannelBord from '../TaskJs/Tg_Channel';
 import TgChatBord from '../TaskJs/Tg_Chat';
 import XBord from '../TaskJs/X_Channel';
 
-const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, setisVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
+const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -60,7 +60,6 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, se
             )}
             {Tg_Channel_Claim_Const && isVisibleClaim && (
                 <TgChannelClaimBord onClose={Tg_Channel_Claim_Close}
-                    setisVisibleComplated={setisVisibleComplated}
                     setVisibleClaim={setVisibleClaim} />
             )}
             {Tg_Channel_Complated_Const && isVisibleComplated && (

@@ -26,7 +26,7 @@ const TgChannelClaimBord = ({onClose, setisVisibleComplated,setVisibleClaim}) =>
             <button onClick={Tg_Channel_Open_chek}> <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Epic_Claim} alt='Epic_Claim_item' id='ClaimIMG'/>
-                <button id="ClaimBTN" onClick={(event) => {setVisibleClaim(false); setisVisibleComplated(true); }}>CLAIM</button>
+                <button id="ClaimBTN" onClick={(event) => {setVisibleClaim(false); localStorage.setItem('VisibleComplated', 'false'); }}>CLAIM</button>
             </div>
         </div>
     );
