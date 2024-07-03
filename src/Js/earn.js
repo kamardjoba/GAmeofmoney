@@ -42,6 +42,9 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
     const X_Const_Claim_Open = () => { Set_X_Const_Claim(true) };
     const X_Const_ClaimClose = () => { setTimeout(() => { Set_X_Const_Claim(false); }, 190); };
 
+
+      
+
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);

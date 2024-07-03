@@ -64,7 +64,7 @@ function App() {
     localStorage.setItem('VisibleChanel', 'true');
   }
   
-  const isVisibleChat = localStorage.getItem('VisibleChat') === 'true';
+
 
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
@@ -149,7 +149,7 @@ useEffect(() => {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
-
+ 
   const handleCheckChatSubscription = useCallback(async (userId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-chat-subscription`, { userId });
@@ -162,23 +162,9 @@ useEffect(() => {
       }
     } catch (error) {
       console.error('Error checking chat subscription:', error);
-      return { success: false, message: 'Ошибка при проверке подписки на чат.' };
+      return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
-
-  useEffect(() => {
-    const checkChatSubscriptionOnMount = async () => {
-      const data = await handleCheckChatSubscription(userId);
-      if (data.isSubscribed) {
-        if(!isVisibleComplated){
-            setVisibleClaim(true);
-        }
-        localStorage.setItem('VisibleChat', 'false');            
-      } 
-    };
-    checkChatSubscriptionOnMount();
-  }, [handleCheckChatSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChat]);
-  
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
       try {
