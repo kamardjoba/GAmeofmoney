@@ -64,9 +64,7 @@ function App() {
   
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
 
-  useEffect(() => {
-    localStorage.setItem('VisibleComplated', 'false');
-  }, []);
+  
 
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
 

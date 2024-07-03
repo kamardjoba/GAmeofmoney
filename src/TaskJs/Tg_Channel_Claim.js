@@ -6,7 +6,7 @@ import Tg from '../IMG/TaskIcon/task_4.png';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.png';
 
-const TgChannelClaimBord = ({onClose, setisVisibleComplated,setVisibleClaim}) => {
+const TgChannelClaimBord = ({onClose,setVisibleClaim}) => {
 
     
     const TG_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; 
