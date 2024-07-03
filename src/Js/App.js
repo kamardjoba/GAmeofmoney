@@ -55,6 +55,8 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     localStorage.setItem('VisibleChanel', 'true');
@@ -86,8 +88,11 @@ function App() {
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
+  } finally {
+    setIsLoading(false); // Завершаем загрузку
   }
 }, []);
+
 
 useEffect(() => {
   const loadAndUpdate = async () => {
@@ -180,6 +185,14 @@ useEffect(() => {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
+  function LoadingScreen() {
+    return (
+      <div className="loading-screen">
+        <img src="path_to_your_loading_image.png" alt="Loading" />
+       
+      </div>
+    );
+  }
   
   const handleCloseAppAnim = () => {setClosingAppForAnim(true);};
   const handleOpenAppAnim = () => {setClosingAppForAnim(false);};
@@ -301,6 +314,10 @@ useEffect(() => {
 
   return (
       <div className="App">
+        {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <div>
         <div className = "info">
           <img src={Logo} alt="Logo" height={"55%"}/>
           <p> {username} </p>
@@ -447,6 +464,8 @@ useEffect(() => {
          <div className="referral-section">
           <p>Ваш реферальный код: {referralCode}</p>
         </div>
+      </div>
+      )}
       </div>
   );
 }
