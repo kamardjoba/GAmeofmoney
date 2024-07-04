@@ -24,7 +24,7 @@ const XBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame</p>
             </div>
-            <button onClick={XFirstClick}> <img src={X} alt='X' id='ButtomIMG'/>SUBSCRIBE</button>
+            <button onClick={XFirstClick} href="https://x.com/ton_blockchain?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"> <img src={X} alt='X' id='ButtomIMG'/>SUBSCRIBE</button>
             <img src={Basic} alt='Basic_item'/>
         </div>
     );
