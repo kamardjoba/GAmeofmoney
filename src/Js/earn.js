@@ -7,10 +7,13 @@ import Task_2 from '../IMG/TaskIcon/task_2.png';
 import Task_3 from '../IMG/TaskIcon/task_3.png';
 import Task_4 from '../IMG/TaskIcon/task_4.png';
 import Task_5 from '../IMG/TaskIcon/task_5.png';
+
 import TgChannelClaimBord from '../TaskJs/Tg_Channel_Claim';
 import TgChannelComplated from '../TaskJs/Tg_Channel_Complated';
 import TgChannelBord from '../TaskJs/Tg_Channel';
+
 import TgChatBord from '../TaskJs/Tg_Chat';
+import TgClaim from '../TaskJs/Tg_Chat_Claim';
 
 import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
@@ -35,6 +38,10 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
     const [Tg_Chat_Const, Set_Tg_Chat] = useState(false);
     const Tg_Chat_Open = () => { Set_Tg_Chat(true) };
     const Tg_Chat_Close = () => { setTimeout(() => { Set_Tg_Chat(false); }, 190); };
+
+    const [Tg_Chat_Claim_Const, Set_Tg_Chat_Claim_Const] = useState(false);
+    const Tg_Chat_Claim_Open = () => { Set_Tg_Chat_Claim_Const(true) };
+    const Tg_Chat_Claim_Close = () => { setTimeout(() => { Set_Tg_Chat_Claim_Const(false); }, 190); };
 
     const [X_Const, set_X_Chat] = useState(false);
     const X_Open = () => { set_X_Chat(true) };
@@ -76,6 +83,9 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             )}
             {Tg_Chat_Const && (
                 <TgChatBord onClose={Tg_Chat_Close} />
+            )}
+            {Tg_Chat_Claim_Const&& (
+                <TgClaim onClose={Tg_Chat_Claim_Close} />
             )}
             {X_Const && (
                 <XBord onClose={X_Close} />
@@ -155,7 +165,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                                 <img id="x" src={Task_5} alt='Task_5' height={"90%"} />
                             </div>
                         </div>
-                        <div id="BigTask" className="Task" onClick={Tg_Chat_Open}>
+                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Chat_Open(event); Tg_Chat_Claim_Open(event);}}>
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM CHAT</p>
                             <img src={Task_4} alt='Task_4' height={"35%"} />
