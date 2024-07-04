@@ -60,16 +60,7 @@ function App() {
   
 
 
-
-  if (!localStorage.getItem('VisibleChanel')) {
-    localStorage.setItem('VisibleChanel', 'true');
-  }
-  
-
-
-
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
-
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
   const[isVisibleClaim, setVisibleClaim] = useState(null);
@@ -149,22 +140,6 @@ useEffect(() => {
     } catch (error) {
       console.error('Error checking subscription:', error);
       return { success: false, message: 'Ошибка при проверке подписки.' };
-    }
-  }, []);
- 
-  const handleCheckChatSubscription = useCallback(async (userId) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-chat-subscription`, { userId });
-      const data = response.data;
-      if (response.status === 200 && data.isSubscribed) {
-        if (!data.hasCheckedChatSubscription) {
-          setcoins(prevCoins => prevCoins + 5000);  
-        }
-        return data;
-      }
-    } catch (error) {
-      console.error('Error checking chat subscription:', error);
-      return { success: false, message: 'Error checking subscription.' };
     }
   }, []);
 
@@ -496,7 +471,6 @@ useEffect(() => {
             onClose={handleCloseEarn}
             userId={userId}
             onCheckSubscription={handleCheckSubscription}
-            onCheckChatSubscription={handleCheckChatSubscription}
             isVisibleClaim={isVisibleClaim}
             setVisibleClaim={setVisibleClaim}
             isVisibleComplated={isVisibleComplated}

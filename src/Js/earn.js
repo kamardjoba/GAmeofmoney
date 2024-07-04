@@ -7,14 +7,20 @@ import Task_2 from '../IMG/TaskIcon/task_2.png';
 import Task_3 from '../IMG/TaskIcon/task_3.png';
 import Task_4 from '../IMG/TaskIcon/task_4.png';
 import Task_5 from '../IMG/TaskIcon/task_5.png';
+
 import TgChannelClaimBord from '../TaskJs/Tg_Channel_Claim';
 import TgChannelComplated from '../TaskJs/Tg_Channel_Complated';
 import TgChannelBord from '../TaskJs/Tg_Channel';
+
 import TgChatBord from '../TaskJs/Tg_Chat';
+import TgClaim from '../TaskJs/Tg_Chat_Claim';
+import TgChatComplated from '../TaskJs/Tg_Chat_Complated';
+
 import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
+import XComplated from '../TaskJs/X_Comlated';
 
-const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, onCheckChatSubscription, userId, isVisibleChanel}) => {
+const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, userId, isVisibleChanel, XVisibleComplated, XVisibleClaim, XVisible}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -34,6 +40,14 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
     const Tg_Chat_Open = () => { Set_Tg_Chat(true) };
     const Tg_Chat_Close = () => { setTimeout(() => { Set_Tg_Chat(false); }, 190); };
 
+    const [Tg_Chat_Claim_Const, Set_Tg_Chat_Claim_Const] = useState(false);
+    const Tg_Chat_Claim_Open = () => { Set_Tg_Chat_Claim_Const(true) };
+    const Tg_Chat_Claim_Close = () => { setTimeout(() => { Set_Tg_Chat_Claim_Const(false); }, 190); };
+
+    const [Tg_Chat_Complated_Const, Set_Tg_Chat_Complated] = useState(false);
+    const Tg_Chat_Complated_Open = () => { Set_Tg_Chat_Complated(true) };
+    const Tg_Chat_Complated_Close = () => { setTimeout(() => { Set_Tg_Chat_Complated(false); }, 190); };
+
     const [X_Const, set_X_Chat] = useState(false);
     const X_Open = () => { set_X_Chat(true) };
     const X_Close = () => { setTimeout(() => { set_X_Chat(false); }, 190); };
@@ -42,34 +56,23 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
     const X_Const_Claim_Open = () => { Set_X_Const_Claim(true) };
     const X_Const_ClaimClose = () => { setTimeout(() => { Set_X_Const_Claim(false); }, 190); };
 
-
-      
+    const [XComplated_Const, Set_XComplated_Const] = useState(false);
+    const XComplated_Open = () => { Set_XComplated_Const(true) };
+    const XComplated_Close = () => { setTimeout(() => { Set_XComplated_Const(false); }, 190); };
 
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
-          const data = await onCheckSubscription(userId);
-          if (data.isSubscribed) {
-            if(isVisibleComplated !== true){
-              setVisibleClaim(true);
-            }
-            localStorage.setItem('VisibleChanel', 'false');            
-          } 
+            const data = await onCheckSubscription(userId);
+            if (data.isSubscribed) {
+                if(isVisibleComplated !== true){
+                    setVisibleClaim(true);
+                }
+                localStorage.setItem('VisibleChanel', 'false');            
+            } 
         };
-    
-        const checkChatSubscriptionOnMount = async () => {
-          const data = await onCheckChatSubscription(userId);
-          if (data.isSubscribed) {
-            if(isVisibleComplated !== true){
-              setVisibleClaim(true);
-            }
-            localStorage.setItem('VisibleChanel', 'false');            
-          } 
-        };
-    
         checkSubscriptionOnMount();
-        checkChatSubscriptionOnMount();
-      }, [onCheckSubscription, onCheckChatSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
-    
+    }, [onCheckSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
+
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
 
@@ -86,11 +89,20 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             {Tg_Chat_Const && (
                 <TgChatBord onClose={Tg_Chat_Close} />
             )}
-            {X_Const && (
+            {Tg_Chat_Claim_Const&& (
+                <TgClaim onClose={Tg_Chat_Claim_Close} />
+            )}
+            {Tg_Chat_Complated_Const && (
+                <TgChatComplated onClose={Tg_Chat_Complated_Close} />
+            )}
+            {X_Const && XVisible &&(
                 <XBord onClose={X_Close} />
             )}
-            {X_Const_Claim && (
+            {X_Const_Claim && XVisibleClaim &&(
                 <XClaimBord onClose={X_Const_ClaimClose} />
+            )}
+             {XComplated_Const && XVisibleComplated &&(
+                <XComplated onClose={XComplated_Close} />
             )}
 
             <div className="Ref_Earn_BoxBorder">
@@ -152,7 +164,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                         </div>
                     </div>
                     <div className="TaskBorder">
-                        <div className="Task" onClick={(event) => { X_Open(event); X_Const_Claim_Open(event);}}>
+                        <div className="Task" onClick={(event) => { X_Open(event); X_Const_Claim_Open(event); XComplated_Open(event);}}>
                             <div className='TaskText'>
                                 <p>FOLLOW US</p>
                                 <p>IN X</p>
@@ -161,7 +173,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                                 <img id="x" src={Task_5} alt='Task_5' height={"90%"} />
                             </div>
                         </div>
-                        <div id="BigTask" className="Task" onClick={Tg_Chat_Open}>
+                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Chat_Open(event); Tg_Chat_Claim_Open(event); Tg_Chat_Complated_Open(event);}}>
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM CHAT</p>
                             <img src={Task_4} alt='Task_4' height={"35%"} />

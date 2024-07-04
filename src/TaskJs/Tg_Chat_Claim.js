@@ -8,6 +8,9 @@ import Icon from '../IMG/TaskIcon/task_2.png';
 
 const TgClaim = ({onClose}) => {
 
+    const TG_CHAT_LINK = 'https://t.me/Bitclif_game';
+
+    const Tg_Chat_Open_chek = () => { window.location.href = TG_CHAT_LINK; };
     const [isClosingForAnim, setClosingForAnim] = useState(false);
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
@@ -19,7 +22,7 @@ const TgClaim = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame CHAT</p>
             </div>
-            <button> <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
+            <button onClick={Tg_Chat_Open_chek}>  <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Rare_Claim} alt='Rare_Claim_item' id='ClaimIMG'/>
                 <button id="ClaimBTN">CLAIM</button>
