@@ -1,36 +1,31 @@
 import React, { useState } from 'react';
 import './Task.css';
 
-import Basic_Claim from '../IMG/Basic_Claim.png';
-import Xclime from '../IMG/TaskIcon/task_5.png';
+import Rare_Claim from '../IMG/Rare_Clime.png';
+import Tg from '../IMG/TaskIcon/task_4.png';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.png';
 
-const XClaimBord = ({onClose}) => {
+const TgClaim = ({onClose}) => {
 
     const [isClosingForAnim, setClosingForAnim] = useState(false);
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
-    function XSrcondClick() {
-        localStorage.setItem('XVisibleClaim', 'False');
-        localStorage.setItem('XVisibleComplated', 'true');
-    }
-
     return (
         <div className={`Task_Border ${isClosingForAnim ? 'closing' : ''}`} id="ClimeDiv">
             <div className="BackButtom" onClick={(event) => {onClose(event); handleCloseAnim(event); }}> <img src={BackButtom} alt='BackButtom'/> </div>
-             <h1>FOLLOW US IN X</h1>  
+            <h1>FOLLOW US IN <br/> TELEGRAM CHAT</h1>
             <div className='NameChannelDiv'>
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
-                <p>BifclifGame</p>
+                <p>BifclifGame CHAT</p>
             </div>
-            <button> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
+            <button> <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
-                <img src={Basic_Claim} alt='Basic_Claim_item' id='ClaimIMG'/>
-                <button onClick={XSrcondClick} id="ClaimBTN">CLAIM</button>
+                <img src={Rare_Claim} alt='Rare_Claim_item' id='ClaimIMG'/>
+                <button id="ClaimBTN">CLAIM</button>
             </div>
         </div>
     );
 };
 
-export default XClaimBord;
+export default TgClaim;

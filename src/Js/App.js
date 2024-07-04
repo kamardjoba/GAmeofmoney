@@ -60,19 +60,27 @@ function App() {
   
 
 
+
   if (!localStorage.getItem('VisibleChanel')) {
     localStorage.setItem('VisibleChanel', 'true');
   }
   
 
 
+
+  if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
+
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
-
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
-
   const[isVisibleClaim, setVisibleClaim] = useState(null);
-  
-  
+
+  if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
+  if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
+  if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
+  const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
+  const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
+  const XVisible = localStorage.getItem('XVisible') === 'true';
+
  // Функция для загрузки прогресса пользователя
  const loadProgress = useCallback(async () => {
   try {
@@ -99,24 +107,18 @@ function App() {
   }
 }, []);
 
-
 useEffect(() => {
   const loadAndUpdate = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userIdFromURL = urlParams.get('userId');
     setUserId(userIdFromURL);
-
     if (userIdFromURL) {
       await loadProgress();
     }
     setLoading(false);
-
-    
   };
   loadAndUpdate().catch(error => console.error('Error loading progress:', error));
 }, [loadProgress, setLoading]);
-
-
 
   useEffect(() => {
     if (window.Telegram.WebApp) {
@@ -177,7 +179,6 @@ useEffect(() => {
       }
    }, [userId, coinPerClick, clickLimit, time]);
    
-
   const handleCoinClick = useCallback(async () => {
     if (coinPerClick <= energyNow) {
       const newCoins = coins + coinPerClick;
@@ -233,7 +234,6 @@ useEffect(() => {
     };
   }, [checkSubscriptionOnReturn]);
 
-  
   function LoadingScreen() {
     return (
       <div className="loading-screen">
@@ -501,6 +501,9 @@ useEffect(() => {
             setVisibleClaim={setVisibleClaim}
             isVisibleComplated={isVisibleComplated}
             isVisibleChanel={isVisibleChanel}
+            XVisibleComplated={XVisibleComplated}
+            XVisibleClaim={XVisibleClaim}
+            XVisible={XVisible}
           />
         )}
 
