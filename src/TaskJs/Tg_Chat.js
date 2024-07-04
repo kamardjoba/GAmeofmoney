@@ -22,7 +22,7 @@ const TgChatBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame CHAT</p>
             </div>
-            <button onclick={Tg_Chat_Open_chek}> <img src={Tg} alt='Tg' id='ButtomIMG'/>SUBSCRIBE</button>
+            <button onClick={Tg_Chat_Open_chek}> <img src={Tg} alt='Tg' id='ButtomIMG'/>SUBSCRIBE</button>
             <img src={Rire} alt='Rire_item'/>
         </div>
     );
