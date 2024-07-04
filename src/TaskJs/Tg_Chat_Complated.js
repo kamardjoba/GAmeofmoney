@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Task.css';
 
-
+import Tg from '../IMG/TaskIcon/task_4.png';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.png';
 
@@ -18,7 +18,7 @@ const TgChatComplated = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame CHAT</p>
             </div>
-            <button id='ComplatedBTN'> <img src={Task_4} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
+            <button id='ComplatedBTN'> <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
         </div>
     );
 };
