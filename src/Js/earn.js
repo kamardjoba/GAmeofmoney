@@ -14,6 +14,7 @@ import TgChannelBord from '../TaskJs/Tg_Channel';
 
 import TgChatBord from '../TaskJs/Tg_Chat';
 import TgClaim from '../TaskJs/Tg_Chat_Claim';
+import TgChatComplated from '../TaskJs/Tg_Chat_Complated';
 
 import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
@@ -42,6 +43,10 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
     const [Tg_Chat_Claim_Const, Set_Tg_Chat_Claim_Const] = useState(false);
     const Tg_Chat_Claim_Open = () => { Set_Tg_Chat_Claim_Const(true) };
     const Tg_Chat_Claim_Close = () => { setTimeout(() => { Set_Tg_Chat_Claim_Const(false); }, 190); };
+
+    const [Tg_Chat_Complated_Const, Set_Tg_Chat_Complated] = useState(false);
+    const Tg_Chat_Complated_Open = () => { Set_Tg_Chat_Complated(true) };
+    const Tg_Chat_Complated_Close = () => { setTimeout(() => { Set_Tg_Chat_Complated(false); }, 190); };
 
     const [X_Const, set_X_Chat] = useState(false);
     const X_Open = () => { set_X_Chat(true) };
@@ -86,6 +91,9 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             )}
             {Tg_Chat_Claim_Const&& (
                 <TgClaim onClose={Tg_Chat_Claim_Close} />
+            )}
+            {Tg_Chat_Complated_Const&& (
+                <TgChatComplated onClose={Tg_Chat_Complated_Close} />
             )}
             {X_Const && (
                 <XBord onClose={X_Close} />
@@ -165,7 +173,7 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
                                 <img id="x" src={Task_5} alt='Task_5' height={"90%"} />
                             </div>
                         </div>
-                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Chat_Open(event); Tg_Chat_Claim_Open(event);}}>
+                        <div id="BigTask" className="Task" onClick={(event) => { Tg_Chat_Open(event); Tg_Chat_Claim_Open(event); Tg_Chat_Complated_Open(event);}}>
                             <p>FOLLOW US IN</p>
                             <p>TELEGRAM CHAT</p>
                             <img src={Task_4} alt='Task_4' height={"35%"} />
