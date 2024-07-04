@@ -20,7 +20,7 @@ import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
 import XComplated from '../TaskJs/X_Comlated';
 
-const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, userId, isVisibleChanel}) => {
+const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, userId, isVisibleChanel, XVisibleComplated, XVisibleClaim, XVisible}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -92,16 +92,16 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             {Tg_Chat_Claim_Const&& (
                 <TgClaim onClose={Tg_Chat_Claim_Close} />
             )}
-            {Tg_Chat_Complated_Const&& (
+            {Tg_Chat_Complated_Const && (
                 <TgChatComplated onClose={Tg_Chat_Complated_Close} />
             )}
-            {X_Const && (
+            {X_Const && XVisible &&(
                 <XBord onClose={X_Close} />
             )}
-            {X_Const_Claim && (
+            {X_Const_Claim && XVisibleClaim &&(
                 <XClaimBord onClose={X_Const_ClaimClose} />
             )}
-             {XComplated_Const && (
+             {XComplated_Const && XVisibleComplated &&(
                 <XComplated onClose={XComplated_Close} />
             )}
 

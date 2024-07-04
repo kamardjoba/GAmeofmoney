@@ -11,6 +11,11 @@ const XBord = ({onClose}) => {
     const [isClosingForAnim, setClosingForAnim] = useState(false);
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
+    function XFirstClick() {
+        localStorage.setItem('XVisible', 'false');
+        localStorage.setItem('XVisibleClaim', 'true');
+    }
+
     return (
         <div className={`Task_Border ${isClosingForAnim ? 'closing' : ''}`}>
             <div className="BackButtom" onClick={(event) => {onClose(event); handleCloseAnim(event); }}> <img src={BackButtom} alt='BackButtom'/> </div>
@@ -19,7 +24,7 @@ const XBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame</p>
             </div>
-            <button> <img src={X} alt='X' id='ButtomIMG'/>SUBSCRIBE</button>
+            <button onClick={XFirstClick}> <img src={X} alt='X' id='ButtomIMG'/>SUBSCRIBE</button>
             <img src={Basic} alt='Basic_item'/>
         </div>
     );
