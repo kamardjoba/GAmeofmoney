@@ -1,12 +1,11 @@
 .CraftWindow{
     width: 100%;
-    height: 66%;
+    height: 52vh;
     position: fixed;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: end;
-    border-radius: 3vh 3vh 0 0;
     bottom: 0;
     color: white;
     background: #2D2D2D;
