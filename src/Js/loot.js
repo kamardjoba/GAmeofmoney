@@ -3,6 +3,13 @@ import '../Css/loot.css';
 import Craft from './craft'
 import znakLogo from '../IMG/Znak.png';
 import Loot_Znak from '../IMG/Loot_ZNAK.png';
+import Zmk from '../IMG/Card/Card_Zmk.png';
+import Znk from '../IMG/Card/Card_Znk.png';
+import Card_Smart_Octo from '../IMG/Card/Card_Smart_Octo.png';
+import Card_Developer from '../IMG/Card/Card_Developer.png';
+import Card_Brain from '../IMG/Card/Card_Brain.png';
+import Card_Scroll from '../IMG/Card/Card_Scroll.png';
+import Card_Octopus from '../IMG/Card/Card_Octopus.png';
 
 const Loot = ({onClose,handleCheckboxChange}) => {
 
@@ -51,23 +58,33 @@ const Loot = ({onClose,handleCheckboxChange}) => {
             </div>
             <div className='Loot_Wnd'>
                 <div className="Loot_Scroll_Menu">
-
-                    <div className="Loot_Card">
-                        <p>1</p>
-                    </div>
-                    <div className="Loot_Card">
-                        <p>2</p>
-                    </div>
-                    <div className="Loot_Card">
-                        <p>3</p>
-                    </div>
-                    <div className="Loot_Card">
-                        <p>4</p>
-                    </div>
-                    <div className="Loot_Card">
-                        <p>5</p>
+                    <div className="Loot_Card" id='Basic_item_card'>
+                        <img src={Card_Scroll} alt='Card_Scroll'/>
                     </div>
 
+                    <div className="Loot_Card" id='Basic_item_card'>
+                        <img src={Card_Octopus} alt='Card_Octopus'/>
+                    </div>
+
+                    <div className="Loot_Card" id="Epic_item_card">
+                        <img src={Card_Developer} alt='Card_Developer'/>
+                    </div>
+
+                    <div className="Loot_Card" id="Rare_item_card">
+                        <img src={Card_Brain} alt='Card_Brain'/>
+                    </div>
+                    
+                    <div className="Loot_Card" id="Rare_item_card">
+                        <img src={Card_Smart_Octo} alt='Card_Smart_Octo'/>
+                    </div>
+
+                    <div className="Loot_Card">
+                        <img src={Znk} alt='Znk'/>
+                    </div>
+
+                    <div className="Loot_Card">
+                        <img src={Zmk} alt='Zmk'/>
+                    </div>
                 </div>    
             </div>
                 

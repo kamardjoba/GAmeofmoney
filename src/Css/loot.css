@@ -1,5 +1,4 @@
 #LootWindow{
-  font: 10vh Muller;
   justify-content: start;
 }
 
@@ -94,4 +93,27 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 4vw;
+    font: 10vh Muller;
+    overflow: hidden;
+}
+
+.Loot_Card img{
+  height: 75%;
+  filter: drop-shadow(0px 2px 3px rgba(0,0,0,50%));
+}
+
+#Rare_item_card {
+  box-shadow: inset 0 0 0 0.5vh #3402FA, 2px 2px 3px rgba(0,0,0,50%);
+}
+#Rare_item_card img{
+  filter: drop-shadow(0 0 1.5vh  orange);
+}
+#Epic_item_card img{
+  filter: drop-shadow(0 0 1.5vh  orange);
+}
+#Epic_item_card {
+  box-shadow: inset 0 0 0 0.5vh #771B9E, 2px 2px 3px rgba(0,0,0,50%);
+}
+#Basic_item_card img{
+  height: 80%;
 }
