@@ -67,7 +67,12 @@ function App() {
   const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
   const[isVisibleClaimChat, setVisibleClaimChat] = useState(false);    
 
-  const [ setReferrals] = useState([]);
+  if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
+  if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
+  if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
+  const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
+  const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
+  const XVisible = localStorage.getItem('XVisible') === 'true';
 
   const loadProgress = useCallback(async () => {
     try {
@@ -81,19 +86,8 @@ function App() {
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
           setEnergyNow(data.energyNow);
+          setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
-          setProfilePhotoUrl(data.profilePhotoUrl)
-          // Обновляем URL изображений профилей рефералов
-          const updatedProfiles = await updateProfilePhotos(data.referrals.map(referral => referral.telegramId));
-          const updatedReferrals = data.referrals.map(referral => {
-            const updatedProfile = updatedProfiles.find(profile => profile.telegramId === referral.telegramId);
-            return {
-              ...referral,
-              profilePhotoUrl: updatedProfile ? updatedProfile.profilePhotoUrl : avatar
-            };
-          });
-
-          setReferrals(updatedReferrals);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -103,23 +97,8 @@ function App() {
     } finally {
       setIsLoading(false); // Завершаем загрузку
     }
-  }, [setReferrals]);
+  }, []);
 
-  const updateProfilePhotos = async (telegramIds) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photos`, { telegramIds });
-      if (response.data.success) {
-        return response.data.updatedProfiles;
-      } else {
-        console.error('Error updating profile photos:', response.data.message);
-        return [];
-      }
-    } catch (error) {
-      console.error('Error updating profile photos:', error);
-      return [];
-    }
-  };
-  
   useEffect(() => {
     const loadAndUpdate = async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -268,7 +247,7 @@ function App() {
         CheckChatSubscriptionOnReturn();
       }
     };
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChangeChat);
 
     return () => {
@@ -542,6 +521,9 @@ function App() {
               setVisibleClaim={setVisibleClaim}
               isVisibleComplated={isVisibleComplated}
               isVisibleChanel={isVisibleChanel}
+              XVisibleComplated={XVisibleComplated}
+              XVisibleClaim={XVisibleClaim}
+              XVisible={XVisible}
               isVisibleChat={isVisibleChat}
               isVisibleChatComplated={isVisibleChatComplated}
               isVisibleClaimChat={isVisibleClaimChat}
