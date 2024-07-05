@@ -25,7 +25,7 @@ const TgClaim = ({onClose, setVisibleClaimChat}) => {
             <button onClick={Tg_Chat_Open_chek}>  <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Rare_Claim} alt='Rare_Claim_item' id='ClaimIMG'/>
-                <button id="ClaimBTN"  onClick={(event) => {setVisibleClaimChat(false); localStorage.setItem('VisibleChat', 'true'); }}>CLAIM</button>
+                <button id="ClaimBTN"  onClick={(event) => {setVisibleClaimChat(false); localStorage.setItem('VisibleChatComplated', 'true'); }}>CLAIM</button>
             </div>
         </div>
     );

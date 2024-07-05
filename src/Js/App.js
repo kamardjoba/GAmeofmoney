@@ -63,8 +63,8 @@ function App() {
 
   if (!localStorage.getItem('VisibleChat')) {localStorage.setItem('VisibleChat', 'true');}
   if (!localStorage.getItem('VisibleChatComplated')) {localStorage.setItem('VisibleChatComplated', 'false');}
-  const isVisibleChat = localStorage.getItem('VisibleChanel') === 'true';
-  const isVisibleChatComplated = localStorage.getItem('VisibleComplated') === 'true';
+  const isVisibleChat = localStorage.getItem('VisibleChat') === 'true';
+  const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
   const[isVisibleClaimChat, setVisibleClaimChat] = useState(null);    
 
   if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
