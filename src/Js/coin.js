@@ -12,17 +12,12 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
     handleTouch(event);
   };
 
-  const handleTouchMove = (event) => {
-    event.preventDefault();
-    handleTouch(event);
-  };
-
   const handleTouchEnd = (event) => {
     event.preventDefault();
-    event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    handleTouch(event, true);
   };
 
-  const handleTouch = (event) => {
+  const handleTouch = (event, isEnd = false) => {
     const touches = event.touches;
     if (coinPerClick > energyNow) return;
 
@@ -35,7 +30,11 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
       const rotateX = ((y / rect.height) - 0.5) * -40;
       const rotateY = ((x / rect.width) - 0.5) * 40;
       
-      event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      if (!isEnd) {
+        event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      } else {
+        event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      }
 
       newClicks.push({
         id: Date.now() + i,
@@ -49,8 +48,10 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
       }
     }
 
-    setClicksArray((prevClicks) => [...prevClicks, ...newClicks]);
-    onClick();
+    if (!isEnd) {
+      setClicksArray((prevClicks) => [...prevClicks, ...newClicks]);
+      onClick();
+    }
   };
 
   return (
@@ -60,7 +61,6 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
         alt="Coin"
         height="90%"
         onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       />
 
