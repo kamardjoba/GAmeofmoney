@@ -20,10 +20,7 @@ import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
 import XComplated from '../TaskJs/X_Comlated';
 
-const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId, 
-                isVisibleClaim, setVisibleClaim, isVisibleComplated, isVisibleChanel, 
-                isVisibleChat, isVisibleClaimChat, setVisibleClaimChat, isVisibleChatComplated,
-                XVisibleComplated, XVisibleClaim, XVisible}) => {
+const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -62,6 +59,25 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
     const [XComplated_Const, Set_XComplated_Const] = useState(false);
     const XComplated_Open = () => { Set_XComplated_Const(true) };
     const XComplated_Close = () => { setTimeout(() => { Set_XComplated_Const(false); }, 190); };
+
+    if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
+    if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
+    const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
+    const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
+    const[isVisibleClaim, setVisibleClaim] = useState(false);
+  
+    if (!localStorage.getItem('VisibleChat')) {localStorage.setItem('VisibleChat', 'true');}
+    if (!localStorage.getItem('VisibleChatComplated')) {localStorage.setItem('VisibleChatComplated', 'false');}
+    const isVisibleChat = localStorage.getItem('VisibleChat') === 'true';
+    const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
+    const[isVisibleClaimChat, setVisibleClaimChat] = useState(false);    
+  
+    if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
+    if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
+    if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
+    const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
+    const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
+    const XVisible = localStorage.getItem('XVisible') === 'true';
 
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
