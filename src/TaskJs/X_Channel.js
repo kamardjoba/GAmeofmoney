@@ -7,7 +7,9 @@ import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.png';
 
 const XBord = ({onClose}) => {
-    
+    const X_LINK = 'https://x.com/NazarLymar';
+
+    const X_chek = () => { window.location.href = X_LINK; };
     const [isClosingForAnim, setClosingForAnim] = useState(false);
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
@@ -24,7 +26,7 @@ const XBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame</p>
             </div>
-            <button onClick={XFirstClick}> <img src={X} alt='X' id='ButtomIMG'/>SUBSCRIBE</button>
+            <button onClick={(event) => {XFirstClick(event); X_chek(event); }}> <img src={X} alt='X' id='ButtomIMG'/>SUBSCRIBE</button>
             <img src={Basic} alt='Basic_item'/>
         </div>
     );

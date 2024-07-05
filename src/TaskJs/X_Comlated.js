@@ -7,6 +7,9 @@ import Icon from '../IMG/TaskIcon/task_2.png';
 
 const XComplated = ({onClose}) => {
   
+    const X_LINK = 'https://x.com/NazarLymar';
+
+    const X_chek = () => { window.location.href = X_LINK; };
     const [isClosingForAnim, setClosingForAnim] = useState(false);
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
@@ -18,7 +21,7 @@ const XComplated = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame</p>
             </div>
-            <button id='ComplatedBTN'> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
+            <button onClick = {X_chek} id='ComplatedBTN'> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
         </div>
     );
 };
