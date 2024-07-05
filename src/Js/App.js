@@ -240,7 +240,7 @@ function App() {
         CheckChatSubscriptionOnReturn();
       }
     };
-6
+    
     document.addEventListener('visibilitychange', handleVisibilityChangeChat);
 
     return () => {
