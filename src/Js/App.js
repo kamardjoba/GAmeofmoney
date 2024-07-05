@@ -61,6 +61,12 @@ function App() {
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
   const[isVisibleClaim, setVisibleClaim] = useState(null);
 
+  if (!localStorage.getItem('VisibleChat')) {localStorage.setItem('VisibleChat', 'true');}
+  if (!localStorage.getItem('VisibleChatComplated')) {localStorage.setItem('VisibleChatComplated', 'false');}
+  const isVisibleChat = localStorage.getItem('VisibleChanel') === 'true';
+  const isVisibleChatComplated = localStorage.getItem('VisibleComplated') === 'true';
+  const[isVisibleClaimChat, setVisibleClaimChat] = useState(null);    
+
   if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
   if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
   if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
@@ -488,6 +494,10 @@ function App() {
               XVisibleComplated={XVisibleComplated}
               XVisibleClaim={XVisibleClaim}
               XVisible={XVisible}
+              isVisibleChat={isVisibleChat}
+              isVisibleChatComplated={isVisibleChatComplated}
+              isVisibleClaimChat={isVisibleClaimChat}
+              setVisibleClaimChat={setVisibleClaimChat}
             />
           )}
 

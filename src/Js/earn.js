@@ -20,7 +20,10 @@ import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
 import XComplated from '../TaskJs/X_Comlated';
 
-const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, onCheckChatSubscription, userId, isVisibleChanel, XVisibleComplated, XVisibleClaim, XVisible}) => {
+const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId, 
+                isVisibleClaim, setVisibleClaim, isVisibleComplated, isVisibleChanel, 
+                isVisibleChat, isVisibleClaimChat, setVisibleClaimChat, isVisibleChatComplated,
+                XVisibleComplated, XVisibleClaim, XVisible}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -77,8 +80,8 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
         const checkChatSubscriptionOnMount = async () => {
             const data = await onCheckChatSubscription(userId);
             if (data.isSubscribed) {
-                if (isVisibleComplated !== true) {
-                    setVisibleClaim(true);
+                if(isVisibleChatComplated !== true){
+                    setVisibleClaimChat(true);
                 }
                 localStorage.setItem('VisibleChat', 'false');
             }
@@ -101,13 +104,13 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             {Tg_Channel_Complated_Const && isVisibleComplated && (
                 <TgChannelComplated onClose={Tg_Channel_Complated_Close} />
             )}
-            {Tg_Chat_Const && (
+            {Tg_Chat_Const && isVisibleChat && (
                 <TgChatBord onClose={Tg_Chat_Close} />
             )}
-            {Tg_Chat_Claim_Const && (
+            {Tg_Chat_Claim_Const && isVisibleClaimChat &&(
                 <TgClaim onClose={Tg_Chat_Claim_Close} />
             )}
-            {Tg_Chat_Complated_Const && (
+            {Tg_Chat_Complated_Const && isVisibleChatComplated &&(
                 <TgChatComplated onClose={Tg_Chat_Complated_Close} />
             )}
             {X_Const && XVisible && (
