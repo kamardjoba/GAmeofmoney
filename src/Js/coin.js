@@ -4,80 +4,72 @@ import coinImage from '../IMG/88nog.png';
 import ink from '../IMG/ink.png';
 import '../Css/coin.css';
 
-const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
+const Coindiv = ({ onClick, coinPerClick, energyNow}) => {
   const [clicksArray, setClicksArray] = useState([]);
 
-  const handleTouchStart = (event) => {
-    event.preventDefault();
-    handleTouch(event);
+  const handleInteractionStart = (event) => {
+    const touchEvent = event.type === 'touchstart' ? event.touches[0] : event;
+    const rect = event.target.getBoundingClientRect();
+    const x = touchEvent.clientX - rect.left;
+    const y = touchEvent.clientY - rect.top;
+    const rotateX = ((y / rect.height) - 0.5) * -40;
+    const rotateY = ((x / rect.width) - 0.5) * 40;
+    
+    event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  };
+    
+  const handleInteractionEnd = (event) => {
+    event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
   };
 
-  const handleTouchEnd = (event) => {
-    event.preventDefault();
-    handleTouch(event, true);
-  };
+  const NumberUpAnim = (event) => {
+    const touchEvent = event.type === 'touchstart' ? event.touches[0] : event;
+    if (coinPerClick >  energyNow) return;
+    
+    const x = touchEvent.clientX;
+    const y = touchEvent.clientY;
+    
+    setClicksArray((prevClicks) => [
+    ...prevClicks,
+    { id: Date.now(), x, y, value: coinPerClick },
+    ]);
 
-  const handleTouch = (event, isEnd = false) => {
-    const touches = event.touches;
-    if (coinPerClick > energyNow) return;
+    onClick();
 
-    const newClicks = [];
-    for (let i = 0; i < touches.length; i++) {
-      const touch = touches[i];
-      const rect = event.target.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      const rotateX = ((y / rect.height) - 0.5) * -40;
-      const rotateY = ((x / rect.width) - 0.5) * 40;
-      
-      if (!isEnd) {
-        event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      } else {
-        event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
-      }
-
-      newClicks.push({
-        id: Date.now() + i,
-        x: touch.clientX,
-        y: touch.clientY,
-        value: coinPerClick,
-      });
-
-      if (navigator.vibrate) {
-        navigator.vibrate(10);
-      }
+    if (navigator.vibrate) {
+      navigator.vibrate(10);
     }
 
-    if (!isEnd) {
-      setClicksArray((prevClicks) => [...prevClicks, ...newClicks]);
-      onClick();
-    }
   };
 
   return (
     <motion.div className='Podsos'>
-      <img
-        src={coinImage}
-        alt="Coin"
-        height="90%"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+      
+      <img  src={coinImage} 
+            alt="Coin" 
+            height="90%" 
+            //onMouseDown={handleInteractionStart}
+            //onMouseUp={handleInteractionEnd}
+            //onClick={onClick}
+            onTouchEnd={handleInteractionEnd}
+            onTouchStart={(event) => {handleInteractionStart(event); NumberUpAnim(event); }}
       />
-
+      
       <AnimatePresence>
         {clicksArray.map((click) => (
-          <motion.div
-            key={click.id}
-            className="click-value"
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 0, y: -150 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 2, ease: "ease-out" }}
-            style={{ top: click.y, left: click.x }}
-          >
-            <p>+{click.value}</p>
-            <img id="inktap" src={ink} alt='ink' width={"100%"} />
-          </motion.div>
+            <motion.div
+              key={click.id}
+              className="click-value"
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 0, y: -150 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 2, ease: "ease-out" }}   
+              style={{ top: click.y, left: click.x}}
+            >
+              <p>+{click.value}</p>
+              <img id="inktap" src={ink} alt='ink' width={"100%"}/>
+              
+            </motion.div>
         ))}
       </AnimatePresence>
     </motion.div>
@@ -85,9 +77,3 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
 };
 
 export default Coindiv;
-
-
-
-//onMouseDown={handleInteractionStart}
-            //onMouseUp={handleInteractionEnd}
-            //onClick={onClick}

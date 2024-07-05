@@ -55,10 +55,18 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
+  if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
+  const[isVisibleClaim, setVisibleClaim] = useState(null);
 
-  const [isVisibleClaim, setVisibleClaim] = useState(null);
+  if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
+  if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
+  if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
+  const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
+  const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
+  const XVisible = localStorage.getItem('XVisible') === 'true';
 
   const loadProgress = useCallback(async () => {
     try {
@@ -144,9 +152,10 @@ function App() {
       }
     } catch (error) {
       console.error('Error checking chat subscription:', error);
-      return { success: false, message: 'Error checking subscription.' };
+      return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
+  
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
     try {
@@ -476,6 +485,9 @@ function App() {
               setVisibleClaim={setVisibleClaim}
               isVisibleComplated={isVisibleComplated}
               isVisibleChanel={isVisibleChanel}
+              XVisibleComplated={XVisibleComplated}
+              XVisibleClaim={XVisibleClaim}
+              XVisible={XVisible}
             />
           )}
 
