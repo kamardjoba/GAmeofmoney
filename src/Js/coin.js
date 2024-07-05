@@ -17,19 +17,27 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
     event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
   };
 
+  const handleMouseClick = (event) => {
+    handleClick(event, [{ clientX: event.clientX, clientY: event.clientY }]);
+  };
+
   const handleTouch = (event) => {
-    const touches = event.touches;
+    handleClick(event, event.touches);
+  };
+
+  const handleClick = (event, touchPoints) => {
     if (coinPerClick > energyNow) return;
 
+    const rect = event.target.getBoundingClientRect();
     const newClicks = [];
-    for (let i = 0; i < touches.length; i++) {
-      const touch = touches[i];
-      const rect = event.target.getBoundingClientRect();
+
+    for (let i = 0; i < touchPoints.length; i++) {
+      const touch = touchPoints[i];
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
       const rotateX = ((y / rect.height) - 0.5) * -40;
       const rotateY = ((x / rect.width) - 0.5) * 40;
-      
+
       event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
       newClicks.push({
@@ -55,7 +63,8 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
         alt="Coin"
         height="90%"
         onTouchEnd={handleTouchEnd}
-        onTouchStart={(event) => { handleTouchStart(event); handleTouch(event);}}
+        onTouchStart={handleTouchStart}
+        onClick={handleMouseClick}
       />
 
       <AnimatePresence>
@@ -79,6 +88,7 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
 };
 
 export default Coindiv;
+
 
 
 
