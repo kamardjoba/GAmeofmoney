@@ -379,7 +379,7 @@ function App() {
 
           </div>
           <div className='BackGround_Div'></div>
-          <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`}>
+          <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`} style={{ pointerEvents: isLootOpen ? 'none' : 'auto' }}>
             <div className="mainInfo">
               <div className="BorderMainInfo">
                 <div id="left_thriple" className="tripleBox">
