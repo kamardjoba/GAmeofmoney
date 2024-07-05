@@ -72,9 +72,6 @@ function App() {
       const urlParams = new URLSearchParams(window.location.search);
       const userIdFromURL = urlParams.get('userId');
       if (userIdFromURL) {
-        // Обновляем URL изображения профиля
-        const profilePhotoUrl = await getProfilePhotoUrl(userIdFromURL);
-  
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId: userIdFromURL } });
         const data = response.data;
         if (response.status === 200) {
@@ -82,9 +79,19 @@ function App() {
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
           setEnergyNow(data.energyNow);
-          // Используем обновленный URL изображения профиля
-          setProfilePhotoUrl(profilePhotoUrl || avatar);
           setcoins(data.coins);
+  
+          // Обновляем URL изображений профилей рефералов
+          const updatedProfiles = await updateProfilePhotos(data.referrals.map(referral => referral.telegramId));
+          const updatedReferrals = data.referrals.map(referral => {
+            const updatedProfile = updatedProfiles.find(profile => profile.telegramId === referral.telegramId);
+            return {
+              ...referral,
+              profilePhotoUrl: updatedProfile ? updatedProfile.profilePhotoUrl : avatar
+            };
+          });
+  
+          setReferrals(updatedReferrals);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -96,7 +103,21 @@ function App() {
     }
   }, []);
   
-
+  const updateProfilePhotos = async (telegramIds) => {
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photos`, { telegramIds });
+      if (response.data.success) {
+        return response.data.updatedProfiles;
+      } else {
+        console.error('Error updating profile photos:', response.data.message);
+        return [];
+      }
+    } catch (error) {
+      console.error('Error updating profile photos:', error);
+      return [];
+    }
+  };
+  
   useEffect(() => {
     const loadAndUpdate = async () => {
       const urlParams = new URLSearchParams(window.location.search);
