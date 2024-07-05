@@ -7,10 +7,10 @@
 }
 
 .checkbox {
-    width: 90vw;
-    height: 6vh;
+    width: 55vw;
+    height: 4.5vh;
     background:#2D2D2D;
-    border-radius: 2vh;
+    border-radius: 3vh;
     position: relative;
     overflow: hidden;
   }
@@ -20,10 +20,10 @@
   }
   
   .checkbox .toggle {
-    width: 45vw;
-    height: 5.3vh;
+    width: 27vw;
+    height: 3.8vh;
     position: absolute;
-    border-radius: 1.5vh;
+    border-radius: 2.5vh;
     left: 0.5vh;
     top: 0.4vh;
     background: linear-gradient(40deg, #fbff09,#FF8C00 70%);
@@ -32,7 +32,7 @@
   }
   
   .checkbox .slide {
-    width: 90vw;
+    width: 53.5vw;
     height: 8vh;
     display: flex;
     align-items: center;
@@ -40,36 +40,49 @@
   }
   
   .checkbox .slide .text {
-    margin-bottom: 1vh;
-    font: 3.5vh MullerMedium;
-    font-weight: 700;
+    margin-bottom: 2.8vh;
+    font: 1.8vh MullerMedium;
     z-index: 100;
   }
   
   .check:checked + .checkbox .slide .toggle {
-    transform: translateX(43vw);
+    transform: translateX(26.5vw);
   }
   
   .check:checked + .checkbox .slide #CraftTxt{
     color: #000;
+    font-weight: bold;
   }
 
   .check:not(:checked) + .checkbox .slide #LootTxt{
     color: #000;
+    font-weight: bold;
   }
 
 .SWITCHBTN {
     width: 90vw;
-    height: 8vh;
+    height: 6vh;
     margin-top: 3vh;
     margin-bottom:1vh ;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+.SWITCHBTN button{
+  background: #CC2C2C;
+  color: white;
+  height: 4.5vh;
+  width: 35%;
+  border-radius: 3vh;
+  box-shadow: inset ( 0 0 0.6vh #5B5D38);
+  font: 1.6vh MullerMedium;
+  padding-top: 0.7vh;
 }
 
 .Loot_Wnd {
   width: 100%;
-  max-height: 52vh;
+  max-height: 54vh;
   display: flex;
   justify-content: center;
 }
@@ -93,7 +106,6 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 4vw;
-    font: 10vh Muller;
     overflow: hidden;
 }
 
