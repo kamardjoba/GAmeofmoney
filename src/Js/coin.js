@@ -8,33 +8,39 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
   const [clicksArray, setClicksArray] = useState([]);
 
   const handleTouchStart = (event) => {
-    event.preventDefault(); // Остановка стандартного поведения, если необходимо
-    handleTouch(event.touches);
+    event.preventDefault();
+    handleTouch(event);
   };
 
   const handleTouchMove = (event) => {
-    event.preventDefault(); // Остановка стандартного поведения, если необходимо
-    handleTouch(event.touches);
+    event.preventDefault();
+    handleTouch(event);
   };
 
   const handleTouchEnd = (event) => {
     event.preventDefault();
-    // Остановка всех текущих анимаций или обработка завершения касания
+    event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
   };
 
-  const handleTouch = (touches) => {
+  const handleTouch = (event) => {
+    const touches = event.touches;
     if (coinPerClick > energyNow) return;
 
     const newClicks = [];
     for (let i = 0; i < touches.length; i++) {
       const touch = touches[i];
-      const x = touch.clientX;
-      const y = touch.clientY;
+      const rect = event.target.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+      const rotateX = ((y / rect.height) - 0.5) * -40;
+      const rotateY = ((x / rect.width) - 0.5) * 40;
+      
+      event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 
       newClicks.push({
         id: Date.now() + i,
-        x,
-        y,
+        x: touch.clientX,
+        y: touch.clientY,
         value: coinPerClick,
       });
 
