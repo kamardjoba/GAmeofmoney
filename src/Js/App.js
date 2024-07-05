@@ -105,6 +105,12 @@ function App() {
     }
   }, []);
 
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+      Telegram.WebApp.expand();
+    }
+  });
+
   const handleBackButtonSetup = useCallback((onClick) => {
     if (window.Telegram.WebApp) {
       const backButton = window.Telegram.WebApp.BackButton;
@@ -379,7 +385,7 @@ function App() {
 
           </div>
           <div className='BackGround_Div'></div>
-          <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`} style={{ pointerEvents: isLootOpen ? 'none' : 'auto' }}>
+          <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`}>
             <div className="mainInfo">
               <div className="BorderMainInfo">
                 <div id="left_thriple" className="tripleBox">
