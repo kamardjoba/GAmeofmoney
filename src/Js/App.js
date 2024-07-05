@@ -200,68 +200,69 @@ function App() {
 
 
 
-  const checkSubscriptionOnReturn = useCallback(async () => {
-    if (userId) {
-      const data = await handleCheckSubscription(userId);
-      if (data.isSubscribed) {
-        if (!isVisibleComplated) {
-          setVisibleClaim(true);
-        }
-        localStorage.setItem('VisibleChanel', 'false');
-      }
-    }
-  }, [userId, handleCheckSubscription, isVisibleComplated]);
+//   const checkSubscriptionOnReturn = useCallback(async () => {
+//     if (userId) {
+//       const data = await handleCheckSubscription(userId);
+//       if (data.isSubscribed) {
+//         if (!isVisibleComplated) {
+//           setVisibleClaim(true);
+//         }
+//         localStorage.setItem('VisibleChanel', 'false');
+//       }
+//     }
+//   }, [userId, handleCheckSubscription, isVisibleComplated]);
 
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        checkSubscriptionOnReturn();
-      }
-    };
+//   useEffect(() => {
+//     const handleVisibilityChange = () => {
+//       if (document.visibilityState === 'visible') {
+//         checkSubscriptionOnReturn();
+//       }
+//     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+//     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [checkSubscriptionOnReturn]);
-
-
+//     return () => {
+//       document.removeEventListener('visibilitychange', handleVisibilityChange);
+//     };
+//   }, [checkSubscriptionOnReturn]);
 
 
-  const CheckChatSubscriptionOnReturn = useCallback(async () => {
-    if (userId) {
-      const data = await handleCheckChatSubscription(userId);
-      if (data.isSubscribed) {
-        if (!isVisibleChatComplated) {
-          setVisibleClaimChat(true);
-        }
-        localStorage.setItem('VisibleChat', 'false');
-      }
-    }
-  }, [userId, handleCheckChatSubscription, isVisibleChatComplated]);
+// //________________________________________________________________________________________________________
 
-  useEffect(() => {
-    const handleVisibilityChange1 = () => {
-      if (document.visibilityState === 'visible') {
-        CheckChatSubscriptionOnReturn();
-      }
-    };
+//   const CheckChatSubscriptionOnReturn = useCallback(async () => {
+//     if (userId) {
+//       const data = await handleCheckChatSubscription(userId);
+//       if (data.isSubscribed) {
+//         if (!isVisibleChatComplated) {
+//           setVisibleClaimChat(true);
+//         }
+//         localStorage.setItem('VisibleChat', 'false');
+//       }
+//     }
+//   }, [userId, handleCheckChatSubscription, isVisibleChatComplated]);
 
-    document.addEventListener('visibilitychange1', handleVisibilityChange1);
+//   useEffect(() => {
+//     const handleVisibilityChange1 = () => {
+//       if (document.visibilityState === 'visible') {
+//         CheckChatSubscriptionOnReturn();
+//       }
+//     };
 
-    return () => {
-      document.removeEventListener('visibilitychange1', handleVisibilityChange1);
-    };
-  }, [CheckChatSubscriptionOnReturn]);
+//     document.addEventListener('visibilitychange1', handleVisibilityChange1);
 
-  function LoadingScreen() {
-    return (
-      <div className="loading-screen">
-        <img src={lodscreen} alt="Loading" />
-      </div>
-    );
-  }
+//     return () => {
+//       document.removeEventListener('visibilitychange1', handleVisibilityChange1);
+//     };
+//   }, [CheckChatSubscriptionOnReturn]);
+
+// //______________________________________________________________________________________________
+//   function LoadingScreen() {
+//     return (
+//       <div className="loading-screen">
+//         <img src={lodscreen} alt="Loading" />
+//       </div>
+//     );
+//   }
 
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
