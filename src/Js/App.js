@@ -81,7 +81,9 @@ function App() {
     } catch (error) {
       console.error('Error fetching user data:', error);
     } finally {
-      setIsLoading(false); // Завершаем загрузку
+      setTimeout(() => {
+        setIsLoading(false); // Завершаем загрузку через 0.3 секунды
+      }, 300);
     }
   }, []);
 
