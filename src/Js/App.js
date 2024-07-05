@@ -152,9 +152,10 @@ function App() {
       }
     } catch (error) {
       console.error('Error checking chat subscription:', error);
-      return { success: false, message: 'Error checking subscription.' };
+      return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
+  
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
     try {

@@ -85,8 +85,9 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
         };
         checkChatSubscriptionOnMount();
     }, [onCheckChatSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
-
     
+
+
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
 
