@@ -47,6 +47,7 @@ const Loot = ({onClose,handleCheckboxChange}) => {
             </div>
 
             <div className='SWITCHBTN'>
+            <button>MISSED ITEMS</button>
             <input id="checkbox_toggle" type="checkbox" class="check" onChange={(event) => {handleCheckboxChangeDiv(event); handleCheckboxChange(event); }}/>
                 <div class="checkbox">
                     <label class="slide" for="checkbox_toggle">

@@ -15,7 +15,7 @@ const XClaimBord = ({onClose}) => {
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
     function XSrcondClick() {
-        localStorage.setItem('XVisibleClaim', 'False');
+        localStorage.setItem('XVisibleClaim', 'false');
         localStorage.setItem('XVisibleComplated', 'true');
     }
 
@@ -30,7 +30,7 @@ const XClaimBord = ({onClose}) => {
             <button onClick = {X_chek}> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Basic_Claim} alt='Basic_Claim_item' id='ClaimIMG'/>
-                <button onClick = {XSrcondClick} id="ClaimBTN">CLAIM</button>
+                <button onClick={(event) => {onClose(event); XSrcondClick(event); }} id="ClaimBTN">CLAIM</button>
             </div>
         </div>
     );

@@ -20,7 +20,9 @@ import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
 import XComplated from '../TaskJs/X_Comlated';
 
-const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, onCheckSubscription, onCheckChatSubscription, userId, isVisibleChanel, XVisibleComplated, XVisibleClaim, XVisible}) => {
+const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId, 
+                isVisibleClaim, setVisibleClaim, isVisibleComplated, isVisibleChanel, 
+                isVisibleChat, isVisibleClaimChat, setVisibleClaimChat, isVisibleChatComplated}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
@@ -60,11 +62,18 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
     const XComplated_Open = () => { Set_XComplated_Const(true) };
     const XComplated_Close = () => { setTimeout(() => { Set_XComplated_Const(false); }, 190); };
 
+    if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
+    if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
+    if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
+    const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
+    const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
+    const XVisible = localStorage.getItem('XVisible') === 'true';
+
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);
             if (data.isSubscribed) {
-                if(isVisibleComplated !== true){
+                if(isVisibleComplated === false){
                     setVisibleClaim(true);
                 }
                 localStorage.setItem('VisibleChanel', 'false');            
@@ -77,16 +86,14 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
         const checkChatSubscriptionOnMount = async () => {
             const data = await onCheckChatSubscription(userId);
             if (data.isSubscribed) {
-                if (isVisibleComplated !== true) {
-                    setVisibleClaim(true);
+                if(isVisibleChatComplated === false){
+                    setVisibleClaimChat(true);
                 }
                 localStorage.setItem('VisibleChat', 'false');
             }
         };
         checkChatSubscriptionOnMount();
-    }, [onCheckChatSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
-    
-
+    }, [onCheckChatSubscription, userId,  setVisibleClaimChat, isVisibleChatComplated, isVisibleChat]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
@@ -101,13 +108,15 @@ const Earn = ({ onClose, isVisibleClaim, setVisibleClaim, isVisibleComplated, on
             {Tg_Channel_Complated_Const && isVisibleComplated && (
                 <TgChannelComplated onClose={Tg_Channel_Complated_Close} />
             )}
-            {Tg_Chat_Const && (
+            {Tg_Chat_Const && isVisibleChat && (
                 <TgChatBord onClose={Tg_Chat_Close} />
             )}
-            {Tg_Chat_Claim_Const && (
-                <TgClaim onClose={Tg_Chat_Claim_Close} />
+            {Tg_Chat_Claim_Const && isVisibleClaimChat &&(
+                <TgClaim onClose={Tg_Chat_Claim_Close} 
+                setVisibleClaimChat={setVisibleClaimChat}/>
+                
             )}
-            {Tg_Chat_Complated_Const && (
+            {Tg_Chat_Complated_Const && isVisibleChatComplated &&(
                 <TgChatComplated onClose={Tg_Chat_Complated_Close} />
             )}
             {X_Const && XVisible && (

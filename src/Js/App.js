@@ -59,14 +59,13 @@ function App() {
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
-  const[isVisibleClaim, setVisibleClaim] = useState(null);
+  const[isVisibleClaim, setVisibleClaim] = useState(false);
 
-  if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
-  if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
-  if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
-  const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
-  const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
-  const XVisible = localStorage.getItem('XVisible') === 'true';
+  if (!localStorage.getItem('VisibleChat')) {localStorage.setItem('VisibleChat', 'true');}
+  if (!localStorage.getItem('VisibleChatComplated')) {localStorage.setItem('VisibleChatComplated', 'false');}
+  const isVisibleChat = localStorage.getItem('VisibleChat') === 'true';
+  const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
+  const[isVisibleClaimChat, setVisibleClaimChat] = useState(false);    
 
   const loadProgress = useCallback(async () => {
     try {
@@ -117,8 +116,6 @@ function App() {
       tg.expand();
     }
   }, []);
-
-
 
   const handleBackButtonSetup = useCallback((onClick) => {
     if (window.Telegram.WebApp) {
@@ -199,6 +196,8 @@ function App() {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
+
+
   const checkSubscriptionOnReturn = useCallback(async () => {
     if (userId) {
       const data = await handleCheckSubscription(userId);
@@ -225,6 +224,36 @@ function App() {
     };
   }, [checkSubscriptionOnReturn]);
 
+
+//________________________________________________________________________________________________________
+
+  const CheckChatSubscriptionOnReturn = useCallback(async () => {
+    if (userId) {
+      const data = await handleCheckChatSubscription(userId);
+      if (data.isSubscribed) {
+        if (!isVisibleChatComplated) {
+          setVisibleClaimChat(true);
+        }
+        localStorage.setItem('VisibleChat', 'false');
+      }
+    }
+  }, [userId, handleCheckChatSubscription, isVisibleChatComplated]);
+
+  useEffect(() => {
+    const handleVisibilityChangeChat = () => {
+      if (document.visibilityState === 'visible') {
+        CheckChatSubscriptionOnReturn();
+      }
+    };
+    
+    document.addEventListener('visibilitychange', handleVisibilityChangeChat);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChangeChat);
+    };
+  }, [CheckChatSubscriptionOnReturn]);
+  
+//______________________________________________________________________________________________
   function LoadingScreen() {
     return (
       <div className="loading-screen">
@@ -490,9 +519,10 @@ function App() {
               setVisibleClaim={setVisibleClaim}
               isVisibleComplated={isVisibleComplated}
               isVisibleChanel={isVisibleChanel}
-              XVisibleComplated={XVisibleComplated}
-              XVisibleClaim={XVisibleClaim}
-              XVisible={XVisible}
+              isVisibleChat={isVisibleChat}
+              isVisibleChatComplated={isVisibleChatComplated}
+              isVisibleClaimChat={isVisibleClaimChat}
+              setVisibleClaimChat={setVisibleClaimChat}
             />
           )}
 
