@@ -1,59 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import coinImage from '../IMG/88nog.png';
 import ink from '../IMG/ink.png';
 import '../Css/coin.css';
 
-const Coindiv = ({ onClick, coinPerClick, energyNow}) => {
+const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
   const [clicksArray, setClicksArray] = useState([]);
 
   const handleTouchStart = (event) => {
-    event.preventDefault();
-    handleTouch(event);
+    event.preventDefault(); // Остановка стандартного поведения, если необходимо
+    handleTouch(event.touches);
   };
 
   const handleTouchMove = (event) => {
+    event.preventDefault(); // Остановка стандартного поведения, если необходимо
+    handleTouch(event.touches);
+  };
+
+  const handleTouchEnd = (event) => {
     event.preventDefault();
-    handleTouch(event);
+    // Остановка всех текущих анимаций или обработка завершения касания
   };
 
-  const handleTouch = (event) => {
-    for (let i = 0; i < event.touches.length; i++) {
-      const touch = event.touches[i];
-      const rect = event.target.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      
-      const rotateX = ((y / rect.height) - 0.5) * -40;
-      const rotateY = ((x / rect.width) - 0.5) * 40;
-      
-      event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-    }
-  };
+  const handleTouch = (touches) => {
+    if (coinPerClick > energyNow) return;
 
-  const handleInteractionEnd = (event) => {
-    event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
-  };
+    const newClicks = [];
+    for (let i = 0; i < touches.length; i++) {
+      const touch = touches[i];
+      const x = touch.clientX;
+      const y = touch.clientY;
 
-  const NumberUpAnim = (event) => {
-    const touches = event.type === 'touchstart' ? event.touches : [event];
-    touches.forEach((touchEvent) => {
-      if (coinPerClick > energyNow) return;
-
-      const x = touchEvent.clientX;
-      const y = touchEvent.clientY;
-
-      setClicksArray((prevClicks) => [
-        ...prevClicks,
-        { id: Date.now(), x: x, y: y, value: coinPerClick },
-      ]);
-
-      onClick();
+      newClicks.push({
+        id: Date.now() + i,
+        x,
+        y,
+        value: coinPerClick,
+      });
 
       if (navigator.vibrate) {
         navigator.vibrate(10);
       }
-    });
+    }
+
+    setClicksArray((prevClicks) => [...prevClicks, ...newClicks]);
+    onClick();
   };
 
   return (
@@ -64,9 +55,9 @@ const Coindiv = ({ onClick, coinPerClick, energyNow}) => {
         height="90%"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        onTouchEnd={handleInteractionEnd}
-        onClick={NumberUpAnim}
+        onTouchEnd={handleTouchEnd}
       />
+
       <AnimatePresence>
         {clicksArray.map((click) => (
           <motion.div
