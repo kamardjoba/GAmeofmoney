@@ -254,15 +254,15 @@ function App() {
 //       document.removeEventListener('visibilitychange1', handleVisibilityChange1);
 //     };
 //   }, [CheckChatSubscriptionOnReturn]);
-
+  
 // //______________________________________________________________________________________________
-//   function LoadingScreen() {
-//     return (
-//       <div className="loading-screen">
-//         <img src={lodscreen} alt="Loading" />
-//       </div>
-//     );
-//   }
+  function LoadingScreen() {
+    return (
+      <div className="loading-screen">
+        <img src={lodscreen} alt="Loading" />
+      </div>
+    );
+  }
 
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
