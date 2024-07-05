@@ -105,6 +105,8 @@ function App() {
     }
   }, []);
 
+
+
   const handleBackButtonSetup = useCallback((onClick) => {
     if (window.Telegram.WebApp) {
       const backButton = window.Telegram.WebApp.BackButton;
