@@ -27,10 +27,10 @@ const XClaimBord = ({onClose}) => {
                 <img src={Icon} alt='Icon' id="TaskIcon"/>
                 <p>BifclifGame</p>
             </div>
-            <button> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
+            <button onClick = {X_chek}> <img src={Xclime} alt='Xclime' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Basic_Claim} alt='Basic_Claim_item' id='ClaimIMG'/>
-                <button onClick={(event) => {XSrcondClick(event); X_chek(event); }} id="ClaimBTN">CLAIM</button>
+                <button onClick = {XSrcondClick} id="ClaimBTN">CLAIM</button>
             </div>
         </div>
     );
