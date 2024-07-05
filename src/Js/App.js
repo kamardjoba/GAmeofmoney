@@ -233,7 +233,7 @@ function App() {
     if (userId) {
       const data = await handleCheckChatSubscription(userId);
       if (data.isSubscribed) {
-        if (!isVisibleComplated) {
+        if (!isVisibleChatComplated) {
           setVisibleClaimChat(true);
         }
         localStorage.setItem('VisibleChat', 'false');
