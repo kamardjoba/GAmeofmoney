@@ -242,16 +242,16 @@ function App() {
   }, [userId, handleCheckChatSubscription, isVisibleChatComplated]);
 
   useEffect(() => {
-    const handleVisibilityChange1 = () => {
+    const handleVisibilityChangeChat = () => {
       if (document.visibilityState === 'visible') {
         CheckChatSubscriptionOnReturn();
       }
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange1);
+    document.addEventListener('visibilitychange', handleVisibilityChangeChat);
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange1);
+      document.removeEventListener('visibilitychange', handleVisibilityChangeChat);
     };
   }, [CheckChatSubscriptionOnReturn]);
   
