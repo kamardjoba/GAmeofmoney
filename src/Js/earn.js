@@ -20,7 +20,10 @@ import XBord from '../TaskJs/X_Channel';
 import XClaimBord from '../TaskJs/X_Channel_Claim';
 import XComplated from '../TaskJs/X_Comlated';
 
-const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId}) => {
+const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId, 
+                isVisibleClaim, setVisibleClaim, isVisibleComplated, isVisibleChanel, 
+                isVisibleChat, isVisibleClaimChat, setVisibleClaimChat, isVisibleChatComplated,
+                XVisibleComplated, XVisibleClaim, XVisible}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
