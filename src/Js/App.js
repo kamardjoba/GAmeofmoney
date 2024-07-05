@@ -56,6 +56,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
+  if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
   const[isVisibleClaim, setVisibleClaim] = useState(null);
