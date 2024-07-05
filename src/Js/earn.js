@@ -63,14 +63,6 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
     const XComplated_Open = () => { Set_XComplated_Const(true) };
     const XComplated_Close = () => { setTimeout(() => { Set_XComplated_Const(false); }, 190); };
 
-    
-    if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
-    if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
-    if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
-    const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
-    const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
-    const XVisible = localStorage.getItem('XVisible') === 'true';
-
     useEffect(() => {
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);
