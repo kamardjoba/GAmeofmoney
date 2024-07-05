@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../Css/App.css';
 import axios from 'axios';
 
@@ -60,9 +60,6 @@ function App() {
 
   const [isVisibleClaim, setVisibleClaim] = useState(null);
 
-  const [startY, setStartY] = useState(null);
-  const [inTopArea, setInTopArea] = useState(false);
-
   const loadProgress = useCallback(async () => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -107,6 +104,8 @@ function App() {
       tg.expand();
     }
   }, []);
+
+
 
   const handleBackButtonSetup = useCallback((onClick) => {
     if (window.Telegram.WebApp) {
@@ -211,41 +210,6 @@ function App() {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [checkSubscriptionOnReturn]);
-
-  useEffect(() => {
-    const handleTouchStart = (e) => {
-      const touchY = e.touches[0].clientY;
-      setStartY(touchY);
-      if (touchY <= window.innerHeight * 0.2) {
-        setInTopArea(true);
-      }
-    };
-
-    const handleTouchMove = (e) => {
-      if (!inTopArea) return;
-
-      const touchY = e.touches[0].clientY;
-      const diffY = touchY - startY;
-
-      if (diffY > 50) { // Порог для свайпа вниз
-        window.Telegram.WebApp.close(); // Сворачиваем мини-приложение
-      }
-    };
-
-    const handleTouchEnd = () => {
-      setInTopArea(false);
-    };
-
-    document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [startY, inTopArea]);
 
   function LoadingScreen() {
     return (
