@@ -87,7 +87,7 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
             }
         };
         checkChatSubscriptionOnMount();
-    }, [onCheckChatSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
+    }, [onCheckChatSubscription, userId,  setVisibleClaimChat, isVisibleChatComplated, isVisibleChat]);
     
 
 
@@ -108,7 +108,9 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
                 <TgChatBord onClose={Tg_Chat_Close} />
             )}
             {Tg_Chat_Claim_Const && isVisibleClaimChat &&(
-                <TgClaim onClose={Tg_Chat_Claim_Close} />
+                <TgClaim onClose={Tg_Chat_Claim_Close} 
+                setVisibleClaimChat={setVisibleClaimChat}/>
+                
             )}
             {Tg_Chat_Complated_Const && isVisibleChatComplated &&(
                 <TgChatComplated onClose={Tg_Chat_Complated_Close} />
