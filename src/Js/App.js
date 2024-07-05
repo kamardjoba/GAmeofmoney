@@ -67,6 +67,8 @@ function App() {
   const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
   const[isVisibleClaimChat, setVisibleClaimChat] = useState(false);    
 
+  const [ setReferrals] = useState([]);
+
   const loadProgress = useCallback(async () => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -80,7 +82,7 @@ function App() {
           setTelegramLink(data.telegramLink);
           setEnergyNow(data.energyNow);
           setcoins(data.coins);
-  
+          setProfilePhotoUrl(data.profilePhotoUrl)
           // Обновляем URL изображений профилей рефералов
           const updatedProfiles = await updateProfilePhotos(data.referrals.map(referral => referral.telegramId));
           const updatedReferrals = data.referrals.map(referral => {
@@ -90,7 +92,7 @@ function App() {
               profilePhotoUrl: updatedProfile ? updatedProfile.profilePhotoUrl : avatar
             };
           });
-  
+
           setReferrals(updatedReferrals);
         } else {
           console.error('Error fetching user data:', data.error);
@@ -101,8 +103,8 @@ function App() {
     } finally {
       setIsLoading(false); // Завершаем загрузку
     }
-  }, []);
-  
+  }, [setReferrals]);
+
   const updateProfilePhotos = async (telegramIds) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/update-profile-photos`, { telegramIds });
