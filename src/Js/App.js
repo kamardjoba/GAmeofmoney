@@ -200,62 +200,62 @@ function App() {
 
 
 
-//   const checkSubscriptionOnReturn = useCallback(async () => {
-//     if (userId) {
-//       const data = await handleCheckSubscription(userId);
-//       if (data.isSubscribed) {
-//         if (!isVisibleComplated) {
-//           setVisibleClaim(true);
-//         }
-//         localStorage.setItem('VisibleChanel', 'false');
-//       }
-//     }
-//   }, [userId, handleCheckSubscription, isVisibleComplated]);
+  const checkSubscriptionOnReturn = useCallback(async () => {
+    if (userId) {
+      const data = await handleCheckSubscription(userId);
+      if (data.isSubscribed) {
+        if (!isVisibleComplated) {
+          setVisibleClaim(true);
+        }
+        localStorage.setItem('VisibleChanel', 'false');
+      }
+    }
+  }, [userId, handleCheckSubscription, isVisibleComplated]);
 
-//   useEffect(() => {
-//     const handleVisibilityChange = () => {
-//       if (document.visibilityState === 'visible') {
-//         checkSubscriptionOnReturn();
-//       }
-//     };
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkSubscriptionOnReturn();
+      }
+    };
 
-//     document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
-//     return () => {
-//       document.removeEventListener('visibilitychange', handleVisibilityChange);
-//     };
-//   }, [checkSubscriptionOnReturn]);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [checkSubscriptionOnReturn]);
 
 
-// //________________________________________________________________________________________________________
+//________________________________________________________________________________________________________
 
-//   const CheckChatSubscriptionOnReturn = useCallback(async () => {
-//     if (userId) {
-//       const data = await handleCheckChatSubscription(userId);
-//       if (data.isSubscribed) {
-//         if (!isVisibleChatComplated) {
-//           setVisibleClaimChat(true);
-//         }
-//         localStorage.setItem('VisibleChat', 'false');
-//       }
-//     }
-//   }, [userId, handleCheckChatSubscription, isVisibleChatComplated]);
+  const CheckChatSubscriptionOnReturn = useCallback(async () => {
+    if (userId) {
+      const data = await handleCheckChatSubscription(userId);
+      if (data.isSubscribed) {
+        if (!isVisibleChatComplated) {
+          setVisibleClaimChat(true);
+        }
+        localStorage.setItem('VisibleChat', 'false');
+      }
+    }
+  }, [userId, handleCheckChatSubscription, isVisibleChatComplated]);
 
-//   useEffect(() => {
-//     const handleVisibilityChange1 = () => {
-//       if (document.visibilityState === 'visible') {
-//         CheckChatSubscriptionOnReturn();
-//       }
-//     };
+  useEffect(() => {
+    const handleVisibilityChange1 = () => {
+      if (document.visibilityState === 'visible') {
+        CheckChatSubscriptionOnReturn();
+      }
+    };
 
-//     document.addEventListener('visibilitychange1', handleVisibilityChange1);
+    document.addEventListener('visibilitychange', handleVisibilityChange1);
 
-//     return () => {
-//       document.removeEventListener('visibilitychange1', handleVisibilityChange1);
-//     };
-//   }, [CheckChatSubscriptionOnReturn]);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange1);
+    };
+  }, [CheckChatSubscriptionOnReturn]);
   
-// //______________________________________________________________________________________________
+//______________________________________________________________________________________________
   function LoadingScreen() {
     return (
       <div className="loading-screen">
