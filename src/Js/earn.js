@@ -67,27 +67,27 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
         const checkSubscriptionOnMount = async () => {
             const data = await onCheckSubscription(userId);
             if (data.isSubscribed) {
-                if(isVisibleComplated !== true){
+                if(isVisibleComplated === false){
                     setVisibleClaim(true);
                 }
                 localStorage.setItem('VisibleChanel', 'false');            
             } 
         };
         checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel, isVisibleClaim]);
+    }, [onCheckSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
 
     useEffect(() => {
         const checkChatSubscriptionOnMount = async () => {
             const data = await onCheckChatSubscription(userId);
             if (data.isSubscribed) {
-                if(isVisibleChatComplated !== true){
+                if(isVisibleChatComplated === false){
                     setVisibleClaimChat(true);
                 }
                 localStorage.setItem('VisibleChat', 'false');
             }
         };
         checkChatSubscriptionOnMount();
-    }, [onCheckChatSubscription, userId,  setVisibleClaimChat, isVisibleChatComplated, isVisibleChat, isVisibleClaimChat]);
+    }, [onCheckChatSubscription, userId,  setVisibleClaimChat, isVisibleChatComplated, isVisibleChat]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
