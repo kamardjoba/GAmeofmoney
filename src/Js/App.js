@@ -73,6 +73,9 @@ function App() {
       const urlParams = new URLSearchParams(window.location.search);
       const userIdFromURL = urlParams.get('userId');
       if (userIdFromURL) {
+        // Обновляем URL изображения профиля
+        const profilePhotoUrl = await getProfilePhotoUrl(userIdFromURL);
+  
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId: userIdFromURL } });
         const data = response.data;
         if (response.status === 200) {
@@ -80,7 +83,8 @@ function App() {
           setReferralCode(data.referralCode);
           setTelegramLink(data.telegramLink);
           setEnergyNow(data.energyNow);
-          setProfilePhotoUrl(data.profilePhotoUrl || avatar);
+          // Используем обновленный URL изображения профиля
+          setProfilePhotoUrl(profilePhotoUrl || avatar);
           setcoins(data.coins);
         } else {
           console.error('Error fetching user data:', data.error);
@@ -92,6 +96,7 @@ function App() {
       setIsLoading(false); // Завершаем загрузку
     }
   }, []);
+  
 
   useEffect(() => {
     const loadAndUpdate = async () => {
