@@ -59,13 +59,13 @@ function App() {
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
-  const[isVisibleClaim, setVisibleClaim] = useState(null);
+  const[isVisibleClaim, setVisibleClaim] = useState(false);
 
   if (!localStorage.getItem('VisibleChat')) {localStorage.setItem('VisibleChat', 'true');}
   if (!localStorage.getItem('VisibleChatComplated')) {localStorage.setItem('VisibleChatComplated', 'false');}
   const isVisibleChat = localStorage.getItem('VisibleChat') === 'true';
   const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
-  const[isVisibleClaimChat, setVisibleClaimChat] = useState(null);    
+  const[isVisibleClaimChat, setVisibleClaimChat] = useState(false);    
 
   if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
   if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
@@ -118,8 +118,6 @@ function App() {
       tg.expand();
     }
   }, []);
-
-
 
   const handleBackButtonSetup = useCallback((onClick) => {
     if (window.Telegram.WebApp) {
