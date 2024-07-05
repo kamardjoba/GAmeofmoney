@@ -67,13 +67,6 @@ function App() {
   const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
   const[isVisibleClaimChat, setVisibleClaimChat] = useState(false);    
 
-  if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
-  if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
-  if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
-  const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
-  const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
-  const XVisible = localStorage.getItem('XVisible') === 'true';
-
   const loadProgress = useCallback(async () => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -247,7 +240,7 @@ function App() {
         CheckChatSubscriptionOnReturn();
       }
     };
-
+6
     document.addEventListener('visibilitychange', handleVisibilityChangeChat);
 
     return () => {
@@ -521,9 +514,6 @@ function App() {
               setVisibleClaim={setVisibleClaim}
               isVisibleComplated={isVisibleComplated}
               isVisibleChanel={isVisibleChanel}
-              XVisibleComplated={XVisibleComplated}
-              XVisibleClaim={XVisibleClaim}
-              XVisible={XVisible}
               isVisibleChat={isVisibleChat}
               isVisibleChatComplated={isVisibleChatComplated}
               isVisibleClaimChat={isVisibleClaimChat}
