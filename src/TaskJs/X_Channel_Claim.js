@@ -15,7 +15,7 @@ const XClaimBord = ({onClose}) => {
     const handleCloseAnim = () => {setClosingForAnim(true);};
 
     function XSrcondClick() {
-        localStorage.setItem('XVisibleClaim', 'False');
+        localStorage.setItem('XVisibleClaim', 'false');
         localStorage.setItem('XVisibleComplated', 'true');
     }
 
