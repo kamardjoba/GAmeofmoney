@@ -12,11 +12,6 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
     handleTouch(event);
   };
 
-  const handleTouchMove = (event) => {
-    event.preventDefault();
-    handleTouch(event);
-  };
-
   const handleTouchEnd = (event) => {
     event.preventDefault();
     event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
@@ -59,9 +54,8 @@ const Coindiv = ({ onClick, coinPerClick, energyNow }) => {
         src={coinImage}
         alt="Coin"
         height="90%"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onTouchStart={(event) => { handleTouchStart(event); handleTouch(event);}}
       />
 
       <AnimatePresence>
