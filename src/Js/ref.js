@@ -53,7 +53,7 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingRefForAnim ? 'closing' : ''}`}>
             <div className="Ref_Earn_BoxBorder">
-                <div className='Ref_Earn_Box' onClick={openBox}>
+                <div className='Ref_Earn_Box'>
                     <img src={boxIcon} alt='boxIcon' height={"60%"}/>
                 </div>
                 <div className='Ref_Earn_BoxTitle'>
@@ -89,7 +89,7 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
                                 <p id="Friends_rank">{referral.rank || 'Beginner'} <span id="Beginner_rank"> ● </span></p>
                             </div>
                             <div className='refFrendsIcon'>
-                                <img src={boxIcon} alt='boxIcon' height={"65%"}/>
+                                <img src={boxIcon} alt='boxIcon' height={"65%"} onClick={openBox}/>
                             </div>
                         </div>
                     ))}
