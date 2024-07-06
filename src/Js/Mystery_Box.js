@@ -2,13 +2,13 @@ import React from 'react';
 import '../Css/Mystery_Box.css';
 import MysteryImg from '../IMG/MisteryBox.png';
 
-const MysteryBox = () => {
+const MysteryBox = ({onClose}) => {
     
     return (
         <div className="Mystery">
-            <div className='MysteryBox'>
+            <div onClick={onClose} className='MysteryBox'>
                 <img src={MysteryImg} alt='MysteryImg'/>
-                <button onClick={localStorage.setItem('BoxOpen', 'false')}>OPEN</button>
+                <button>OPEN</button>
             </div>
         </div>
     );
