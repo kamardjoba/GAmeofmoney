@@ -38,8 +38,9 @@ function App() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
   const [isEarnOpen, setIsEarnOpen] = useState(false);
-  const [isBoxOpen, setisBoxOpen] = useState(false);
   const [isLootOpen, setisLootOpen] = useState(false);
+  if (!localStorage.getItem('BoxOpen')) {localStorage.setItem('BoxOpen', 'false');}
+  const isBoxOpen = localStorage.getItem('BoxOpen') === 'true';
 
   const [isLogoVisible, setIsLogoVisible] = useState(true);
   const [isInviteLogoVisible, setisInviteLogoVisible] = useState(false);
@@ -266,8 +267,6 @@ function App() {
 
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
-  const handleCloseBox = () => { setisBoxOpen(false) };
-  const handleOpenBox = () => { setisBoxOpen(true) };
 
   const handleOpenShop = useCallback(() => {
     setIsShopOpen(true);
@@ -491,9 +490,7 @@ function App() {
           </div>
 
           {isBoxOpen && (
-            <MysteryBox
-              onClose={handleCloseBox}
-            />
+            <MysteryBox/>
           )}
 
           {isShopOpen && (
@@ -507,7 +504,6 @@ function App() {
               onClose={handleCloseRef}
               userId={userId}
               telegramLink={telegramLink}
-              openBox={handleOpenBox}
             />
           )}
 
