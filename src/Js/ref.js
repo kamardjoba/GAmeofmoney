@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Css/ref.css'
 import boxIcon from '../IMG/box.png';
 import znakLogo from '../IMG/Znak.png';
@@ -8,10 +8,32 @@ import inviteIcon from '../IMG/LowerIcon/Invite_Icon.png';
 import avatar from '../IMG/Avatars/avatar.png';
 import UIcon from '../IMG/Union.png';
 
-const Ref = ({ onClose, openBox,  telegramLink, referrals }) => {
-    const handleCloseRefAnim = () => { setClosingRefForAnim(true); };    
+const Ref = ({onClose, openBox,userId, telegramLink}) => {
+    const handleCloseRefAnim = () => {setClosingRefForAnim(true);};    
     const [isClosingRefForAnim, setClosingRefForAnim] = useState(false);
     const [referralLink] = useState(telegramLink);
+    const [referrals, setReferrals] = useState([]);
+    
+    useEffect(() => {
+        const fetchReferralData = async () => {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
+                const data = await response.json();
+                if (response.ok) {
+                    setReferrals(data.referrals);
+                } else {
+                    console.error('Error fetching referral data:', data.error);
+                }
+            } catch (error) {
+                console.error('Error fetching referral data:', error);
+            }
+        };
+
+        if (userId) {
+            fetchReferralData().catch(error => console.error('fetchReferralData error:', error));
+        }
+
+    }, [userId, onClose]);
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(referralLink)
@@ -32,7 +54,7 @@ const Ref = ({ onClose, openBox,  telegramLink, referrals }) => {
         <div className={`Ref_Earn_Shop_Window ${isClosingRefForAnim ? 'closing' : ''}`}>
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box' onClick={openBox}>
-                    <img src={boxIcon} alt='boxIcon' height={"60%"} />
+                    <img src={boxIcon} alt='boxIcon' height={"60%"}/>
                 </div>
                 <div className='Ref_Earn_BoxTitle'>
                     <div className='Ref_Earn_BoxUp'>
@@ -40,7 +62,7 @@ const Ref = ({ onClose, openBox,  telegramLink, referrals }) => {
                     </div>
                     <div className='Ref_Earn_BoxDown'>
                         <div className='Ref_Earn_BoxLeft'>
-                            <img src={znakLogo} alt='znakLogo' height={"50%"} />
+                            <img src={znakLogo} alt='znakLogo' height={"50%"}/>
                         </div>
                         <div className='Ref_Earn_BoxRight'>
                             <p>GET <span className="Ref_Earn_Purple">MYSTERY BOX</span></p>
@@ -54,13 +76,13 @@ const Ref = ({ onClose, openBox,  telegramLink, referrals }) => {
             <div className="refFrandsBorder">
                 <div className='refFrendsInfo'>
                     <p>LIST OF YOUR FRIENDS   ({referrals.length})</p>
-                    <img src={s} alt='s' height={"40%"} />
+                    <img src={s} alt='s' height={"40%"}/>
                 </div>
                 <div className="refFrendsMenu">
                     {referrals.map((referral, index) => (
                         <div key={index} className='refFrends'>
                             <div className='refFrendsIcon'>
-                                <img src={referral.profilePhotoUrl || avatar} alt="Avatar" height={"75%"} id='FrendAvatarInvite' />
+                                <img src={referral.profilePhotoUrl || avatar} alt="Avatar" height={"75%"} id='FrendAvatarInvite'/>
                             </div>
                             <div className='refFrendsName'>
                                 <p>{referral.first_name || `user${referral.telegramId}`}</p>
@@ -72,15 +94,15 @@ const Ref = ({ onClose, openBox,  telegramLink, referrals }) => {
                 </div>
             </div>
             <div className="refthripleBTN">
-                <button className="refgo" id='refgoEx' onClick={(event) => { onClose(event); handleCloseRefAnim(event); }}>
-                    <img src={UIcon} alt='UIcon' height={"70%"} />
+                <button className="refgo" id='refgoEx' onClick={(event) => {onClose(event); handleCloseRefAnim(event); }}>
+                    <img src={UIcon} alt='UIcon' height={"70%"}/>
                 </button>
                 <button className="refgo" onClick={handleShareLink}>
                     <p>INVITE </p>
-                    <img src={inviteIcon} alt='inviteIcon' height={"110%"} />
+                    <img src={inviteIcon} alt='inviteIcon' height={"110%"}/>
                 </button>
                 <button className="refgo" id='refgoCopy' onClick={handleCopyLink}>
-                    <img src={ink} alt='ink' height={"50%"} />
+                    <img src={ink} alt='ink' height={"50%"}/>
                     <p>COPY</p>
                 </button>
             </div>

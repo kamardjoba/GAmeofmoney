@@ -51,7 +51,6 @@ function App() {
   const [username, setUsername] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
   const [userId, setUserId] = useState(null);
-  const [ setReferrals] = useState([]);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -89,7 +88,6 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
-          setReferrals(data.referrals); // Set referrals data
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -97,9 +95,9 @@ function App() {
     } catch (error) {
       console.error('Error fetching user data:', error);
     } finally {
-      setIsLoading(false); // End loading
+      setIsLoading(false); // Завершаем загрузку
     }
-  }, [setReferrals]);
+  }, []);
 
   useEffect(() => {
     const loadAndUpdate = async () => {
