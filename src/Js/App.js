@@ -53,7 +53,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+ 
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
@@ -94,9 +94,7 @@ function App() {
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } finally {
-      setIsLoading(false); // Завершаем загрузку
-    }
+    } 
   }, []);
 
   useEffect(() => {
@@ -383,10 +381,7 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <div className="App">
+      
           <div className="info">
             <img src={Logo} alt="Logo" height={"55%"} />
             <p> {username} </p>
@@ -540,8 +535,7 @@ function App() {
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
           </div>
-        </div>
-      )}
+       
     </div>
   );
 }

@@ -68,6 +68,7 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
                             <p>GET <span className="Ref_Earn_Purple">MYSTERY BOX</span></p>
                             <p>FOR YOU AND YOUR</p>
                             <p>FRIEND</p>
+                            
                         </div>
                     </div>
                 </div>
