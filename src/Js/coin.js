@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../Css/coin.css';
 
-const Coindiv = ({ onClick, coinPerClick, energyNow, coinImage}) => {
+const Coindiv = ({ onClick, coinPerClick, energyNow, coinImage, ink}) => {
   const [clicksArray, setClicksArray] = useState([]);
 
   const handleInteractionStart = (event) => {
