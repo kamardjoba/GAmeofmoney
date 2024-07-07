@@ -89,6 +89,9 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
                                 <p id="Friends_rank">{referral.rank || 'Beginner'} <span id="Beginner_rank"> ● </span>
                                 </p>
                             </div>
+                            <div className='refFrendsIcon'>
+                                <img src={boxIcon} alt='boxIcon' height={"65%"} onClick={openBox}/>
+                            </div>
                         </div>
                     ))}
                 </div>
