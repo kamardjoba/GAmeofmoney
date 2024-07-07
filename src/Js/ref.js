@@ -53,7 +53,7 @@ const Ref = ({onClose, openBox,userId, telegramLink}) => {
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingRefForAnim ? 'closing' : ''}`}>
             <div className="Ref_Earn_BoxBorder">
-                <div className='Ref_Earn_Box' onClick={openBox}>
+                <div className='Ref_Earn_Box'>
                     <img src={boxIcon} alt='boxIcon' height={"60%"}/>
                 </div>
                 <div className='Ref_Earn_BoxTitle'>
