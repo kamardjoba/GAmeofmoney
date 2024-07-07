@@ -25,7 +25,7 @@ import inviteIcon from '../IMG/LowerIcon/Invite_Icon.png';
 import lootIcon from '../IMG/LowerIcon/Loot_Icon.png';
 import p2eIcon from '../IMG/LowerIcon/P2E_Icon.png';
 import shopIcon from '../IMG/LowerIcon/Shop_Icon.png';
-
+import lodscreen from '../IMG/Loading_screen.png';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -53,7 +53,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
- 
+  const [isLoading, setIsLoading] = useState(true);
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
@@ -94,7 +94,9 @@ function App() {
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } 
+    } finally {
+      setIsLoading(false); // Завершаем загрузку
+    }
   }, []);
 
   useEffect(() => {
@@ -254,7 +256,13 @@ function App() {
   }, [CheckChatSubscriptionOnReturn]);
   
 //______________________________________________________________________________________________
- 
+  function LoadingScreen() {
+    return (
+      <div className="loading-screen">
+        <img src={lodscreen} alt="Loading" />
+      </div>
+    );
+  }
 
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
@@ -375,7 +383,10 @@ function App() {
 
   return (
     <div className="App">
-      
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <div className="App">
           <div className="info">
             <img src={Logo} alt="Logo" height={"55%"} />
             <p> {username} </p>
@@ -529,7 +540,8 @@ function App() {
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
           </div>
-       
+        </div>
+      )}
     </div>
   );
 }
