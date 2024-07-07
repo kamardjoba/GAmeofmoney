@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import coinImage from '../IMG/88nog.png';
-import ink from '../IMG/ink.png';
 import '../Css/coin.css';
 
-const Coindiv = ({ onClick, coinPerClick, energyNow}) => {
+const Coindiv = ({ onClick, coinPerClick, energyNow, coinImage}) => {
   const [clicksArray, setClicksArray] = useState([]);
 
   const handleInteractionStart = (event) => {

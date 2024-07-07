@@ -26,6 +26,7 @@ import lootIcon from '../IMG/LowerIcon/Loot_Icon.png';
 import p2eIcon from '../IMG/LowerIcon/P2E_Icon.png';
 import shopIcon from '../IMG/LowerIcon/Shop_Icon.png';
 import lodscreen from '../IMG/Loading_screen.png';
+import coinImage from '../IMG/88nog.png';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -446,7 +447,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} />
+            <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} coinImage={coinImage} ink={ink}/>
             <div className="Progress">
               <div className="userStatus">
                 <p>Beginner &gt; </p>
