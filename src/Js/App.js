@@ -51,6 +51,7 @@ function App() {
   const [username, setUsername] = useState('');
   const [telegramLink, setTelegramLink] = useState('');
   const [userId, setUserId] = useState(null);
+  const [ setReferrals] = useState([]);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -98,7 +99,7 @@ function App() {
     } finally {
       setIsLoading(false); // End loading
     }
-  }, []);
+  }, [setReferrals]);
 
   useEffect(() => {
     const loadAndUpdate = async () => {
