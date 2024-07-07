@@ -25,7 +25,7 @@ import inviteIcon from '../IMG/LowerIcon/Invite_Icon.png';
 import lootIcon from '../IMG/LowerIcon/Loot_Icon.png';
 import p2eIcon from '../IMG/LowerIcon/P2E_Icon.png';
 import shopIcon from '../IMG/LowerIcon/Shop_Icon.png';
-import lodscreen from '../IMG/Loading_screen.png';
+
 
 function App() {
   const [coins, setcoins] = useState(0);
