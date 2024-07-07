@@ -88,6 +88,7 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
+          setReferrals(data.referrals); // Set referrals data
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -95,7 +96,7 @@ function App() {
     } catch (error) {
       console.error('Error fetching user data:', error);
     } finally {
-      setIsLoading(false); // Завершаем загрузку
+      setIsLoading(false); // End loading
     }
   }, []);
 
