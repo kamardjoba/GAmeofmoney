@@ -65,7 +65,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
             style={{ top: click.y, left: click.x, position: 'absolute' }}
           >
             <p>+{click.value}</p>
-            <img id="inktap" src={ink} alt='ink' width={"100%"} />
+            <img id="inktap" src={ink} alt='ink' />
           </motion.div>
         ))}
       </AnimatePresence>
