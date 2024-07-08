@@ -33,15 +33,6 @@ import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
 
-//Earn
-import gray_8nogIcon from '../IMG/gray_8nog.png';
-import znakLogo from '../IMG/Znak.png';
-import Task_1 from '../IMG/TaskIcon/task_1.webp';
-import Task_2 from '../IMG/TaskIcon/task_2.webp';
-import Task_3 from '../IMG/TaskIcon/task_3.webp';
-import Task_4 from '../IMG/TaskIcon/task_4.webp';
-import Task_5 from '../IMG/TaskIcon/task_5.webp';
-
 function App() {
   const [coins, setcoins] = useState(0);
   const [energyNow, setEnergyNow] = useState(100);
@@ -572,13 +563,6 @@ function App() {
               isVisibleChatComplated={isVisibleChatComplated}
               isVisibleClaimChat={isVisibleClaimChat}
               setVisibleClaimChat={setVisibleClaimChat}
-              gray_8nogIcon={gray_8nogIcon}
-              znakLogo={znakLogo}
-              Task_1={Task_1}
-              Task_2={Task_2}
-              Task_3={Task_3}
-              Task_4={Task_4}
-              Task_5={Task_5}
             />
           )}
 
