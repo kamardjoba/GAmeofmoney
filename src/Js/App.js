@@ -32,10 +32,6 @@ import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-<<<<<<< HEAD
-
-=======
->>>>>>> 35fc38912a68a5c92da33c763bd9cdd6aed9070a
 
 function App() {
   const [coins, setcoins] = useState(0);
