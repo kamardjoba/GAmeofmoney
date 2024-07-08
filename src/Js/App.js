@@ -26,7 +26,7 @@ import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-import lodscreen from '../IMG/Loading_screen.png';
+import lodscreen     from '../IMG/LowerIcon/Shop_Icon.webp';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -53,8 +53,9 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [ setIsLoading] = useState(true);
+
 
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
@@ -90,13 +91,14 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
+          setUser(data);  // Сохраняем данные пользователя
         } else {
           console.error('Error fetching user data:', data.error);
         }
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } finally {
+    }finally {
       setIsLoading(false); // Завершаем загрузку
     }
   }, []);
@@ -105,7 +107,6 @@ function App() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('userId');
   };
-  
 
   useEffect(() => {
     const loadAndUpdate = async () => {
@@ -133,26 +134,6 @@ function App() {
       backButton.show();
       backButton.offClick(); // Сбрасываем предыдущие обработчики
       backButton.onClick(onClick); // Устанавливаем новый
-    }
-  }, []);
-
-  const loadUserProgress = async (userId) => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
-      if (response.data.success) {
-        setUser(response.data.user);
-      } else {
-        console.error('Ошибка при загрузке прогресса пользователя:', response.data.error);
-      }
-    } catch (error) {
-      console.error('Ошибка при загрузке прогресса пользователя:', error);
-    }
-  };
-
-  useEffect(() => {
-    const userId = getUserIdFromURL();
-    if (userId) {
-      loadUserProgress(userId);
     }
   }, []);
 
@@ -187,7 +168,6 @@ function App() {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
-  
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
     try {
@@ -226,8 +206,6 @@ function App() {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
-
-
   const checkSubscriptionOnReturn = useCallback(async () => {
     if (userId) {
       const data = await handleCheckSubscription(userId);
@@ -254,9 +232,6 @@ function App() {
     };
   }, [checkSubscriptionOnReturn]);
 
-
-//________________________________________________________________________________________________________
-
   const CheckChatSubscriptionOnReturn = useCallback(async () => {
     if (userId) {
       const data = await handleCheckChatSubscription(userId);
@@ -282,16 +257,14 @@ function App() {
       document.removeEventListener('visibilitychange', handleVisibilityChangeChat);
     };
   }, [CheckChatSubscriptionOnReturn]);
-  
-//______________________________________________________________________________________________
 
-function LoadingScreen() {
-  return (
-    <div className="loading-screen">
-      <img src={lodscreen} alt="Loading" />
-    </div>
-  );
-}
+  function LoadingScreen() {
+    return (
+      <div className="loading-screen">
+        <img src={lodscreen} alt="Loading" />
+      </div>
+    );
+  }
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
   const handleCloseBox = () => { setisBoxOpen(false) };
@@ -409,45 +382,34 @@ function LoadingScreen() {
     setisCraftLogoVisible(!LogoVisible);
   };
 
- 
-
   return (
     <div className="App">
-            {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <div className="App">
+      {user ? (
+        <>
           <div className="info">
             <img src={Logo} alt="Logo" height={"55%"} />
             <p> {username} </p>
             <img id="pngavatar" src={profilePhotoUrl} alt="Bifclif" />
           </div>
           <div className="logo">
-
             <img src={MainLogo}
               alt="MainLogo"
               className={isLogoVisible ? 'fade-in' : 'fade-out'} />
-
             <img src={InviteLogo}
               alt="InviteLogo"
               className={isInviteLogoVisible ? 'fade-in' : 'fade-out'} />
-
             <img src={EarnLogo}
               alt="EarnLogo"
               className={isEarnLogoVisible ? 'fade-in' : 'fade-out'} />
-
             <img src={ShopLogo}
               alt="ShopLogo"
               className={isShopLogoVisible ? 'fade-in' : 'fade-out'} />
-
             <img src={LootLogo}
               alt="LootLogo"
               className={isLootLogoVisible ? 'fade-in' : 'fade-out'} />
-
             <img src={CraftLogo}
               alt="CraftLogo"
               className={isCraftLogoVisible ? 'fade-in' : 'fade-out'} />
-
           </div>
           <div className='BackGround_Div'></div>
           <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`}>
@@ -470,7 +432,7 @@ function LoadingScreen() {
                 </div>
               </div>
             </div>
-            <Coindiv coinImage={coinImage} onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink}/>
+            <Coindiv coinImage={coinImage} onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink} />
             <div className="Progress">
               <div className="userStatus">
                 <p>Beginner &gt; </p>
@@ -484,7 +446,6 @@ function LoadingScreen() {
               </div>
             </div>
             <div className="lower">
-
               <div className="lowerDown">
                 <div className='BTN' onClick={(event) => { handleOpenShop(event); localStorage.clear(); }}>
                   <div className="BTNLOW">
@@ -507,7 +468,6 @@ function LoadingScreen() {
                 <div className='BTN'>
                   <div className="BTNLOW">
                     <img src={p2eIcon} alt='p2eIcon' />
-                    
                   </div>
                   <p>P2E</p>
                 </div>
@@ -516,15 +476,11 @@ function LoadingScreen() {
           </div>
 
           {isBoxOpen && (
-            <MysteryBox
-              onClose={handleCloseBox}
-            />
+            <MysteryBox onClose={handleCloseBox} />
           )}
 
           {isShopOpen && (
-            <Shop
-              onClose={handleCloseShop}
-            />
+            <Shop onClose={handleCloseShop} />
           )}
 
           {isRefOpen && (
@@ -568,10 +524,12 @@ function LoadingScreen() {
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
           </div>
-          </div>
+        </>
+      ) : (
+        <LoadingScreen />
       )}
-     
     </div>
   );
 }
+
 export default App;
