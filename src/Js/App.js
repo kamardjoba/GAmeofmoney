@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../Css/App.css';
 import axios from 'axios';
 
-import avatar       from '../IMG/Avatars/avatar.png';
+import avatar       from '../IMG/Avatars/avatar.webp';
 import ink          from '../IMG/ink.png';
 import earnIcon     from '../IMG/earn.png';
 
