@@ -79,21 +79,19 @@ function App() {
       const userIdFromURL = urlParams.get('userId');
       if (userIdFromURL) {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId: userIdFromURL } });
-        const data = response.data;
         if (response.status === 200) {
+          const data = response.data;
           setUsername(data.first_name);
-          setReferralCode(data.referralCode);
-          setTelegramLink(data.telegramLink);
-          setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
-          setcoins(data.coins);
+          setCoins(data.coins);
+          setEnergyNow(data.energyNow);
         } else {
-          console.error('Error fetching user data:', data.error);
+          console.error('Error fetching user data:', response.data.error);
         }
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } 
+    }
   }, []);
 
   useEffect(() => {
@@ -101,12 +99,11 @@ function App() {
       const urlParams = new URLSearchParams(window.location.search);
       const userIdFromURL = urlParams.get('userId');
       setUserId(userIdFromURL);
-
       if (userIdFromURL) {
         await loadProgress();
       }
     };
-    loadAndUpdate().catch(error => console.error('Error loading progress:', error));
+    loadAndUpdate();
   }, [loadProgress]);
 
   useEffect(() => {
