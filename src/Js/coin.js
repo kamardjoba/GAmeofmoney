@@ -26,7 +26,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
 
     const rect = event.currentTarget.getBoundingClientRect();
     const x = touchEvent.clientX - rect.left;
-    const y = touchEvent.clientY - rect.top;
+    const y = touchEvent.clientY - rect.top - rect.Coindiv;
 
     setClicksArray((prevClicks) => [
       ...prevClicks,
@@ -43,7 +43,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
   return (
     <motion.div
       className='Podsos'
-      onClick={NumberUpAnim}
+      onTouchStart={NumberUpAnim}
     >
       <img 
         onTouchStart={handleInteractionStart }
