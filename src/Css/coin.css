@@ -10,6 +10,7 @@
 
 .Podsos img{
     height: 95%; 
+    width: auto;
 }
 
 .click-value {
