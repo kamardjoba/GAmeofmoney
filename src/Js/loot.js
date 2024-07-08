@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Css/loot.css';
+import Craft from './craft'
+import znakLogo from '../IMG/Znak.png';
+import Loot_Znak from '../IMG/Loot_ZNAK.png';
+
 
 const Loot = ({onClose, handleCheckboxChange, userId}) => {
     const [isClosingLootForAnim, setClosingLootForAnim] = useState(false);
