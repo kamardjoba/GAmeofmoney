@@ -2,31 +2,31 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../Css/App.css';
 import axios from 'axios';
 
-import avatar from '../IMG/Avatars/avatar.png';
-import ink from '../IMG/ink.png';
-import earnIcon from '../IMG/earn.png';
+import avatar       from '../IMG/Avatars/avatar.png';
+import ink          from '../IMG/ink.png';
+import earnIcon     from '../IMG/earn.png';
 
-import ProgressBar from './ProgressBar';
-import Shop from './shop';
-import Coindiv from './coin';
-import Ref from './ref';
-import Earn from './earn';
-import MysteryBox from './Mystery_Box';
-import Loot from './loot';
+import ProgressBar  from './ProgressBar';
+import Shop         from './shop';
+import Coindiv      from './coin';
+import Ref          from './ref';
+import Earn         from './earn';
+import MysteryBox   from './Mystery_Box';
+import Loot         from './loot';
 
-import MainLogo from '../IMG/All_Logo/mainLogo.png';
-import InviteLogo from '../IMG/All_Logo/inviteLogo.png';
-import ShopLogo from '../IMG/All_Logo/shopLogo.png';
-import LootLogo from '../IMG/All_Logo/lootLogo.png';
-import EarnLogo from '../IMG/All_Logo/earnLogo.png';
-import CraftLogo from '../IMG/All_Logo/craftLogo.png';
-import Logo from '../IMG/All_Logo/bitclifLogo.png';
-import inviteIcon from '../IMG/LowerIcon/Invite_Icon.png';
-import lootIcon from '../IMG/LowerIcon/Loot_Icon.png';
-import p2eIcon from '../IMG/LowerIcon/P2E_Icon.png';
-import shopIcon from '../IMG/LowerIcon/Shop_Icon.png';
-import lodscreen from '../IMG/Loading_screen.png';
-import coinImage from '../IMG/88nog.png';
+import MainLogo     from '../IMG/All_Logo/mainLogo.png';
+import InviteLogo   from '../IMG/All_Logo/inviteLogo.png';
+import ShopLogo     from '../IMG/All_Logo/shopLogo.png';
+import LootLogo     from '../IMG/All_Logo/lootLogo.png';
+import EarnLogo     from '../IMG/All_Logo/earnLogo.png';
+import CraftLogo    from '../IMG/All_Logo/craftLogo.png';
+import Logo         from '../IMG/All_Logo/bitclifLogo.png';
+import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
+import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
+import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
+import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
+import lodscreen    from '../IMG/Loading_screen.png';
+import coinImage    from '../IMG/88nog.png';
 
 function App() {
   const [coins, setcoins] = useState(0);
