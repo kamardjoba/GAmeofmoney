@@ -8,12 +8,12 @@ import Task_3 from '../IMG/TaskIcon/task_3.webp';
 import Task_4 from '../IMG/TaskIcon/task_4.webp';
 import Task_5 from '../IMG/TaskIcon/task_5.webp';
 
-import Epic from '../IMG/Epic_item.png';
-import Epic_Claim from '../IMG/Epic_Claim.png';
-import Rire from '../IMG/Rire_item.png';
-import Rare_Claim from '../IMG/Rare_Clime.png';
-import Basic from '../IMG/Basic_item.png';
-import Basic_Claim from '../IMG/Basic_Claim.png';
+import Epic from '../IMG/Card/Epic_item.png';
+import Epic_Claim from '../IMG/Card/Epic_Claim.png';
+import Rire from '../IMG/Card/Rire_item.png';
+import Rare_Claim from '../IMG/Card/Rare_Clime.png';
+import Basic from '../IMG/Card/Basic_item.png';
+import Basic_Claim from '../IMG/Card/Basic_Claim.png';
 
 import TgChannelClaimBord from '../TaskJs/Tg_Channel_Claim';
 import TgChannelComplated from '../TaskJs/Tg_Channel_Complated';
