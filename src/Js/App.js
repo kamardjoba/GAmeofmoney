@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import '../Css/loading.css';
 import '../Css/App.css';
 import axios from 'axios';
 
+import ink          from '../IMG/ink.webp';
+import ldink3       from '../IMG/Loading/Ellipse 4.png';
+import ldink2       from '../IMG/Loading/Ellipse 3.png';
+import ldink1       from '../IMG/Loading/Ellipse 2.png';
+import ldink       from '../IMG/Loading/Ellipse 1.png';
+import ldnimg       from '../IMG/Loading/8ldng.png';
 import coinImage    from '../IMG/8nog.webp';
 import avatar       from '../IMG/Avatars/avatar.webp';
-import ink          from '../IMG/ink.webp';
 import earnIcon     from '../IMG/earn.webp';
 
 import ProgressBar  from './ProgressBar';
@@ -26,7 +32,7 @@ import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-import lodscreen from '../IMG/Loading_screen.png';
+
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -73,6 +79,43 @@ function App() {
   const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
   const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
   const XVisible = localStorage.getItem('XVisible') === 'true';
+
+  function LoadingScreen() {
+    return (
+      <div className="loading-screen">
+        <div className="ldnUpper">
+          <img src={MainLogo} alt='MainLogo'/>
+        </div>  
+        <div className="ldnLower" >
+          <img src={ldnimg} alt='Main'/>
+        </div>
+        <div class="ink" id="ink1">
+              <img src={ldink} alt='ink'/>
+        </div>
+        <div class="ink" id="ink2">
+              <img src={ldink1} alt='ink'/>
+        </div>
+        <div class="ink" id="ink3">
+              <img src={ldink2} alt='ink'/>
+        </div>
+        <div class="ink" id="ink4">
+              <img src={ink} alt='ink'/>
+        </div>
+        <div class="ink" id="ink5">
+              <img src={ldink3} alt='ink'/>
+        </div>
+        <div class="ink" id="ink6">
+              <img src={ink} alt='ink'/>
+        </div>
+        <div class="ink" id="ink7">
+              <img src={ldink3} alt='ink'/>
+        </div>
+        <div class="ink" id="ink8">
+              <img src={ink} alt='ink'/>
+        </div>
+      </div>
+    );
+  }
 
   const loadProgress = useCallback(async () => {
     try {
@@ -257,13 +300,6 @@ function App() {
   
 //______________________________________________________________________________________________
 
-function LoadingScreen() {
-  return (
-    <div className="loading-screen">
-      <img src={lodscreen} alt="Loading" />
-    </div>
-  );
-}
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
   const handleCloseBox = () => { setisBoxOpen(false) };
