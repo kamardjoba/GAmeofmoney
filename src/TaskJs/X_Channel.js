@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './Task.css';
 
 import Basic from '../IMG/Basic_item.png';
-import X from '../IMG/TaskIcon/task_5.png'
+import X from '../IMG/TaskIcon/task_5.webp'
 import BackButtom from '../IMG/Back.png';
-import Icon from '../IMG/TaskIcon/task_2.png';
+import Icon from '../IMG/TaskIcon/task_2.webp';
 
 const XBord = ({onClose}) => {
     const X_LINK = 'https://x.com/NazarLymar';

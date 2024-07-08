@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './Task.css';
 
 import Rare_Claim from '../IMG/Rare_Clime.png';
-import Tg from '../IMG/TaskIcon/task_4.png';
+import Tg from '../IMG/TaskIcon/task_4.webp';
 import BackButtom from '../IMG/Back.png';
-import Icon from '../IMG/TaskIcon/task_2.png';
+import Icon from '../IMG/TaskIcon/task_2.webp';
 
 const TgClaim = ({onClose, setVisibleClaimChat}) => {
 

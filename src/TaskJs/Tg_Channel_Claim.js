@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './Task.css';
 
 import Epic_Claim from '../IMG/Epic_Claim.png';
-import Tg from '../IMG/TaskIcon/task_4.png';
+import Tg from '../IMG/TaskIcon/task_4.webp';
 import BackButtom from '../IMG/Back.png';
-import Icon from '../IMG/TaskIcon/task_2.png';
+import Icon from '../IMG/TaskIcon/task_2.webp';
 
 const TgChannelClaimBord = ({onClose,setVisibleClaim}) => {
 

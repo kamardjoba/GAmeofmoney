@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './Task.css';
 
-import Xclime from '../IMG/TaskIcon/task_5.png';
+import Xclime from '../IMG/TaskIcon/task_5.webp';
 import BackButtom from '../IMG/Back.png';
-import Icon from '../IMG/TaskIcon/task_2.png';
+import Icon from '../IMG/TaskIcon/task_2.webp';
 
 const XComplated = ({onClose}) => {
   
