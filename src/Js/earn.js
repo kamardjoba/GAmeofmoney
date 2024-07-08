@@ -22,7 +22,8 @@ import XComplated from '../TaskJs/X_Comlated';
 
 const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId, 
                 isVisibleClaim, setVisibleClaim, isVisibleComplated, isVisibleChanel, 
-                isVisibleChat, isVisibleClaimChat, setVisibleClaimChat, isVisibleChatComplated}) => {
+                isVisibleChat, isVisibleClaimChat, setVisibleClaimChat, isVisibleChatComplated,
+                gray_8nogIcon, znakLogo, Task_1, Task_2, Task_3, Task_4, Task_5}) => {
     const [isClosingEarnForAnim, setClosingEarnForAnim] = useState(false);
     const handleCloseEarnAnim = () => { setClosingEarnForAnim(true); };
 
