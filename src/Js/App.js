@@ -33,7 +33,6 @@ function App() {
   const coinPerClick = 1;
   const clickLimit = 100;
   const time = 2000;
-
   const [isClosingAppForAnim, setClosingAppForAnim] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isRefOpen, setIsRefOpen] = useState(false);
