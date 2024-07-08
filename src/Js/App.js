@@ -25,7 +25,6 @@ import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-import coinImage    from '../IMG/88nog.webp';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -427,7 +426,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} coinImage={coinImage} ink={ink}/>
+            <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink}/>
             <div className="Progress">
               <div className="userStatus">
                 <p>Beginner &gt; </p>
