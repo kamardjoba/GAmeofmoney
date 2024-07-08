@@ -54,6 +54,7 @@ body {
 .logo img{
   margin-bottom: 1.5vh;
   position: absolute;
+  height: 90%;
 }
 
 .main {

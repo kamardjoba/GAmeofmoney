@@ -14,12 +14,12 @@ import Earn         from './earn';
 import MysteryBox   from './Mystery_Box';
 import Loot         from './loot';
 
-import MainLogo     from '../IMG/All_Logo/mainLogo.png';
-import InviteLogo   from '../IMG/All_Logo/inviteLogo.png';
-import ShopLogo     from '../IMG/All_Logo/shopLogo.png';
-import LootLogo     from '../IMG/All_Logo/lootLogo.png';
-import EarnLogo     from '../IMG/All_Logo/earnLogo.png';
-import CraftLogo    from '../IMG/All_Logo/craftLogo.png';
+import MainLogo     from '../IMG/All_Logo/mainLogo.webp';
+import InviteLogo   from '../IMG/All_Logo/inviteLogo.webp';
+import ShopLogo     from '../IMG/All_Logo/shopLogo.webp';
+import LootLogo     from '../IMG/All_Logo/lootLogo.webp';
+import EarnLogo     from '../IMG/All_Logo/earnLogo.webp';
+import CraftLogo    from '../IMG/All_Logo/craftLogo.webp';
 import Logo         from '../IMG/All_Logo/bitclifLogo.png';
 import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
@@ -384,32 +384,26 @@ function App() {
 
             <img src={MainLogo}
               alt="MainLogo"
-              height={"95%"}
               className={isLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={InviteLogo}
               alt="InviteLogo"
-              height={"92%"}
               className={isInviteLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={EarnLogo}
               alt="EarnLogo"
-              height={"85%"}
               className={isEarnLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={ShopLogo}
               alt="ShopLogo"
-              height={"92%"}
               className={isShopLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={LootLogo}
               alt="LootLogo"
-              height={"85%"}
               className={isLootLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={CraftLogo}
               alt="CraftLogo"
-              height={"90%"}
               className={isCraftLogoVisible ? 'fade-in' : 'fade-out'} />
 
           </div>
