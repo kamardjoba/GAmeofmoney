@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../Css/App.css';
 import axios from 'axios';
 
-import avatar       from '../IMG/Avatars/avatar.png';
+import avatar       from '../IMG/Avatars/avatar.webp';
 import ink          from '../IMG/ink.png';
 import earnIcon     from '../IMG/earn.png';
 
@@ -14,18 +14,18 @@ import Earn         from './earn';
 import MysteryBox   from './Mystery_Box';
 import Loot         from './loot';
 
-import MainLogo     from '../IMG/All_Logo/mainLogo.png';
-import InviteLogo   from '../IMG/All_Logo/inviteLogo.png';
-import ShopLogo     from '../IMG/All_Logo/shopLogo.png';
-import LootLogo     from '../IMG/All_Logo/lootLogo.png';
-import EarnLogo     from '../IMG/All_Logo/earnLogo.png';
-import CraftLogo    from '../IMG/All_Logo/craftLogo.png';
+import MainLogo     from '../IMG/All_Logo/mainLogo.webp';
+import InviteLogo   from '../IMG/All_Logo/inviteLogo.webp';
+import ShopLogo     from '../IMG/All_Logo/shopLogo.webp';
+import LootLogo     from '../IMG/All_Logo/lootLogo.webp';
+import EarnLogo     from '../IMG/All_Logo/earnLogo.webp';
+import CraftLogo    from '../IMG/All_Logo/craftLogo.webp';
 import Logo         from '../IMG/All_Logo/bitclifLogo.png';
 import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-import coinImage    from '../IMG/88nog.png';
+import coinImage    from '../IMG/88nog.webp';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -380,32 +380,26 @@ function App() {
 
             <img src={MainLogo}
               alt="MainLogo"
-              height={"95%"}
               className={isLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={InviteLogo}
               alt="InviteLogo"
-              height={"92%"}
               className={isInviteLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={EarnLogo}
               alt="EarnLogo"
-              height={"85%"}
               className={isEarnLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={ShopLogo}
               alt="ShopLogo"
-              height={"92%"}
               className={isShopLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={LootLogo}
               alt="LootLogo"
-              height={"85%"}
               className={isLootLogoVisible ? 'fade-in' : 'fade-out'} />
 
             <img src={CraftLogo}
               alt="CraftLogo"
-              height={"90%"}
               className={isCraftLogoVisible ? 'fade-in' : 'fade-out'} />
 
           </div>
