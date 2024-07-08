@@ -463,7 +463,8 @@ function App() {
                 </div>
                 <div className='BTN'>
                   <div className="BTNLOW">
-                    <img src={p2eIcon} alt='p2eIcon' />
+                    <img src={p2eIcon} alt='p2eIcon' width="130" height="100" />
+                    
                   </div>
                   <p>P2E</p>
                 </div>

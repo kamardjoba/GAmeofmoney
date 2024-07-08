@@ -190,6 +190,7 @@ body {
 
 .BTNLOW img {
   height: 80%;
+  width: auto;
   filter: drop-shadow(2px 2px 3px rgba(0,0,0,50%));
 }
 
