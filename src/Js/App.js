@@ -94,9 +94,7 @@ function App() {
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } finally {
-      setIsLoading(false); // Завершаем загрузку
-    }
+    } 
   }, []);
 
   useEffect(() => {
