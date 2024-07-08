@@ -8,6 +8,13 @@ import Task_3 from '../IMG/TaskIcon/task_3.webp';
 import Task_4 from '../IMG/TaskIcon/task_4.webp';
 import Task_5 from '../IMG/TaskIcon/task_5.webp';
 
+import Epic from '../IMG/Epic_item.png';
+import Epic_Claim from '../IMG/Epic_Claim.png';
+import Rire from '../IMG/Rire_item.png';
+import Rare_Claim from '../IMG/Rare_Clime.png';
+import Basic from '../IMG/Basic_item.png';
+import Basic_Claim from '../IMG/Basic_Claim.png';
+
 import TgChannelClaimBord from '../TaskJs/Tg_Channel_Claim';
 import TgChannelComplated from '../TaskJs/Tg_Channel_Complated';
 import TgChannelBord from '../TaskJs/Tg_Channel';
@@ -99,31 +106,37 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
 
             {Tg_Channel_Const && isVisibleChanel && (
-                <TgChannelBord onClose={Tg_Channel_Close} />
+                <TgChannelBord onClose={Tg_Channel_Close}
+                Epic={Epic} />
             )}
             {Tg_Channel_Claim_Const && isVisibleClaim && (
                 <TgChannelClaimBord onClose={Tg_Channel_Claim_Close}
-                    setVisibleClaim={setVisibleClaim} />
+                    setVisibleClaim={setVisibleClaim} 
+                    Epic_Claim={Epic_Claim}/>
             )}
             {Tg_Channel_Complated_Const && isVisibleComplated && (
                 <TgChannelComplated onClose={Tg_Channel_Complated_Close} />
             )}
             {Tg_Chat_Const && isVisibleChat && (
-                <TgChatBord onClose={Tg_Chat_Close} />
+                <TgChatBord onClose={Tg_Chat_Close}
+                Rire={Rire} />
             )}
             {Tg_Chat_Claim_Const && isVisibleClaimChat &&(
                 <TgClaim onClose={Tg_Chat_Claim_Close} 
-                setVisibleClaimChat={setVisibleClaimChat}/>
+                setVisibleClaimChat={setVisibleClaimChat}
+                Rare_Claim={Rare_Claim}/>
                 
             )}
             {Tg_Chat_Complated_Const && isVisibleChatComplated &&(
                 <TgChatComplated onClose={Tg_Chat_Complated_Close} />
             )}
             {X_Const && XVisible && (
-                <XBord onClose={X_Close} />
+                <XBord onClose={X_Close}
+                Basic={Basic} />
             )}
             {X_Const_Claim && XVisibleClaim && (
-                <XClaimBord onClose={X_Const_ClaimClose} />
+                <XClaimBord onClose={X_Const_ClaimClose} 
+                Basic_Claim={Basic_Claim}/>
             )}
              {XComplated_Const && XVisibleComplated && (
                 <XComplated onClose={XComplated_Close} />

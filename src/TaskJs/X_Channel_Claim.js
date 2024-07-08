@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './Task.css';
 
-import Basic_Claim from '../IMG/Basic_Claim.png';
 import Xclime from '../IMG/TaskIcon/task_5.webp';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.webp';
 
-const XClaimBord = ({onClose}) => {
+const XClaimBord = ({onClose, Basic_Claim}) => {
 
     const X_LINK = 'https://x.com/NazarLymar';
 

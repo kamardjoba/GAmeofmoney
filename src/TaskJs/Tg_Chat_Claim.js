@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './Task.css';
 
-import Rare_Claim from '../IMG/Rare_Clime.png';
 import Tg from '../IMG/TaskIcon/task_4.webp';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.webp';
 
-const TgClaim = ({onClose, setVisibleClaimChat}) => {
+const TgClaim = ({onClose, setVisibleClaimChat, Rare_Claim}) => {
 
     const TG_CHAT_LINK = 'https://t.me/Bitclif_game';
 

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './Task.css';
 
-import Epic from '../IMG/Epic_item.png';
 import Tg from '../IMG/TaskIcon/task_4.webp';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.webp';
 
-const TgChannelBord = ({onClose}) => {
+const TgChannelBord = ({onClose, Epic}) => {
 
     const TG_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; 
 
