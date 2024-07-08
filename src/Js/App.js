@@ -487,6 +487,7 @@ function App() {
           {isRefOpen && (
             <Ref
               onClose={handleCloseRef}
+              ink={ink}
               userId={userId}
               telegramLink={telegramLink}
               openBox={handleOpenBox}

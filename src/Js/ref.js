@@ -3,12 +3,11 @@ import '../Css/ref.css'
 import boxIcon from '../IMG/box.png';
 import znakLogo from '../IMG/Znak.png';
 import s from '../IMG/s.png'
-import ink from '../IMG/ink.png';
 import inviteIcon from '../IMG/LowerIcon/Invite_Icon.webp';
 import avatar from '../IMG/Avatars/avatar.webp';
 import UIcon from '../IMG/Union.png';
 
-const Ref = ({onClose, openBox,userId, telegramLink}) => {
+const Ref = ({onClose, openBox,userId, telegramLink, ink}) => {
     const handleCloseRefAnim = () => {setClosingRefForAnim(true);};    
     const [isClosingRefForAnim, setClosingRefForAnim] = useState(false);
     const [referralLink] = useState(telegramLink);
