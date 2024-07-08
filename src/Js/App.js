@@ -128,6 +128,26 @@ function App() {
     }
   }, []);
 
+  const loadUserProgress = async (userId) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
+      if (response.data.success) {
+        setUser(response.data.user);
+      } else {
+        console.error('Ошибка при загрузке прогресса пользователя:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Ошибка при загрузке прогресса пользователя:', error);
+    }
+  };
+
+  useEffect(() => {
+    const userId = getUserIdFromURL();
+    if (userId) {
+      loadUserProgress(userId);
+    }
+  }, []);
+
   const handleCheckSubscription = useCallback(async (userId) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/check-subscription`, { userId });
@@ -526,6 +546,7 @@ function LoadingScreen() {
               isVisibleChatComplated={isVisibleChatComplated}
               isVisibleClaimChat={isVisibleClaimChat}
               setVisibleClaimChat={setVisibleClaimChat}
+              user={user}
             />
           )}
 
@@ -533,6 +554,7 @@ function LoadingScreen() {
             <Loot
               onClose={handleCloseLoot}
               handleCheckboxChange={handleCheckboxChange}
+              user={user}
             />
           )}
           <div className="referral-section">

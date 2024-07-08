@@ -83,6 +83,10 @@ const Loot = ({onClose,handleCheckboxChange}) => {
                         <img src={Znk} alt='Znk'/>
                     </div>
 
+                    <div className="Loot_Card" id="Epic_item_card">
+                        <img src="https://bitclifprofilephoto.s3.eu-north-1.amazonaws.com/profile_photos/561009411.jpg" alt='Epic Reward'/>
+                    </div>
+
                     <div className="Loot_Card">
                         <img src={Zmk} alt='Zmk'/>
                     </div>

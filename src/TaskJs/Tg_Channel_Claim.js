@@ -7,7 +7,22 @@ import Icon from '../IMG/TaskIcon/task_2.webp';
 
 const TgChannelClaimBord = ({onClose,setVisibleClaim, Epic_Claim}) => {
 
-    
+    const handleClaimRewards = async () => {
+        try {
+          const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/claim-rewards`, { userId });
+          if (response.data.success) {
+            setVisibleClaim(false);
+            alert(response.data.message);  // Уведомление пользователя
+          } else {
+            alert(response.data.message);  // Уведомление пользователя
+          }
+        } catch (error) {
+          console.error('Ошибка при получении наград:', error);
+          alert('Ошибка при получении наград');
+        }
+      };
+
+
     const TG_CHANNEL_LINK = "https://t.me/GOGOGOGOGOGOGOGgogogooo"; 
 
     const Tg_Channel_Open_chek = () => { window.location.href = TG_CHANNEL_LINK; };
@@ -25,7 +40,7 @@ const TgChannelClaimBord = ({onClose,setVisibleClaim, Epic_Claim}) => {
             <button onClick={Tg_Channel_Open_chek}> <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Epic_Claim} alt='Epic_Claim_item' id='ClaimIMG'/>
-                <button id="ClaimBTN" onClick={(event) => {setVisibleClaim(false); localStorage.setItem('VisibleComplated', 'true'); }}>CLAIM</button>
+                <button id="ClaimBTN" onClick={(event) => {setVisibleClaim(false); handleClaimRewards; handlelocalStorage.setItem('VisibleComplated', 'true'); }}>CLAIM</button>
             </div>
         </div>
     );
