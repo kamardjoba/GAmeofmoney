@@ -1,38 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import '../Css/loot.css';
 import Craft from './craft'
 import znakLogo from '../IMG/Znak.png';
 import Loot_Znak from '../IMG/Loot_ZNAK.png';
+import Zmk from '../IMG/Card/Card_Zmk.webp';
+import Znk from '../IMG/Card/Card_Znk.webp';
+import Card_Smart_Octo from '../IMG/Card/Card_Smart_Octo.webp';
+import Card_Developer from '../IMG/Card/Card_Developer.webp';
+import Card_Brain from '../IMG/Card/Card_Brain.webp';
+import Card_Scroll from '../IMG/Card/Card_Scroll.webp';
+import Card_Octopus from '../IMG/Card/Card_Octopus.webp';
 
+const Loot = ({onClose,handleCheckboxChange}) => {
 
-const Loot = ({onClose, handleCheckboxChange, userId}) => {
     const [isClosingLootForAnim, setClosingLootForAnim] = useState(false);
     const handleCloseLootAnim = () => {setClosingLootForAnim(true);};
+
     const [isCraftOpen, setisCraftOpen] = useState(false);
+
     const handleCheckboxChangeDiv = (event) => {
         setisCraftOpen(event.target.checked);
-    };
+      };
 
-    const [cards, setCards] = useState([]);
-
-    useEffect(() => {
-        const fetchCards = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, { params: { userId } });
-                if (response.status === 200) {
-                    setCards(response.data.cards);
-                }
-            } catch (error) {
-                console.error('Error fetching cards:', error);
-            }
-        };
-
-        fetchCards();
-    }, [userId]);
-
-    return (
+    return (  
         <div className={`Ref_Earn_Shop_Window ${isClosingLootForAnim ? 'closing' : ''}`} id='LootWindow'>
+
             <div className="Ref_Earn_BoxBorder">
                 <div className='Ref_Earn_Box'>
                     <img src={Loot_Znak} alt='Loot_Znak' height={"80%"}/>
@@ -55,8 +47,8 @@ const Loot = ({onClose, handleCheckboxChange, userId}) => {
             </div>
 
             <div className='SWITCHBTN'>
-                <button>MISSED ITEMS</button>
-                <input id="checkbox_toggle" type="checkbox" class="check" onChange={(event) => {handleCheckboxChangeDiv(event); handleCheckboxChange(event); }}/>
+            <button>MISSED ITEMS</button>
+            <input id="checkbox_toggle" type="checkbox" class="check" onChange={(event) => {handleCheckboxChangeDiv(event); handleCheckboxChange(event); }}/>
                 <div class="checkbox">
                     <label class="slide" for="checkbox_toggle">
                     <label class="toggle" for="checkbox_toggle"></label>
@@ -67,19 +59,42 @@ const Loot = ({onClose, handleCheckboxChange, userId}) => {
             </div>
             <div className='Loot_Wnd'>
                 <div className="Loot_Scroll_Menu">
-                    {cards.map((card, index) => (
-                        <div className="Loot_Card" key={index}>
-                            <img src={card} alt={`Card ${index + 1}`}/>
-                        </div>
-                    ))}
+                    <div className="Loot_Card" id='Basic_item_card'>
+                        <img src={Card_Scroll} alt='Card_Scroll'/>
+                    </div>
+
+                    <div className="Loot_Card" id='Basic_item_card'>
+                        <img src={Card_Octopus} alt='Card_Octopus'/>
+                    </div>
+
+                    <div className="Loot_Card" id="Epic_item_card">
+                        <img src={Card_Developer} alt='Card_Developer'/>
+                    </div>
+
+                    <div className="Loot_Card" id="Rare_item_card">
+                        <img src={Card_Brain} alt='Card_Brain'/>
+                    </div>
+                    
+                    <div className="Loot_Card" id="Rare_item_card">
+                        <img src={Card_Smart_Octo} alt='Card_Smart_Octo'/>
+                    </div>
+
+                    <div className="Loot_Card">
+                        <img src={Znk} alt='Znk'/>
+                    </div>
+
+                    <div className="Loot_Card">
+                        <img src={Zmk} alt='Zmk'/>
+                    </div>
                 </div>    
             </div>
+                
+        <button id='CloseDebug' onClick={(event) => {onClose(event); handleCloseLootAnim(event); }}>X</button>
 
-            <button id='CloseDebug' onClick={(event) => {onClose(event); handleCloseLootAnim(event); }}>X</button>
+        {isCraftOpen && (
+            <Craft/>
+        )}
 
-            {isCraftOpen && (
-                <Craft/>
-            )}
         </div>
     );
 };
