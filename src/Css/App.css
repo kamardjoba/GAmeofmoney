@@ -191,11 +191,9 @@ body {
     height: 80%;
     filter: drop-shadow(2px 2px 3px rgba(0,0,0,50%));
   }
+  
 }
 
-.BTNLOW img{
-  filter: drop-shadow(2px 2px 3px rgba(0,0,0,50%));
-}
 
 .Progress{
   width: 100%;
