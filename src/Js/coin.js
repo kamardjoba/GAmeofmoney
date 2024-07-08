@@ -7,24 +7,24 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
 
   const handleInteractionStart = (event) => {
     const touchEvent = event.type === 'touchstart' ? event.touches[0] : event;
-    const rect = event.target.getBoundingClientRect();
+    const rect = event.currentTarget.getBoundingClientRect();
     const x = touchEvent.clientX - rect.left;
     const y = touchEvent.clientY - rect.top;
     const rotateX = ((y / rect.height) - 0.5) * -40;
     const rotateY = ((x / rect.width) - 0.5) * 40;
 
-    event.target.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    event.currentTarget.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   };
 
   const handleInteractionEnd = (event) => {
-    event.target.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    event.currentTarget.style.transform = 'rotateX(0deg) rotateY(0deg)';
   };
 
   const NumberUpAnim = (event) => {
     const touchEvent = event.type === 'touchstart' ? event.touches[0] : event;
     if (coinPerClick > energyNow) return;
 
-    const rect = event.target.getBoundingClientRect();
+    const rect = event.currentTarget.getBoundingClientRect();
     const x = touchEvent.clientX - rect.left;
     const y = touchEvent.clientY - rect.top;
 
@@ -63,7 +63,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
             animate={{ opacity: 0, y: -150 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 2, ease: "ease-out" }}
-            style={{ top: click.y, left: click.x }}
+            style={{ top: click.y, left: click.x, position: 'absolute' }}
           >
             <p>+{click.value}</p>
             <img id="inktap" src={ink} alt='ink' width={"100%"} />
