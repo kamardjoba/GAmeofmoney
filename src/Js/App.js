@@ -26,7 +26,7 @@ import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-
+import lodscreen from '../IMG/Loading_screen.png';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -53,7 +53,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
-  
+  const [isLoading, setIsLoading] = useState(true);
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
@@ -94,7 +94,9 @@ function App() {
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } 
+    } finally {
+      setIsLoading(false); // Завершаем загрузку
+    }
   }, []);
 
   useEffect(() => {
@@ -255,6 +257,13 @@ function App() {
   
 //______________________________________________________________________________________________
 
+function LoadingScreen() {
+  return (
+    <div className="loading-screen">
+      <img src={lodscreen} alt="Loading" />
+    </div>
+  );
+}
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
   const handleCloseBox = () => { setisBoxOpen(false) };
@@ -372,9 +381,14 @@ function App() {
     setisCraftLogoVisible(!LogoVisible);
   };
 
+ 
+
   return (
     <div className="App">
-   
+            {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <div className="App">
           <div className="info">
             <img src={Logo} alt="Logo" height={"55%"} />
             <p> {username} </p>
@@ -524,7 +538,8 @@ function App() {
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
           </div>
-   
+          </div>
+      )}
      
     </div>
   );
