@@ -7,6 +7,10 @@
     align-items: center;
 }
 
+.Podsos img{
+    height: 90%; 
+}
+
 .click-value {
     position: absolute;
     height: 6vh;
