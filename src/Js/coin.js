@@ -48,6 +48,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
       <img
         src={coinImage}
         rel="preload"
+        fetchpriority="high"
         alt="Coin"
         onTouchStart={handleInteractionStart}
         onTouchEnd={handleInteractionEnd}
