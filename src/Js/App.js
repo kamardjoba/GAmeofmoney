@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import '../Css/App.css';
 import axios from 'axios';
 
+import coinImage    from '../IMG/8nog.webp';
 import avatar       from '../IMG/Avatars/avatar.webp';
 import ink          from '../IMG/ink.png';
 import earnIcon     from '../IMG/earn.png';
@@ -426,7 +427,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <Coindiv onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink}/>
+            <Coindiv coinImage={coinImage} onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink}/>
             <div className="Progress">
               <div className="userStatus">
                 <p>Beginner &gt; </p>
