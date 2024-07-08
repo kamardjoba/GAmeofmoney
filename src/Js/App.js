@@ -4,8 +4,8 @@ import axios from 'axios';
 
 import coinImage    from '../IMG/8nog.webp';
 import avatar       from '../IMG/Avatars/avatar.webp';
-import ink          from '../IMG/ink.png';
-import earnIcon     from '../IMG/earn.png';
+import ink          from '../IMG/ink.webp';
+import earnIcon     from '../IMG/earn.webp';
 
 import ProgressBar  from './ProgressBar';
 import Shop         from './shop';
@@ -21,7 +21,7 @@ import ShopLogo     from '../IMG/All_Logo/shopLogo.webp';
 import LootLogo     from '../IMG/All_Logo/lootLogo.webp';
 import EarnLogo     from '../IMG/All_Logo/earnLogo.webp';
 import CraftLogo    from '../IMG/All_Logo/craftLogo.webp';
-import Logo         from '../IMG/All_Logo/bitclifLogo.png';
+import Logo         from '../IMG/All_Logo/bitclifLogo.webp';
 import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
