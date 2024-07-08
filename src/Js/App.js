@@ -54,6 +54,8 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
@@ -98,6 +100,12 @@ function App() {
       setIsLoading(false); // Завершаем загрузку
     }
   }, []);
+
+  const getUserIdFromURL = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('userId');
+  };
+  
 
   useEffect(() => {
     const loadAndUpdate = async () => {

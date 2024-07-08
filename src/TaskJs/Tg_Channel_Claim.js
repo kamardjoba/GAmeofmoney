@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './Task.css';
+import axios from 'axios';
 
 import Tg from '../IMG/TaskIcon/task_4.webp';
 import BackButtom from '../IMG/Back.png';
 import Icon from '../IMG/TaskIcon/task_2.webp';
 
-const TgChannelClaimBord = ({onClose,setVisibleClaim, Epic_Claim}) => {
+const TgChannelClaimBord = ({onClose,setVisibleClaim, Epic_Claim, userId}) => {
 
     const handleClaimRewards = async () => {
         try {
@@ -40,7 +41,7 @@ const TgChannelClaimBord = ({onClose,setVisibleClaim, Epic_Claim}) => {
             <button onClick={Tg_Channel_Open_chek}> <img src={Tg} alt='Tg' id='ButtomIMG'/>YOU'RE SUBBED</button>
             <div className='forClaim'>
                 <img src={Epic_Claim} alt='Epic_Claim_item' id='ClaimIMG'/>
-                <button id="ClaimBTN" onClick={(event) => {setVisibleClaim(false); handleClaimRewards; handlelocalStorage.setItem('VisibleComplated', 'true'); }}>CLAIM</button>
+                <button id="ClaimBTN" onClick={(event) => {handleClaimRewards(); setVisibleClaim(false); localStorage.setItem('VisibleComplated', 'true'); }}>CLAIM</button>
             </div>
         </div>
     );
