@@ -47,7 +47,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
     >
       <img
         src={coinImage}
-        
+        rel="preload"
         alt="Coin"
         onTouchStart={handleInteractionStart}
         onTouchEnd={handleInteractionEnd}
