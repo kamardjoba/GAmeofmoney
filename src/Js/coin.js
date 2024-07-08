@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../Css/coin.css';
-import coinImage    from '../IMG/88nog.webp';
+import coinImage    from '../IMG/8nog.webp';
 
 const Coindiv = ({ onClick, coinPerClick, energyNow, ink}) => {
   const [clicksArray, setClicksArray] = useState([]);
