@@ -415,7 +415,7 @@ function App() {
                   <p id="nonBold"> <img src={ink} alt='ink' />{coins}/300</p>
                 </div>
                 <div className="tripleBox">
-                  <p>EARN</p>
+                  <p>EAN</p>
                   <p id="nonBold">4/255</p>
                 </div>
                 <div id="right_thriple" className="tripleBox">
