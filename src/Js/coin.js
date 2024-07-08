@@ -47,7 +47,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
     >
       <img
         src={coinImage}
-        width={"382px"} height={"490px"} 
+        
         alt="Coin"
         onTouchStart={handleInteractionStart}
         onTouchEnd={handleInteractionEnd}
