@@ -102,7 +102,7 @@ const Ref = ({onClose, openBox,userId, telegramLink, ink}) => {
                 </button>
                 <button className="refgo" onClick={handleShareLink}>
                     <p>INVITE </p>
-                    <img src={inviteIcon} alt='inviteIcon' height={"110%"}/>
+                    <img src={inviteIcon} alt='inviteIcon' height={"80%"}/>
                 </button>
                 <button className="refgo" id='refgoCopy' onClick={handleCopyLink}>
                     <img src={ink} alt='ink' height={"50%"}/>
