@@ -42,9 +42,11 @@ const Coindiv = ({ onClick, coinPerClick, energyNow, ink}) => {
   };
 
   return (
-    <motion.div className='Podsos' 
-    onTouchEnd={handleInteractionEnd}
-    onTouchStart={(event) => {handleInteractionStart(event); NumberUpAnim(event); }}>
+    <motion.div className='Podsos' >
+    
+      <div className='Podsosik'onTouchEnd={handleInteractionEnd}
+            onTouchStart={(event) => {handleInteractionStart(event); NumberUpAnim(event); }}>
+      </div>
       
       <img  src={coinImage} 
             alt="Coin" 
