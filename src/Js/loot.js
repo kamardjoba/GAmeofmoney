@@ -3,13 +3,13 @@ import '../Css/loot.css';
 import Craft from './craft'
 import znakLogo from '../IMG/Znak.png';
 import Loot_Znak from '../IMG/Loot_ZNAK.png';
-import Zmk from '../IMG/Card/Card_Zmk.png';
-import Znk from '../IMG/Card/Card_Znk.png';
-import Card_Smart_Octo from '../IMG/Card/Card_Smart_Octo.png';
-import Card_Developer from '../IMG/Card/Card_Developer.png';
-import Card_Brain from '../IMG/Card/Card_Brain.png';
-import Card_Scroll from '../IMG/Card/Card_Scroll.png';
-import Card_Octopus from '../IMG/Card/Card_Octopus.png';
+import Zmk from '../IMG/Card/Card_Zmk.webp';
+import Znk from '../IMG/Card/Card_Znk.webp';
+import Card_Smart_Octo from '../IMG/Card/Card_Smart_Octo.webp';
+import Card_Developer from '../IMG/Card/Card_Developer.webp';
+import Card_Brain from '../IMG/Card/Card_Brain.webp';
+import Card_Scroll from '../IMG/Card/Card_Scroll.webp';
+import Card_Octopus from '../IMG/Card/Card_Octopus.webp';
 
 const Loot = ({onClose,handleCheckboxChange}) => {
 
