@@ -26,8 +26,6 @@ import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-import lodscreen     from '../IMG/LowerIcon/Shop_Icon.webp';
-
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -54,10 +52,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
-  const [user, setUser] = useState(null);
-  const [ setIsLoading] = useState(true);
-
-
+  
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
@@ -92,22 +87,14 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
-          setUser(data);  // Сохраняем данные пользователя
         } else {
           console.error('Error fetching user data:', data.error);
         }
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    }finally {
-      setIsLoading(false); // Завершаем загрузку
-    }
+    } 
   }, []);
-
-  const getUserIdFromURL = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('userId');
-  };
 
   useEffect(() => {
     const loadAndUpdate = async () => {
@@ -169,6 +156,7 @@ function App() {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
+  
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
     try {
@@ -207,6 +195,8 @@ function App() {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
+
+
   const checkSubscriptionOnReturn = useCallback(async () => {
     if (userId) {
       const data = await handleCheckSubscription(userId);
@@ -233,6 +223,9 @@ function App() {
     };
   }, [checkSubscriptionOnReturn]);
 
+
+//________________________________________________________________________________________________________
+
   const CheckChatSubscriptionOnReturn = useCallback(async () => {
     if (userId) {
       const data = await handleCheckChatSubscription(userId);
@@ -258,14 +251,9 @@ function App() {
       document.removeEventListener('visibilitychange', handleVisibilityChangeChat);
     };
   }, [CheckChatSubscriptionOnReturn]);
+  
+//______________________________________________________________________________________________
 
-  function LoadingScreen() {
-    return (
-      <div className="loading-screen">
-        <img src={lodscreen} alt="Loading" />
-      </div>
-    );
-  }
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
   const handleCloseBox = () => { setisBoxOpen(false) };
@@ -385,32 +373,38 @@ function App() {
 
   return (
     <div className="App">
-      {user ? (
-        <>
+   
           <div className="info">
             <img src={Logo} alt="Logo" height={"55%"} />
             <p> {username} </p>
             <img id="pngavatar" src={profilePhotoUrl} alt="Bifclif" />
           </div>
           <div className="logo">
+
             <img src={MainLogo}
               alt="MainLogo"
               className={isLogoVisible ? 'fade-in' : 'fade-out'} />
+
             <img src={InviteLogo}
               alt="InviteLogo"
               className={isInviteLogoVisible ? 'fade-in' : 'fade-out'} />
+
             <img src={EarnLogo}
               alt="EarnLogo"
               className={isEarnLogoVisible ? 'fade-in' : 'fade-out'} />
+
             <img src={ShopLogo}
               alt="ShopLogo"
               className={isShopLogoVisible ? 'fade-in' : 'fade-out'} />
+
             <img src={LootLogo}
               alt="LootLogo"
               className={isLootLogoVisible ? 'fade-in' : 'fade-out'} />
+
             <img src={CraftLogo}
               alt="CraftLogo"
               className={isCraftLogoVisible ? 'fade-in' : 'fade-out'} />
+
           </div>
           <div className='BackGround_Div'></div>
           <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`}>
@@ -433,7 +427,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <Coindiv coinImage={coinImage} onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink} />
+            <Coindiv coinImage={coinImage} onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink}/>
             <div className="Progress">
               <div className="userStatus">
                 <p>Beginner &gt; </p>
@@ -447,6 +441,7 @@ function App() {
               </div>
             </div>
             <div className="lower">
+
               <div className="lowerDown">
                 <div className='BTN' onClick={(event) => { handleOpenShop(event); localStorage.clear(); }}>
                   <div className="BTNLOW">
@@ -469,6 +464,7 @@ function App() {
                 <div className='BTN'>
                   <div className="BTNLOW">
                     <img src={p2eIcon} alt='p2eIcon' />
+                    
                   </div>
                   <p>P2E</p>
                 </div>
@@ -477,11 +473,15 @@ function App() {
           </div>
 
           {isBoxOpen && (
-            <MysteryBox onClose={handleCloseBox} />
+            <MysteryBox
+              onClose={handleCloseBox}
+            />
           )}
 
           {isShopOpen && (
-            <Shop onClose={handleCloseShop} />
+            <Shop
+              onClose={handleCloseShop}
+            />
           )}
 
           {isRefOpen && (
@@ -511,7 +511,6 @@ function App() {
               isVisibleChatComplated={isVisibleChatComplated}
               isVisibleClaimChat={isVisibleClaimChat}
               setVisibleClaimChat={setVisibleClaimChat}
-              user={user}
             />
           )}
 
@@ -519,18 +518,14 @@ function App() {
             <Loot
               onClose={handleCloseLoot}
               handleCheckboxChange={handleCheckboxChange}
-              user={user}
             />
           )}
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
           </div>
-        </>
-      ) : (
-        <LoadingScreen />
-      )}
+   
+     
     </div>
   );
 }
-
 export default App;
