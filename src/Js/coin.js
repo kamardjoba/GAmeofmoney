@@ -26,7 +26,7 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
 
     const rect = event.currentTarget.getBoundingClientRect();
     const x = touchEvent.clientX - rect.left;
-    const y = touchEvent.clientY - rect.top - rect.Coindiv;
+    const y = touchEvent.clientY - rect.top;
 
     setClicksArray((prevClicks) => [
       ...prevClicks,
@@ -45,11 +45,11 @@ const Coindiv = ({ coinImage, onClick, coinPerClick, energyNow, ink }) => {
       className='Podsos'
       onTouchStart={NumberUpAnim}
     >
-      <img 
-        onTouchStart={handleInteractionStart }
-        onTouchEnd={handleInteractionEnd}
+      <img
         src={coinImage}
         alt="Coin"
+        onTouchStart={handleInteractionStart}
+        onTouchEnd={handleInteractionEnd}
       />
 
       <AnimatePresence>
