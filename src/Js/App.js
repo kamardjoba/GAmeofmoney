@@ -113,6 +113,8 @@ function App() {
         <div class="ink" id="ink8">
               <img src={ink} alt='ink'/>
         </div>
+
+        <div class="loader"></div>
       </div>
     );
   }

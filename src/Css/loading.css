@@ -91,3 +91,20 @@
     left: 10vw;
 }
 #ink8 img{height: 5%;}
+
+.loader {
+    width: 40vh;
+    height: 40vh;
+    border: 10px solid #3b032f2d;
+    border-top-color: #570645;
+    animation: spin013151 1s linear infinite;
+    border-radius: 100%;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  @keyframes spin013151 {
+    to {
+      transform: rotate(360deg);
+    }
+  }
