@@ -25,7 +25,7 @@ import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
 import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
 import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
 import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
-import coinImage    from '../IMG/88nog.png';
+import coinImage    from '../IMG/88nog.webp';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -95,7 +95,7 @@ function App() {
       console.error('Error fetching user data:', error);
     } 
   }, []);
-  
+
   useEffect(() => {
     const loadAndUpdate = async () => {
       const urlParams = new URLSearchParams(window.location.search);
