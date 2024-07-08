@@ -445,25 +445,25 @@ function App() {
               <div className="lowerDown">
                 <div className='BTN' onClick={(event) => { handleOpenShop(event); localStorage.clear(); }}>
                   <div className="BTNLOW">
-                    <img src={shopIcon} alt='shopIcon' width="130" height="100"/>
+                    <img src={shopIcon} alt='shopIcon' width={"130px"} height={"100px"}/>
                   </div>
                   <p>SHOP</p>
                 </div>
                 <div className='BTN' onClick={handleOpenRef}>
                   <div className="BTNLOW">
-                    <img src={inviteIcon} alt='inviteIcon' width="130" height="100" />
+                    <img src={inviteIcon} alt='inviteIcon' width={"130px"} height={"100px"}/>
                   </div>
                   <p>INVITE</p>
                 </div>
                 <div className='BTN'>
                   <div className="BTNLOW" onClick={handleOpenLoot}>
-                    <img src={lootIcon} alt='lootIcon' width="130" height="100" />
+                    <img src={lootIcon} alt='lootIcon' width={"130px"} height={"100px"}/>
                   </div>
                   <p>LOOT</p>
                 </div>
                 <div className='BTN'>
                   <div className="BTNLOW">
-                    <img src={p2eIcon} alt='p2eIcon' width="130" height="100" />
+                    <img src={p2eIcon} alt='p2eIcon' width={"130px"} height={"100px"}/>
                     
                   </div>
                   <p>P2E</p>
