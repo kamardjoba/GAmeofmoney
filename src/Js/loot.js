@@ -22,6 +22,18 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
     const [cardUrls, setCardUrls] = useState([]);
 
     useEffect(() => {
+        const checkImageExists = (url) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = () => console.log(`Image loaded: ${url}`);
+          img.onerror = () => console.error(`Image not loaded: ${url}`);
+        };
+      
+        cardUrls.forEach(checkImageExists);
+      }, [cardUrls]);
+      
+
+    useEffect(() => {
         const fetchCards = async () => {
           const response = await axios.get(`/load-progress`, { params: { userId } });
           console.log(response.data.cardUrls); // Добавьте этот лог для проверки данных
