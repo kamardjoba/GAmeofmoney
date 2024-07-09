@@ -21,11 +21,10 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
     const [isCraftOpen, setisCraftOpen] = useState(false);
     const [cardUrls, setCardUrls] = useState([]);
 
-
     useEffect(() => {
         const fetchCards = async () => {
           const response = await axios.get(`/load-progress`, { params: { userId } });
-          console.log(response.data.cardUrls); // Добавьте этот лог для проверки данных
+          console.log("Card URLs:", response.data.cardUrls); // Логирование данных
           setCardUrls(response.data.cardUrls || []);
         };
         fetchCards();
@@ -95,17 +94,15 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
                     <div className="Loot_Card">
                         <img src={Znk} alt='Znk'/>
                     </div>
-                    <div className="Loot_Card">
-                        <img src={Zmk} alt='Znk'/>
-                    </div>
-                    
 
+                    <div className="Loot_Card">
+                        <img src={Zmk} alt='Zmk'/>
+                     </div>
                      {cardUrls.map((cardUrl, index) => (
                     <div key={index} className="Loot_Card" id='Epic_item_card'>
-                     <img src={cardUrl || Card_Brain} alt={'Card'} />
+                     <img src={cardUrl } alt={`Card ${index}`} />
                      </div>
                     ))}
-                    
                 </div>    
             </div>
                 

@@ -4,11 +4,11 @@ import '../Css/App.css';
 import axios from 'axios';
 
 import ink          from '../IMG/ink.webp';
-import ldink3       from '../IMG/Loading/Ellipse 4.png';
-import ldink2       from '../IMG/Loading/Ellipse 3.png';
-import ldink1       from '../IMG/Loading/Ellipse 2.png';
-import ldink       from '../IMG/Loading/Ellipse 1.png';
-import ldnimg       from '../IMG/Loading/8ldng.png';
+// import ldink3       from '../IMG/Loading/Ellipse 4.png';
+// import ldink2       from '../IMG/Loading/Ellipse 3.png';
+// import ldink1       from '../IMG/Loading/Ellipse 2.png';
+// import ldink       from '../IMG/Loading/Ellipse 1.png';
+// import ldnimg       from '../IMG/Loading/8ldng.png';
 import coinImage    from '../IMG/8nog.webp';
 import avatar       from '../IMG/Avatars/avatar.webp';
 import earnIcon     from '../IMG/earn.webp';
@@ -58,7 +58,7 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+ //const [isLoading, setIsLoading] = useState(true);
   const [referrals, setReferrals] = useState([]);
 
 
@@ -81,44 +81,44 @@ function App() {
   const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
   const XVisible = localStorage.getItem('XVisible') === 'true';
 
-  function LoadingScreen() {
-    return (
-      <div className="loading-screen">
-        <div className="ldnUpper">
-          <img src={MainLogo} alt='MainLogo'/>
-        </div>  
-        <div className="ldnLower" >
-          <img src={ldnimg} alt='Main'/>
-        </div>
-        <div class="ink" id="ink1">
-              <img src={ldink} alt='ink'/>
-        </div>
-        <div class="ink" id="ink2">
-              <img src={ldink1} alt='ink'/>
-        </div>
-        <div class="ink" id="ink3">
-              <img src={ldink2} alt='ink'/>
-        </div>
-        <div class="ink" id="ink4">
-              <img src={ink} alt='ink'/>
-        </div>
-        <div class="ink" id="ink5">
-              <img src={ldink3} alt='ink'/>
-        </div>
-        <div class="ink" id="ink6">
-              <img src={ink} alt='ink'/>
-        </div>
-        <div class="ink" id="ink7">
-              <img src={ldink3} alt='ink'/>
-        </div>
-        <div class="ink" id="ink8">
-              <img src={ink} alt='ink'/>
-        </div>
+  // function LoadingScreen() {
+  //   return (
+  //     <div className="loading-screen">
+  //       <div className="ldnUpper">
+  //         <img src={MainLogo} alt='MainLogo'/>
+  //       </div>  
+  //       <div className="ldnLower" >
+  //         <img src={ldnimg} alt='Main'/>
+  //       </div>
+  //       <div class="ink" id="ink1">
+  //             <img src={ldink} alt='ink'/>
+  //       </div>
+  //       <div class="ink" id="ink2">
+  //             <img src={ldink1} alt='ink'/>
+  //       </div>
+  //       <div class="ink" id="ink3">
+  //             <img src={ldink2} alt='ink'/>
+  //       </div>
+  //       <div class="ink" id="ink4">
+  //             <img src={ink} alt='ink'/>
+  //       </div>
+  //       <div class="ink" id="ink5">
+  //             <img src={ldink3} alt='ink'/>
+  //       </div>
+  //       <div class="ink" id="ink6">
+  //             <img src={ink} alt='ink'/>
+  //       </div>
+  //       <div class="ink" id="ink7">
+  //             <img src={ldink3} alt='ink'/>
+  //       </div>
+  //       <div class="ink" id="ink8">
+  //             <img src={ink} alt='ink'/>
+  //       </div>
 
-        <div class="loader"></div>
-      </div>
-    );
-  }
+  //       <div class="loader"></div>
+  //     </div>
+  //   );
+  // }
 
   const fetchReferralData = useCallback(async (userId) => {
     try {
@@ -161,9 +161,10 @@ function App() {
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } finally {
-      setIsLoading(false); // Завершаем загрузку
-    }
+    } 
+    // finally {
+    //   setIsLoading(false); // Завершаем загрузку
+    // }
   }, []);
   
 
@@ -445,10 +446,10 @@ function App() {
 
   return (
     <div className="App">
-          {isLoading ? (
+          {/* {isLoading ? (
         <LoadingScreen />
       ) : (
-        <div className="App">
+        <div className="App"> */}
           <div className="info">
             <img src={Logo} alt="Logo" height={"55%"} />
             <p> {username} </p>
@@ -599,8 +600,8 @@ function App() {
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
           </div>
-          </div>
-      )}
+          {/* </div>
+      )} */}
     </div>
   );
 }
