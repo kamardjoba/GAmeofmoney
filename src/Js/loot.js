@@ -23,8 +23,8 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
 
     useEffect(() => {
         const fetchCards = async () => {
-          const response = await axios.get(`/load-progress`, { params: { userId } });
-          console.log(response.data.cardUrls); // Добавьте этот лог для проверки данных
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress`, userId );
+            console.log(response.data.cardUrls); // Добавьте этот лог для проверки данных
           setCardUrls(response.data.cardUrls || []);
         };
         fetchCards();
