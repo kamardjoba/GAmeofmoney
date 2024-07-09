@@ -15,8 +15,7 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
     useEffect(() => {
         const fetchCards = async () => {
             const response = await axios.get(`/load-progress`, { params: { userId } });
-            // Добавим установку cardUrls
-          setCardUrls(data.cardUrls || []);
+            setCardUrls(response.data.cardUrls || []);
         };
         fetchCards();
     }, [userId]);
