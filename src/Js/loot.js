@@ -23,7 +23,8 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
 
     useEffect(() => {
         const fetchCards = async () => {
-          const response = await axios.get(`/load-progress`, { params: { userId } });
+          //const response = await axios.get(`/load-progress`, { params: { userId } });
+          const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}(/load-progress`,{ params: {userId}})
           console.log("Card URLs:", response.data.cardUrls); // Логирование данных
           setCardUrls(response.data.cardUrls || []);
         };
@@ -100,7 +101,7 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
                      </div>
                      {cardUrls.map((cardUrl, index) => (
                     <div key={index} className="Loot_Card" id='Epic_item_card'>
-                     <img src={cardUrl } alt={`Card ${index}`} />
+                     <img src={cardUrl} alt={`Card ${index}`} />
                      </div>
                     ))}
                 </div>    
