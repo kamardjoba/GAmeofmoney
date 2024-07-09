@@ -52,7 +52,7 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
                         <div className='Ref_Earn_BoxRight'>
                             <p>COMPLATE WEEKLY</p>
                             <p>TASKS AND <span className="Ref_Earn_Purple">EARN</span></p>
-                            <p className="Ref_Earn_Purple" >MORE ITEMS</p>
+                            <p className="Ref_Earn_Purple" >MORE ITEMS ({cardUrls.length})</p>
                         </div>
                     </div>
                 </div>
