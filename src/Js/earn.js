@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../Css/earn.css';
+import axios from 'axios';
 import gray_8nogIcon from '../IMG/gray_8nog.png';
 import znakLogo from '../IMG/Znak.png';
 import Task_1 from '../IMG/TaskIcon/task_1.webp';
@@ -76,18 +77,18 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
     const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
     const XVisible = localStorage.getItem('XVisible') === 'true';
 
-    useEffect(() => {
-        const checkSubscriptionOnMount = async () => {
-            const data = await onCheckSubscription(userId);
-            if (data.isSubscribed) {
-                if(isVisibleComplated === false){
-                    setVisibleClaim(true);
-                }
-                localStorage.setItem('VisibleChanel', 'false');            
-            } 
-        };
-        checkSubscriptionOnMount();
-    }, [onCheckSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
+    // useEffect(() => {
+    //     const checkSubscriptionOnMount = async () => {
+    //         const data = await onCheckSubscription(userId);
+    //         if (data.isSubscribed) {
+    //             if(isVisibleComplated === false){
+    //                 setVisibleClaim(true);
+    //             }
+    //             localStorage.setItem('VisibleChanel', 'false');            
+    //         } 
+    //     };
+    //     checkSubscriptionOnMount();
+    // }, [onCheckSubscription, userId, setVisibleClaim, isVisibleComplated, isVisibleChanel]);
 
     useEffect(() => {
         const checkChatSubscriptionOnMount = async () => {
@@ -101,6 +102,17 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
         };
         checkChatSubscriptionOnMount();
     }, [onCheckChatSubscription, userId,  setVisibleClaimChat, isVisibleChatComplated, isVisibleChat]);
+
+    useEffect(() => {
+        const checkSubscriptionOnMount = async () => {
+            const response = await axios.post('/check-subscription', { userId });
+            const data = response.data;
+            if (data.isSubscribed && !data.hasCheckedSubscription) {
+                setVisibleClaim(true);
+            }
+        };
+        checkSubscriptionOnMount();
+    }, [userId, setVisibleClaim]);
 
     return (
         <div className={`Ref_Earn_Shop_Window ${isClosingEarnForAnim ? 'closing' : ''}`} id="EarnWindow">
