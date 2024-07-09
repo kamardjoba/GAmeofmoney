@@ -11,12 +11,12 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
     const handleCloseLootAnim = () => { setClosingLootForAnim(true); };
 
     const [isCraftOpen, setisCraftOpen] = useState(false);
-    const [cards, setCards] = useState([]);
+    const [cardUrls, setCardUrls] = useState([]);
 
     useEffect(() => {
         const fetchCards = async () => {
             const response = await axios.get(`/load-progress?userId=${userId}`);
-            setCards(response.data.cards || []);
+            setCardUrls(response.data.cardUrls || []);
         };
         fetchCards();
     }, [userId]);
@@ -60,9 +60,9 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
             </div>
             <div className='Loot_Wnd'>
                 <div className="Loot_Scroll_Menu">
-                    {cards.map((card, index) => (
+                    {cardUrls.map((cardUrl, index) => (
                         <div key={index} className="Loot_Card" id='Basic_item_card'>
-                            <img src={card} alt={`Card ${index}`} />
+                            <img src={cardUrl} alt={`Card ${index}`} />
                         </div>
                     ))}
                 </div>    
