@@ -94,7 +94,9 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
                     <div className="Loot_Card">
                         <img src={Znk} alt='Znk'/>
                     </div>
-
+                    <div className="Loot_Card">
+                        <img src={Zmk} alt='Znk'/>
+                    </div>
                     
 
                      {cardUrls.map((cardUrl, index) => (
