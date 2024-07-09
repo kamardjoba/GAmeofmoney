@@ -101,7 +101,7 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
 
                      {cardUrls.map((cardUrl, index) => (
                     <div key={index} className="Loot_Card" id='Epic_item_card'>
-                     <img src={cardUrl || Card_Brain} alt={`Card ${index}`} />
+                     <img src={cardUrl || Card_Brain} alt={'Card'} />
                      </div>
                     ))}
                     
