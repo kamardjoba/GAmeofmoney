@@ -59,6 +59,7 @@ function App() {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [referrals, setReferrals] = useState([]);
 
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
@@ -119,6 +120,27 @@ function App() {
     );
   }
 
+  const fetchReferralData = useCallback(async (userId) => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
+      const data = await response.data;
+      if (response.status === 200) {
+        setReferrals(data.referrals);
+      } else {
+        console.error('Error fetching referral data:', data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching referral data:', error);
+    }
+  }, []);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdFromURL = urlParams.get('userId');
+    if (userIdFromURL) {
+      setUserId(userIdFromURL);
+      fetchReferralData(userIdFromURL);  // Вызываем fetchReferralData
+    }
+  }, [fetchReferralData]);
   const loadProgress = useCallback(async () => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -133,7 +155,6 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
-          
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -545,6 +566,7 @@ function App() {
               userId={userId}
               telegramLink={telegramLink}
               openBox={handleOpenBox}
+              referrals={referrals}
             />
           )}
 
