@@ -4,6 +4,9 @@ import axios from 'axios';
 import Craft from './craft';
 import znakLogo from '../IMG/Znak.png';
 import Loot_Znak from '../IMG/Loot_ZNAK.png';
+import Card_Developer from '../IMG/Card/Card_Developer.webp';
+import Card_Brain from '../IMG/Card/Card_Brain.webp';
+import Card_Smart_Octo from '../IMG/Card/Card_Smart_Octo.webp';
 
 const Loot = ({ onClose, handleCheckboxChange, userId }) => {
     const [isClosingLootForAnim, setClosingLootForAnim] = useState(false);
@@ -57,6 +60,17 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
                         <label className="text" htmlFor="checkbox_toggle" id="CraftTxt">CRAFT</label>
                     </label>
                 </div>
+            </div>
+            <div className="Loot_Card" id="Epic_item_card">
+                        <img src={Card_Developer} alt='Card_Developer'/>
+                    </div>
+
+           <div className="Loot_Card" id="Rare_item_card">
+                        <img src={Card_Brain} alt='Card_Brain'/>
+           </div>
+                    
+            <div className="Loot_Card" id="Rare_item_card">
+                        <img src={Card_Smart_Octo} alt='Card_Smart_Octo'/>
             </div>
             <div className='Loot_Wnd'>
                 <div className="Loot_Scroll_Menu">
