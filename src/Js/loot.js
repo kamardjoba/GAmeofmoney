@@ -60,9 +60,9 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
             </div>
             <div className='Loot_Wnd'>
                 <div className="Loot_Scroll_Menu">
-                    {cardUrls.map((cardUrl, index) => (
+                    {cardUrls.map((cardUrls, index) => (
                         <div key={index} className="Loot_Card" id='Basic_item_card'>
-                            <img src={cardUrl} alt={`Card ${index}`} />
+                            <img src={cardUrls} alt={`Card ${index}`} />
                         </div>
                     ))}
                 </div>    
