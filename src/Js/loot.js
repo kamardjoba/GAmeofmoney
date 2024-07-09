@@ -99,8 +99,8 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
                         <img src={Zmk} alt='Zmk'/>
 
                      {cardUrls.map((cardUrl, index) => (
-                    <div key={index} className="Loot_Card" id='Basic_item_card'>
-                     <img src={cardUrl} alt={`Card ${index}`} />
+                    <div key={index} className="Loot_Card" id='Epic_item_card'>
+                     <img src={cardUrl || Card_Brain} alt={`Card ${index}`} />
                      </div>
                     ))}
                     </div>
