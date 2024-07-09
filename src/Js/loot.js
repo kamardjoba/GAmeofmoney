@@ -5,7 +5,6 @@ import Craft from './craft';
 import znakLogo from '../IMG/Znak.png';
 import Loot_Znak from '../IMG/Loot_ZNAK.png';
 
-
 const Loot = ({ onClose, handleCheckboxChange, userId }) => {
     const [isClosingLootForAnim, setClosingLootForAnim] = useState(false);
     const handleCloseLootAnim = () => { setClosingLootForAnim(true); };
@@ -15,7 +14,7 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
 
     useEffect(() => {
         const fetchCards = async () => {
-            const response = await axios.get(`/load-progress?userId=${userId}`);
+            const response = await axios.get(`/load-progress`, { params: { userId } });
             setCardUrls(response.data.cardUrls || []);
         };
         fetchCards();
@@ -60,9 +59,9 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
             </div>
             <div className='Loot_Wnd'>
                 <div className="Loot_Scroll_Menu">
-                    {cardUrls.map((cardUrls, index) => (
+                    {cardUrls.map((cardUrl, index) => (
                         <div key={index} className="Loot_Card" id='Basic_item_card'>
-                            <img src={cardUrls} alt={`Card ${index}`} />
+                            <img src={cardUrl} alt={`Card ${index}`} />
                         </div>
                     ))}
                 </div>    

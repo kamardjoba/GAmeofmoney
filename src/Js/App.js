@@ -133,7 +133,8 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
-          
+          // Добавим установку cardUrls
+          setCardUrls(data.cardUrls || []);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -144,6 +145,7 @@ function App() {
       setIsLoading(false); // Завершаем загрузку
     }
   }, []);
+  
 
   useEffect(() => {
     const loadAndUpdate = async () => {
