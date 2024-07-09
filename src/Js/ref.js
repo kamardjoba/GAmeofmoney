@@ -61,7 +61,7 @@ const Ref = ({onClose, openBox,userId, telegramLink, ink}) => {
                     </div>
                     <div className='Ref_Earn_BoxDown'>
                         <div className='Ref_Earn_BoxLeft'>
-                            <img src={znakLogo} alt='znakLogo' height={"50%"}/>
+                            <img src={znakLogo} alt='znakLogo'/>
                         </div>
                         <div className='Ref_Earn_BoxRight'>
                             <p>GET <span className="Ref_Earn_Purple">MYSTERY BOX</span></p>

@@ -70,20 +70,26 @@
     width: 100%;
     height: 65%;
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: row;
 }
 
 .Ref_Earn_BoxLeft{
-    width: 18%;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 2vh;
+    height: 100%;
+}
+
+.Ref_Earn_BoxLeft img{
+    height: 60%;
 }
 
 .Ref_Earn_BoxRight{
-    width: 82%;
     height: 100%;
+    width: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;

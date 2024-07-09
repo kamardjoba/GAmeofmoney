@@ -164,7 +164,7 @@ const Earn = ({ onClose, onCheckSubscription, onCheckChatSubscription, userId,
                     </div>
                     <div className='Ref_Earn_BoxDown'>
                         <div className='Ref_Earn_BoxLeft'>
-                            <img src={znakLogo} alt='znakLogo' height={"50%"} />
+                            <img src={znakLogo} alt='znakLogo'/>
                         </div>
                         <div className='Ref_Earn_BoxRight'>
                             <p>COMPLATE WEEKLY</p>
