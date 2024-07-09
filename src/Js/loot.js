@@ -14,12 +14,13 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
 
     useEffect(() => {
         const fetchCards = async () => {
-            const response = await axios.get(`/load-progress`, { params: { userId } });
-            setCardUrls(response.data.cardUrls || []);
+          const response = await axios.get(`/load-progress`, { params: { userId } });
+          console.log(response.data.cardUrls); // Добавьте этот лог для проверки данных
+          setCardUrls(response.data.cardUrls || []);
         };
         fetchCards();
-    }, [userId]);
-
+      }, [userId]);
+      
     const handleCheckboxChangeDiv = (event) => {
         setisCraftOpen(event.target.checked);
     };
@@ -60,9 +61,9 @@ const Loot = ({ onClose, handleCheckboxChange, userId }) => {
             <div className='Loot_Wnd'>
                 <div className="Loot_Scroll_Menu">
                     {cardUrls.map((cardUrl, index) => (
-                        <div key={index} className="Loot_Card" id='Basic_item_card'>
-                            <img src={cardUrl} alt={`Card ${index}`} />
-                        </div>
+                    <div key={index} className="Loot_Card" id='Basic_item_card'>
+                     <img src={cardUrl} alt={`Card ${index}`} />
+                     </div>
                     ))}
                 </div>    
             </div>
