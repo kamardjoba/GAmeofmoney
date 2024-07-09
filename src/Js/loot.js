@@ -19,25 +19,14 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
     const handleCloseLootAnim = () => {setClosingLootForAnim(true);};
 
     const [isCraftOpen, setisCraftOpen] = useState(false);
-    const [cardUrls, setCardUrls] = useState([]);
+    const [cardUrl, setCardUrl] = useState([]);
 
-    useEffect(() => {
-        const checkImageExists = (url) => {
-          const img = new Image();
-          img.src = url;
-          img.onload = () => console.log(`Image loaded: ${url}`);
-          img.onerror = () => console.error(`Image not loaded: ${url}`);
-        };
-      
-        cardUrls.forEach(checkImageExists);
-      }, [cardUrls]);
-      
 
     useEffect(() => {
         const fetchCards = async () => {
           const response = await axios.get(`/load-progress`, { params: { userId } });
-          console.log(response.data.cardUrls); // Добавьте этот лог для проверки данных
-          setCardUrls(response.data.cardUrls || []);
+          console.log(response.data.cardUrl); // Добавьте этот лог для проверки данных
+          setCardUrl(response.data.cardUrl || []);
         };
         fetchCards();
       }, [userId]);
@@ -111,7 +100,7 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
                     </div>
                     
 
-                     {cardUrls.map((cardUrl, index) => (
+                     {cardUrl.map((cardUrl, index) => (
                     <div key={index} className="Loot_Card" id='Epic_item_card'>
                      <img src={cardUrl || Card_Brain} alt={'Card'} />
                      </div>
