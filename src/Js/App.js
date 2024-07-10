@@ -3,35 +3,30 @@ import '../Css/loading.css';
 import '../Css/App.css';
 import axios from 'axios';
 
-import ink          from '../IMG/ink.webp';
-// import ldink3       from '../IMG/Loading/Ellipse 4.png';
-// import ldink2       from '../IMG/Loading/Ellipse 3.png';
-// import ldink1       from '../IMG/Loading/Ellipse 2.png';
-// import ldink       from '../IMG/Loading/Ellipse 1.png';
-// import ldnimg       from '../IMG/Loading/8ldng.png';
-import coinImage    from '../IMG/8nog.webp';
-import avatar       from '../IMG/Avatars/avatar.webp';
-import earnIcon     from '../IMG/earn.webp';
+import ink from '../IMG/ink.webp';
+import coinImage from '../IMG/8nog.webp';
+import avatar from '../IMG/Avatars/avatar.webp';
+import earnIcon from '../IMG/earn.webp';
 
-import ProgressBar  from './ProgressBar';
-import Shop         from './shop';
-import Coindiv      from './coin';
-import Ref          from './ref';
-import Earn         from './earn';
-import MysteryBox   from './Mystery_Box';
-import Loot         from './loot';
+import ProgressBar from './ProgressBar';
+import Shop from './shop';
+import Coindiv from './coin';
+import Ref from './ref';
+import Earn from './earn';
+import MysteryBox from './Mystery_Box';
+import Loot from './loot';
 
-import MainLogo     from '../IMG/All_Logo/mainLogo.webp';
-import InviteLogo   from '../IMG/All_Logo/inviteLogo.webp';
-import ShopLogo     from '../IMG/All_Logo/shopLogo.webp';
-import LootLogo     from '../IMG/All_Logo/lootLogo.webp';
-import EarnLogo     from '../IMG/All_Logo/earnLogo.webp';
-import CraftLogo    from '../IMG/All_Logo/craftLogo.webp';
-import Logo         from '../IMG/All_Logo/bitclifLogo.webp';
-import inviteIcon   from '../IMG/LowerIcon/Invite_Icon.webp';
-import lootIcon     from '../IMG/LowerIcon/Loot_Icon.webp';
-import p2eIcon      from '../IMG/LowerIcon/P2E_Icon.webp';
-import shopIcon     from '../IMG/LowerIcon/Shop_Icon.webp';
+import MainLogo from '../IMG/All_Logo/mainLogo.webp';
+import InviteLogo from '../IMG/All_Logo/inviteLogo.webp';
+import ShopLogo from '../IMG/All_Logo/shopLogo.webp';
+import LootLogo from '../IMG/All_Logo/lootLogo.webp';
+import EarnLogo from '../IMG/All_Logo/earnLogo.webp';
+import CraftLogo from '../IMG/All_Logo/craftLogo.webp';
+import Logo from '../IMG/All_Logo/bitclifLogo.webp';
+import inviteIcon from '../IMG/LowerIcon/Invite_Icon.webp';
+import lootIcon from '../IMG/LowerIcon/Loot_Icon.webp';
+import p2eIcon from '../IMG/LowerIcon/P2E_Icon.webp';
+import shopIcon from '../IMG/LowerIcon/Shop_Icon.webp';
 
 function App() {
   const [coins, setcoins] = useState(0);
@@ -58,67 +53,27 @@ function App() {
   const [userId, setUserId] = useState(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState(avatar);
   const [referralCode, setReferralCode] = useState('');
- //const [isLoading, setIsLoading] = useState(true);
   const [referrals, setReferrals] = useState([]);
-  const [cardsub, serCardsub] = useState(avatar);
+  const [cardUrls, setCardUrls] = useState([]);
 
-  if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
-  if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
+  if (!localStorage.getItem('VisibleChanel')) { localStorage.setItem('VisibleChanel', 'true'); }
+  if (!localStorage.getItem('VisibleComplated')) { localStorage.setItem('VisibleComplated', 'false'); }
   const isVisibleChanel = localStorage.getItem('VisibleChanel') === 'true';
   const isVisibleComplated = localStorage.getItem('VisibleComplated') === 'true';
-  const[isVisibleClaim, setVisibleClaim] = useState(false);
+  const [isVisibleClaim, setVisibleClaim] = useState(false);
 
-  if (!localStorage.getItem('VisibleChat')) {localStorage.setItem('VisibleChat', 'true');}
-  if (!localStorage.getItem('VisibleChatComplated')) {localStorage.setItem('VisibleChatComplated', 'false');}
+  if (!localStorage.getItem('VisibleChat')) { localStorage.setItem('VisibleChat', 'true'); }
+  if (!localStorage.getItem('VisibleChatComplated')) { localStorage.setItem('VisibleChatComplated', 'false'); }
   const isVisibleChat = localStorage.getItem('VisibleChat') === 'true';
   const isVisibleChatComplated = localStorage.getItem('VisibleChatComplated') === 'true';
-  const[isVisibleClaimChat, setVisibleClaimChat] = useState(false);    
+  const [isVisibleClaimChat, setVisibleClaimChat] = useState(false);
 
-  if (!localStorage.getItem('XVisible')) {localStorage.setItem('XVisible', 'true');}
-  if (!localStorage.getItem('XVisibleClaim')) {localStorage.setItem('XVisibleClaim', 'false');}
-  if (!localStorage.getItem('XVisibleComplated')) {localStorage.setItem('XVisibleComplated', 'false');}
+  if (!localStorage.getItem('XVisible')) { localStorage.setItem('XVisible', 'true'); }
+  if (!localStorage.getItem('XVisibleClaim')) { localStorage.setItem('XVisibleClaim', 'false'); }
+  if (!localStorage.getItem('XVisibleComplated')) { localStorage.setItem('XVisibleComplated', 'false'); }
   const XVisibleComplated = localStorage.getItem('XVisibleComplated') === 'true';
   const XVisibleClaim = localStorage.getItem('XVisibleClaim') === 'true';
   const XVisible = localStorage.getItem('XVisible') === 'true';
-
-  // function LoadingScreen() {
-  //   return (
-  //     <div className="loading-screen">
-  //       <div className="ldnUpper">
-  //         <img src={MainLogo} alt='MainLogo'/>
-  //       </div>  
-  //       <div className="ldnLower" >
-  //         <img src={ldnimg} alt='Main'/>
-  //       </div>
-  //       <div class="ink" id="ink1">
-  //             <img src={ldink} alt='ink'/>
-  //       </div>
-  //       <div class="ink" id="ink2">
-  //             <img src={ldink1} alt='ink'/>
-  //       </div>
-  //       <div class="ink" id="ink3">
-  //             <img src={ldink2} alt='ink'/>
-  //       </div>
-  //       <div class="ink" id="ink4">
-  //             <img src={ink} alt='ink'/>
-  //       </div>
-  //       <div class="ink" id="ink5">
-  //             <img src={ldink3} alt='ink'/>
-  //       </div>
-  //       <div class="ink" id="ink6">
-  //             <img src={ink} alt='ink'/>
-  //       </div>
-  //       <div class="ink" id="ink7">
-  //             <img src={ldink3} alt='ink'/>
-  //       </div>
-  //       <div class="ink" id="ink8">
-  //             <img src={ink} alt='ink'/>
-  //       </div>
-
-  //       <div class="loader"></div>
-  //     </div>
-  //   );
-  // }
 
   const fetchReferralData = useCallback(async (userId) => {
     try {
@@ -155,19 +110,15 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
-          serCardsub(data.cardUrls);
+          setCardUrls(data.cardUrls);
         } else {
           console.error('Error fetching user data:', data.error);
         }
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-    } 
-    // finally {
-    //   setIsLoading(false); // Завершаем загрузку
-    // }
+    }
   }, []);
-  
 
   useEffect(() => {
     const loadAndUpdate = async () => {
@@ -229,7 +180,6 @@ function App() {
       return { success: false, message: 'Ошибка при проверке подписки.' };
     }
   }, []);
-  
 
   const saveProgressData = useCallback(async (newCoins, newEnergyNow) => {
     try {
@@ -268,8 +218,6 @@ function App() {
     return () => clearInterval(interval);
   }, [clickLimit, time]);
 
-
-
   const checkSubscriptionOnReturn = useCallback(async () => {
     if (userId) {
       const data = await handleCheckSubscription(userId);
@@ -296,9 +244,6 @@ function App() {
     };
   }, [checkSubscriptionOnReturn]);
 
-
-//________________________________________________________________________________________________________
-
   const CheckChatSubscriptionOnReturn = useCallback(async () => {
     if (userId) {
       const data = await handleCheckChatSubscription(userId);
@@ -324,9 +269,6 @@ function App() {
       document.removeEventListener('visibilitychange', handleVisibilityChangeChat);
     };
   }, [CheckChatSubscriptionOnReturn]);
-  
-//______________________________________________________________________________________________
-
 
   const handleCloseAppAnim = () => { setClosingAppForAnim(true); };
   const handleOpenAppAnim = () => { setClosingAppForAnim(false); };
@@ -447,162 +389,157 @@ function App() {
 
   return (
     <div className="App">
-          {/* {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <div className="App"> */}
-          <div className="info">
-            <img src={Logo} alt="Logo" height={"55%"} />
-            <p> {username} </p>
-            <img id="pngavatar" src={profilePhotoUrl} alt="Bifclif" />
-          </div>
-          <div className="logo">
+      <div className="info">
+        <img src={Logo} alt="Logo" height={"55%"} />
+        <p> {username} </p>
+        <img id="pngavatar" src={profilePhotoUrl} alt="Bifclif" />
+      </div>
+      <div className="logo">
 
-            <img src={MainLogo}
-              alt="MainLogo"
-              className={isLogoVisible ? 'fade-in' : 'fade-out'} />
+        <img src={MainLogo}
+          alt="MainLogo"
+          className={isLogoVisible ? 'fade-in' : 'fade-out'} />
 
-            <img src={InviteLogo}
-              alt="InviteLogo"
-              className={isInviteLogoVisible ? 'fade-in' : 'fade-out'} />
+        <img src={InviteLogo}
+          alt="InviteLogo"
+          className={isInviteLogoVisible ? 'fade-in' : 'fade-out'} />
 
-            <img src={EarnLogo}
-              alt="EarnLogo"
-              className={isEarnLogoVisible ? 'fade-in' : 'fade-out'} />
+        <img src={EarnLogo}
+          alt="EarnLogo"
+          className={isEarnLogoVisible ? 'fade-in' : 'fade-out'} />
 
-            <img src={ShopLogo}
-              alt="ShopLogo"
-              className={isShopLogoVisible ? 'fade-in' : 'fade-out'} />
+        <img src={ShopLogo}
+          alt="ShopLogo"
+          className={isShopLogoVisible ? 'fade-in' : 'fade-out'} />
 
-            <img src={LootLogo}
-              alt="LootLogo"
-              className={isLootLogoVisible ? 'fade-in' : 'fade-out'} />
+        <img src={LootLogo}
+          alt="LootLogo"
+          className={isLootLogoVisible ? 'fade-in' : 'fade-out'} />
 
-            <img src={CraftLogo}
-              alt="CraftLogo"
-              className={isCraftLogoVisible ? 'fade-in' : 'fade-out'} />
+        <img src={CraftLogo}
+          alt="CraftLogo"
+          className={isCraftLogoVisible ? 'fade-in' : 'fade-out'} />
 
-          </div>
-          <div className='BackGround_Div'></div>
-          <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`}>
-            <div className="mainInfo">
-              <div className="BorderMainInfo">
-                <div id="left_thriple" className="tripleBox">
-                  <p>LVL.1</p>
-                  <p id="nonBold"> <img src={cardsub} alt='ink' />{coins}/300</p>
-                </div>
-                <div className="tripleBox">
-                  <p>EARN</p>
-                  <p id="nonBold">4/255</p>
-                </div>
-                <div id="right_thriple" className="tripleBox">
-                  <p>ITEMS</p>
-                  <p id="nonBold">6/255</p>
-                  <div className="important">
-                    <p>important</p>
-                  </div>
-                </div>
-              </div>
+      </div>
+      <div className='BackGround_Div'></div>
+      <div className={`main ${isClosingAppForAnim ? 'closing' : ''}`}>
+        <div className="mainInfo">
+          <div className="BorderMainInfo">
+            <div id="left_thriple" className="tripleBox">
+              <p>LVL.1</p>
+              <p id="nonBold"> <img src={ink} alt='ink' />{coins}/300</p>
             </div>
-            <Coindiv coinImage={coinImage} onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink}/>
-            <div className="Progress">
-              <div className="userStatus">
-                <p>Beginner &gt; </p>
-              </div>
-              <ProgressBar current={energyNow} max={clickLimit} />
-              <div className="energy">
-                <img src={ink} alt='ink' height={"70%"} />
-                <p id="odstup">{energyNow}/{clickLimit}</p>
-                <img onClick={handleOpenEarn} id="kalendar" src={earnIcon} alt='earnIcon' height={"65%"} />
-                <p onClick={handleOpenEarn}>EARN</p>
-              </div>
+            <div className="tripleBox">
+              <p>EARN</p>
+              <p id="nonBold">4/255</p>
             </div>
-            <div className="lower">
-
-              <div className="lowerDown">
-                <div className='BTN' onClick={(event) => { handleOpenShop(event); localStorage.clear(); }}>
-                  <div className="BTNLOW">
-                    <img src={shopIcon} alt='shopIcon' />
-                  </div>
-                  <p>SHOP</p>
-                </div>
-                <div className='BTN' onClick={handleOpenRef}>
-                  <div className="BTNLOW">
-                    <img src={inviteIcon} alt='inviteIcon' />
-                  </div>
-                  <p>INVITE</p>
-                </div>
-                <div className='BTN'>
-                  <div className="BTNLOW" onClick={handleOpenLoot}>
-                    <img src={lootIcon} alt='lootIcon' />
-                  </div>
-                  <p>LOOT</p>
-                </div>
-                <div className='BTN'>
-                  <div className="BTNLOW">
-                    <img src={p2eIcon} alt='p2eIcon' />
-                    
-                  </div>
-                  <p>P2E</p>
-                </div>
+            <div id="right_thriple" className="tripleBox">
+              <p>ITEMS</p>
+              <p id="nonBold">6/255</p>
+              <div className="important">
+                <p>important</p>
               </div>
             </div>
           </div>
-
-          {isBoxOpen && (
-            <MysteryBox
-              onClose={handleCloseBox}
-            />
-          )}
-
-          {isShopOpen && (
-            <Shop
-              onClose={handleCloseShop}
-            />
-          )}
-
-          {isRefOpen && (
-            <Ref
-              onClose={handleCloseRef}
-              ink={ink}
-              userId={userId}
-              telegramLink={telegramLink}
-              openBox={handleOpenBox}
-              referrals={referrals}
-            />
-          )}
-
-          {isEarnOpen && (
-            <Earn
-              onClose={handleCloseEarn}
-              userId={userId}
-              onCheckSubscription={handleCheckSubscription}
-              onCheckChatSubscription={handleCheckChatSubscription}
-              isVisibleClaim={isVisibleClaim}
-              setVisibleClaim={setVisibleClaim}
-              isVisibleComplated={isVisibleComplated}
-              isVisibleChanel={isVisibleChanel}
-              XVisibleComplated={XVisibleComplated}
-              XVisibleClaim={XVisibleClaim}
-              XVisible={XVisible}
-              isVisibleChat={isVisibleChat}
-              isVisibleChatComplated={isVisibleChatComplated}
-              isVisibleClaimChat={isVisibleClaimChat}
-              setVisibleClaimChat={setVisibleClaimChat}
-            />
-          )}
-
-          {isLootOpen && (
-            <Loot
-              onClose={handleCloseLoot}
-              handleCheckboxChange={handleCheckboxChange}
-            />
-          )}
-          <div className="referral-section">
-            <p>Ваш реферальный код: {referralCode}</p>
+        </div>
+        <Coindiv coinImage={coinImage} onClick={handleCoinClick} coinPerClick={coinPerClick} energyNow={energyNow} ink={ink} />
+        <div className="Progress">
+          <div className="userStatus">
+            <p>Beginner &gt; </p>
           </div>
-          {/* </div>
-      )} */}
+          <ProgressBar current={energyNow} max={clickLimit} />
+          <div className="energy">
+            <img src={ink} alt='ink' height={"70%"} />
+            <p id="odstup">{energyNow}/{clickLimit}</p>
+            <img onClick={handleOpenEarn} id="kalendar" src={earnIcon} alt='earnIcon' height={"65%"} />
+            <p onClick={handleOpenEarn}>EARN</p>
+          </div>
+        </div>
+        <div className="lower">
+
+          <div className="lowerDown">
+            <div className='BTN' onClick={(event) => { handleOpenShop(event); localStorage.clear(); }}>
+              <div className="BTNLOW">
+                <img src={shopIcon} alt='shopIcon' />
+              </div>
+              <p>SHOP</p>
+            </div>
+            <div className='BTN' onClick={handleOpenRef}>
+              <div className="BTNLOW">
+                <img src={inviteIcon} alt='inviteIcon' />
+              </div>
+              <p>INVITE</p>
+            </div>
+            <div className='BTN'>
+              <div className="BTNLOW" onClick={handleOpenLoot}>
+                <img src={lootIcon} alt='lootIcon' />
+              </div>
+              <p>LOOT</p>
+            </div>
+            <div className='BTN'>
+              <div className="BTNLOW">
+                <img src={p2eIcon} alt='p2eIcon' />
+
+              </div>
+              <p>P2E</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {isBoxOpen && (
+        <MysteryBox
+          onClose={handleCloseBox}
+        />
+      )}
+
+      {isShopOpen && (
+        <Shop
+          onClose={handleCloseShop}
+        />
+      )}
+
+      {isRefOpen && (
+        <Ref
+          onClose={handleCloseRef}
+          ink={ink}
+          userId={userId}
+          telegramLink={telegramLink}
+          openBox={handleOpenBox}
+          referrals={referrals}
+        />
+      )}
+
+      {isEarnOpen && (
+        <Earn
+          onClose={handleCloseEarn}
+          userId={userId}
+          onCheckSubscription={handleCheckSubscription}
+          onCheckChatSubscription={handleCheckChatSubscription}
+          isVisibleClaim={isVisibleClaim}
+          setVisibleClaim={setVisibleClaim}
+          isVisibleComplated={isVisibleComplated}
+          isVisibleChanel={isVisibleChanel}
+          XVisibleComplated={XVisibleComplated}
+          XVisibleClaim={XVisibleClaim}
+          XVisible={XVisible}
+          isVisibleChat={isVisibleChat}
+          isVisibleChatComplated={isVisibleChatComplated}
+          isVisibleClaimChat={isVisibleClaimChat}
+          setVisibleClaimChat={setVisibleClaimChat}
+        />
+      )}
+
+      {isLootOpen && (
+        <Loot
+          onClose={handleCloseLoot}
+          handleCheckboxChange={handleCheckboxChange}
+          cardUrls={cardUrls}
+        />
+      )}
+      <div className="referral-section">
+        <p>Ваш реферальный код: {referralCode}</p>
+      </div>
     </div>
   );
 }
