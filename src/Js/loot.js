@@ -1,7 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../Css/loot.css';
-import axios from 'axios';
+// import axios from 'axios';
 import Craft from './craft'
 import znakLogo from '../IMG/Znak.png';
 import Loot_Znak from '../IMG/Loot_ZNAK.png';
