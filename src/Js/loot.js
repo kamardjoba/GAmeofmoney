@@ -13,23 +13,23 @@ import Card_Brain from '../IMG/Card/Card_Brain.webp';
 import Card_Scroll from '../IMG/Card/Card_Scroll.webp';
 import Card_Octopus from '../IMG/Card/Card_Octopus.webp';
 
-const Loot = ({onClose,handleCheckboxChange, userId}) => {
+const Loot = ({onClose,handleCheckboxChange, Cardsub}) => {
 
     const [isClosingLootForAnim, setClosingLootForAnim] = useState(false);
     const handleCloseLootAnim = () => {setClosingLootForAnim(true);};
 
     const [isCraftOpen, setisCraftOpen] = useState(false);
-    const [cardUrls, setCardUrls] = useState([]);
+    //const [cardUrls, setCardUrls] = useState([]);
 
-    useEffect(() => {
-        const fetchCards = async () => {
-          const response = await axios.get(`/load-progress`, { params: { userId } });
-          //const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
-          console.log("Card URLs:", response.data.cardUrls); // Логирование данных
-          setCardUrls(response.data.cardUrls || []);
-        };
-        fetchCards();
-      }, [userId]);
+    // useEffect(() => {
+    //     const fetchCards = async () => {
+    //       const response = await axios.get(`/load-progress`, { params: { userId } });
+    //       //const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/load-progress?userId=${userId}`);
+    //       console.log("Card URLs:", response.data.cardUrls); // Логирование данных
+    //       setCardUrls(response.data.cardUrls || []);
+    //     };
+    //     fetchCards();
+    //   }, [userId]);
 
     const handleCheckboxChangeDiv = (event) => {
         setisCraftOpen(event.target.checked);
@@ -99,11 +99,14 @@ const Loot = ({onClose,handleCheckboxChange, userId}) => {
                     <div className="Loot_Card">
                         <img src={Zmk} alt='Zmk'/>
                      </div>
-                     {cardUrls.map((cardUrl, index) => (
+                     <div className="Loot_Card">
+                        <img src={Cardsub || Zmk} alt='Zmk'/>
+                     </div>
+                     {/* {cardUrls.map((cardUrl, index) => (
                     <div key={index} className="Loot_Card" id='Epic_item_card'>
                      <img src={cardUrl} alt={`Card ${index}`} />
                      </div>
-                    ))}
+                    ))} */} 
                 </div>    
             </div>
                 

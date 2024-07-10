@@ -60,7 +60,7 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
  //const [isLoading, setIsLoading] = useState(true);
   const [referrals, setReferrals] = useState([]);
-
+  const [Cardsub, serCardsub] = useState(avatar);
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
@@ -155,6 +155,7 @@ function App() {
           setEnergyNow(data.energyNow);
           setProfilePhotoUrl(data.profilePhotoUrl || avatar);
           setcoins(data.coins);
+          serCardsub(data.cardUrls);
         } else {
           console.error('Error fetching user data:', data.error);
         }
@@ -599,6 +600,7 @@ function App() {
           )}
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
+            <p>Ваш реферальный код: {Cardsub}</p>
           </div>
           {/* </div>
       )} */}
