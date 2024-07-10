@@ -13,7 +13,7 @@ import Card_Brain from '../IMG/Card/Card_Brain.webp';
 import Card_Scroll from '../IMG/Card/Card_Scroll.webp';
 import Card_Octopus from '../IMG/Card/Card_Octopus.webp';
 
-const Loot = ({onClose,handleCheckboxChange, Cardsub}) => {
+const Loot = ({onClose,handleCheckboxChange, cardsub}) => {
 
     const [isClosingLootForAnim, setClosingLootForAnim] = useState(false);
     const handleCloseLootAnim = () => {setClosingLootForAnim(true);};
@@ -100,7 +100,7 @@ const Loot = ({onClose,handleCheckboxChange, Cardsub}) => {
                         <img src={Zmk} alt='Zmk'/>
                      </div>
                      <div className="Loot_Card">
-                        <img src={Cardsub || Zmk} alt='Zmk'/>
+                        <img src={cardsub || Zmk} alt='Zmk'/>
                      </div>
                      {/* {cardUrls.map((cardUrl, index) => (
                     <div key={index} className="Loot_Card" id='Epic_item_card'>
