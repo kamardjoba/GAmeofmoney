@@ -60,7 +60,7 @@ function App() {
   const [referralCode, setReferralCode] = useState('');
  //const [isLoading, setIsLoading] = useState(true);
   const [referrals, setReferrals] = useState([]);
-  const [Cardsub, serCardsub] = useState(avatar);
+  const [cardsub, serCardsub] = useState(avatar);
 
   if (!localStorage.getItem('VisibleChanel')) {localStorage.setItem('VisibleChanel', 'true');}
   if (!localStorage.getItem('VisibleComplated')) {localStorage.setItem('VisibleComplated', 'false');}
@@ -489,7 +489,7 @@ function App() {
               <div className="BorderMainInfo">
                 <div id="left_thriple" className="tripleBox">
                   <p>LVL.1</p>
-                  <p id="nonBold"> <img src={ink} alt='ink' />{coins}/300</p>
+                  <p id="nonBold"> <img src={cardsub} alt='ink' />{coins}/300</p>
                 </div>
                 <div className="tripleBox">
                   <p>EARN</p>
@@ -600,7 +600,6 @@ function App() {
           )}
           <div className="referral-section">
             <p>Ваш реферальный код: {referralCode}</p>
-            <p>Ваш реферальный код: {Cardsub}</p>
           </div>
           {/* </div>
       )} */}
