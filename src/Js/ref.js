@@ -4,9 +4,9 @@ import '../Css/Leaderboard.css';
 
 import ib from '../IMG/Av/IB.png';
 import logo from '../IMG/All_Logo/LBoard.png';
-import first from '../IMG/LbBoard/first.png';
-import second from '../IMG/LbBoard/sekond.png';
-import third from '../IMG/LbBoard/last.png';
+// import first from '../IMG/LbBoard/first.png';
+// import second from '../IMG/LbBoard/sekond.png';
+// import third from '../IMG/LbBoard/last.png';
 
 const REACT_APP_BACKEND_URL = 'https://octiesback-production.up.railway.app';
 
