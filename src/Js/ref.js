@@ -1,97 +1,105 @@
-import React, { useState } from 'react';
-import '../Css/ref.css'
-import boxIcon from '../IMG/box.png';
-import znakLogo from '../IMG/Znak.png';
-import s from '../IMG/s.png'
-import inviteIcon from '../IMG/LowerIcon/Invite_Icon.webp';
-import avatar from '../IMG/Avatars/avatar.webp';
-import UIcon from '../IMG/Union.png';
-import ink from '../IMG/ink.webp';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import '../Css/Leaderboard.css';
 
+import ib from '../IMG/Av/IB.png';
+import logo from '../IMG/All_Logo/LBoard.png';
+import first from '../IMG/LbBoard/first.png';
+import second from '../IMG/LbBoard/sekond.png';
+import third from '../IMG/LbBoard/last.png';
 
-const Ref = ({ onClose, openBox, referrals, telegramLink }) => {
-  const [isClosingRefForAnim, setClosingRefForAnim] = useState(false);
-  const [referralLink] = useState(telegramLink);
+const REACT_APP_BACKEND_URL = 'https://octiesback-production.up.railway.app';
 
-  const handleCloseRefAnim = () => {
-    setClosingRefForAnim(true);
-  };
+const Leaderboard = ({ LeaderboardAnim, userId }) => {
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [userRank, setUserRank] = useState(null);
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(referralLink)
-      .then(() => {
-        alert('Ссылка скопирована в буфер обмена!');
-      })
-      .catch(err => {
-        console.error('Ошибка копирования ссылки:', err);
-      });
-  };
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await axios.get(`${REACT_APP_BACKEND_URL}/leaderboard`);
+        if (response.data.success) {
+          setLeaderboard(response.data.leaderboard);
+        }
+      } catch (error) {
+        console.error('Ошибка при загрузке лидерборда:', error);
+      }
+    };
 
-  const handleShareLink = () => {
-    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=${encodeURIComponent('Присоединяйся к нашему приложению и получай бонусы!')}`;
-    window.open(telegramUrl, '_blank');
+    const fetchUserRank = async () => {
+      try {
+        const response = await axios.get(`${REACT_APP_BACKEND_URL}/user-rank`, { params: { userId } });
+        if (response.data.success) {
+          setUserRank(response.data.rank);
+        }
+      } catch (error) {
+        console.error('Ошибка при загрузке позиции пользователя:', error);
+      }
+    };
+
+    fetchLeaderboard();
+    fetchUserRank();
+  }, [userId]);
+
+  const getMedal = (index) => {
+    switch (index) {
+      case 0:
+        return '🥇';
+      case 1:
+        return '🥈';
+      case 2:
+        return '🥉';
+      default:
+        return `#${index + 1}`;
+    }
   };
 
   return (
-    <div className={`Ref_Earn_Shop_Window ${isClosingRefForAnim ? 'closing' : ''}`}>
-      <div className="Ref_Earn_BoxBorder">
-        <div className='Ref_Earn_Box'>
-          <img src={boxIcon} alt='boxIcon' height={"60%"} />
-        </div>
-        <div className='Ref_Earn_BoxTitle'>
-          <div className='Ref_Earn_BoxUp'>
-            <p>INVITE A FRIEND</p>
-          </div>
-          <div className='Ref_Earn_BoxDown'>
-            <div className='Ref_Earn_BoxLeft'>
-              <img src={znakLogo} alt='znakLogo' />
-            </div>
-            <div className='Ref_Earn_BoxRight'>
-              <p>GET <span className="Ref_Earn_Purple">MYSTERY BOX</span></p>
-              <p>FOR YOU AND YOUR</p>
-              <p>FRIEND</p>
-            </div>
-          </div>
-        </div>
+    <div className={`Lb_Window ${LeaderboardAnim ? 'fade-out' : ''}`}>
+      <div className='lb_Info'>
+        <p>Telegram Wall of Fame</p>
       </div>
-
-      <div className="refFrandsBorder">
-        <div className='refFrendsInfo'>
-          <p>LIST OF YOUR FRIENDS ({referrals.length})</p>
-          <img src={s} alt='s' height={"40%"} />
+      
+      <div className='Lb_Menu'>
+        <div className='LbBorder'>
+          <div className='Lb_Logo'>
+            <img src={logo} alt='logo'/>
+          </div>
+          <div className='Lb_Text'>
+            <p>🥇The 1st holder will get 400,000 OCTIES</p>
+            <p>🥈The 2nd holder will get 250,000 OCTIES</p>
+            <p>🥉The 3rd holder will get 100,000 OCTIES</p>
+          </div>
         </div>
-        <div className="refFrendsMenu">
-          {referrals.map((referral, index) => (
-            <div key={index} className='refFrends'>
-              <div className='refFrendsIcon'>
-                <img src={referral.profilePhotoUrl || avatar} alt="Avatar" height={"75%"} id='FrendAvatarInvite' />
+
+        <div className='Lb_inside'>
+          <div className='LbPhoto'>
+            <img src={ib} alt='ib'/><p> Current User <br/><span id='LbColor'>{userRank ? `Rank: ${userRank}` : 'Loading...'}</span></p>
+          </div>
+        </div>
+      
+        <div className='Lb_Liders'>
+          <p>Top 50 holders</p>
+        </div>
+        <div className='Lb_list'>
+          {leaderboard.map((user, index) => (
+            <div key={user._id} className='Lb_Lider'>
+              <div className='LbPhotos'>
+                <img src={ib} alt='ib'/>
               </div>
-              <div className='refFrendsName'>
-                <p>{referral.first_name || `user${referral.telegramId}`}</p>
-                <p id="Friends_rank">{referral.rank || 'Beginner'} <span id="Beginner_rank"> ● </span></p>
+              <div className='tt'>
+                <p>{user.firstName} ({user.nickname})</p>
+                <p id='LbColorr'>{user.coins} OCTIES</p>
               </div>
-              <div className='refFrendsIcon'>
-                <img src={boxIcon} alt='boxIcon' height={"65%"} onClick={openBox} />
+              <div className='LbPhotos' id="medal">
+                <p>{getMedal(index)}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
-      <div className="refthripleBTN">
-        <button className="refgo" id='refgoEx' onClick={(event) => { onClose(event); handleCloseRefAnim(event); }}>
-          <img src={UIcon} alt='UIcon' height={"70%"} />
-        </button>
-        <button className="refgo" onClick={handleShareLink}>
-          <p>INVITE </p>
-          <img src={inviteIcon} alt='inviteIcon' height={"80%"} />
-        </button>
-        <button className="refgo" id='refgoCopy' onClick={handleCopyLink}>
-          <img src={ink} alt='ink' height={"50%"} />
-          <p>COPY</p>
-        </button>
-      </div>
     </div>
   );
 };
 
-export default Ref;
+export default Leaderboard;
